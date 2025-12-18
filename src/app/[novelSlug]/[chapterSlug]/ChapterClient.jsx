@@ -74,6 +74,10 @@ export default function ChapterClient() {
           onClick={() => setIsListVisible(!isListVisible)}>
           Daftar Chapter {isListVisible ? '▴' : '▾'}
         </button>
+
+        <h2 className={styles.leftSidebarTitle}>
+           Daftar Chapter
+        </h2>
         
         {isListVisible && (
             <ul className={styles.chapterList}>
@@ -105,7 +109,6 @@ export default function ChapterClient() {
                 { label: chapter.title, link: null } 
               ]} 
             />
-            
             <div className={styles.chapterHeader}>
               <h1>{chapter.novel.title}</h1>
               <h2>{chapter.title}</h2>

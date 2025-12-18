@@ -1,50 +1,85 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
 :root {
   --logo-height: 75px;
   --logo-margin-top: 10px;
   --logo-margin-bottom: 10px;
   --nav-height: 35px;
   --total-header-height: calc(var(--logo-height) + var(--logo-margin-top) + var(--logo-margin-bottom) + var(--nav-height));
+  --background: #ffffff;
+  --foreground: #213547;         /* Warna Teks Utama */
+  --primary: #38b6ff;            /* Warna Brand (Biru Langit) */
+  --link: #007bff;               /* Warna Link */
+  --link-hover: #0056b3;
+  --button-bg: whitesmoke;
+  --button-text: #213547;
+  --input-bg: whitesmoke;
+  --input-border: #ddd;
+  --card-bg: #ffffff;
 }
+
+/* --- DARK MODE SETTINGS --- */
+[data-theme='dark'] {
+  --background: #242424;         /* Abu Gelap (bukan hitam pekat biar nyaman) */
+  --foreground: rgba(255, 255, 255, 0.87); /* Putih agak soft */
+  --primary: #38b6ff;            /* Tetap biru, atau bisa diganti #646cff */
+  --link: #646cff;               /* Ungu terang agar kontras di gelap */
+  --link-hover: #8086ff;
+  --button-bg: #1a1a1a;
+  --button-text: whitesmoke;
+  --input-bg: #333333;
+  --input-border: #555555;
+  --card-bg: #2d2d2d;
+}
+
+/* 2. RESET & BASE STYLES */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box; 
 }
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color-scheme: light dark;
+  
+  /* Next-themes akan menangani ini, tapi kita biarkan sebagai fallback */
+  color-scheme: light dark; 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-a {
-  font-weight: 500;
-  color: #007bff;
-  text-decoration: none;
-}
-a:hover {
-  color: #0056b3;
-}
+
+/* 3. PENERAPAN VARIABLE KE ELEMENT */
 body {
-  color: #213547;
-  background-color: white;
+  color: var(--foreground);
+  background-color: var(--background);
   margin: 0;
   min-width: 320px;
-  height: calc(100vh - 130px);
+  min-height: 100vh;
+  /* Transisi halus saat ganti tema */
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+/* Style wrapper utama (jika masih pakai id root atau main wrapper) */
+#root
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  color: var(--foreground);
 }
+
+a {
+  font-weight: 500;
+  color: var(--link);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+a:hover {
+  color: var(--link-hover);
+}
+
+/* 4. TOMBOL & INPUT */
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -53,48 +88,62 @@ button {
   font-weight: 500;
   font-family: inherit;
   cursor: pointer;
-  transition: border-color 0.25s;
-  background-color: whitesmoke;
-  color: #213547;
+  transition: border-color 0.25s, background-color 0.25s, color 0.25s;
+  
+  background-color: var(--button-bg);
+  color: var(--button-text);
 }
+
 button:disabled {
   color: gray;
   cursor: not-allowed;
+  opacity: 0.6;
 }
+
 button:not(:disabled):hover {
-  background-color: #38b6ff;
-  color: whitesmoke;
+  background-color: var(--primary); /* Biru saat hover */
+  color: white; /* Teks putih saat hover */
   font-weight: bold;
 }
+
 button:focus, button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
+
+/* Container untuk Form/Halaman */
 .container {
   display: grid;
-  height: calc(100vh - 130px);
+  min-height: calc(100vh - 130px); /* Ganti height jadi min-height agar aman */
   width: 100vw;
   align-content: center;
   justify-items: center;
-  background-color: white;
+  background-color: var(--card-bg); /* Ikut berubah */
 }
+
 label {
   font-weight: bold;
   margin-top: 10px;
   display: block;
+  color: var(--foreground);
 }
+
 input[type='text'],
-textarea {
+textarea,
+select { /* Tambahkan select juga */
   width: 100%;
   padding: 10px;
   margin-top: 5px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--input-border);
   border-radius: 4px;
   box-sizing: border-box;
   font-family: inherit;
   font-size: 1em;
-  color: #213547;
-  background-color: whitesmoke;
+  
+  color: var(--foreground);
+  background-color: var(--input-bg);
 }
+
+/* 5. LOADING SPINNER */
 .loadingContainer {
   position: absolute;
   display: flex;
@@ -102,50 +151,25 @@ textarea {
   align-items: center;
   height: calc(100vh - (var(--total-header-height)));
   width: 100%;
+  background-color: var(--background); /* Pastikan background loading ikut tema */
+  z-index: 50;
 }
+
 .spinner {
-  border: 4px solid rgba(0, 0, 0, 0.1);
-  border-top: 4px solid #38b6ff;
+  border: 4px solid rgba(128, 128, 128, 0.2); /* Ubah jadi transparan netral */
+  border-top: 4px solid var(--primary);      /* Biru */
   border-radius: 50%;
   width: 50px;
   height: 50px;
   animation: spin 1s linear infinite;
 }
+
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
-/* @media (prefers-color-scheme: dark) {
-  body {
-    color: whitesmoke;
-    background-color: #242424;
-  }
-  a {
-    color: #646cff;
-  }
-  a:hover {
-    color: #535bf2;
-  }
-  button {
-    background-color: #1a1a1a;
-    color: whitesmoke;
-  }
-  button:hover {
-    border-color: #646cff;
-  }
 
-  .container {
-    background-color: #2d2d2d;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-  }
-
-  input[type='text'],
-  textarea {
-    background-color: #333;
-    border-color: #555;
-    color: whitesmoke;
-  }
-} */
+/* 6. RESPONSIVE */
 @media (max-width: 767px) {
   :root {
     --logo-height: 60px;

@@ -1,28 +1,36 @@
 import React from 'react';
-import Link from 'next/link'; // Ganti library Link
+import Link from 'next/link';
+// Import CSS Module yang baru dibuat
+import styles from './Breadcrumbs.module.css'; 
 
 function Breadcrumbs({ items }) {
   return (
-    <nav aria-label="breadcrumb" style={{ marginLeft: '3px', marginBottom: '5px', fontSize: '0.9em', color: '#666' }}>
-      <ol style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexWrap: 'wrap' }}>
+    <nav aria-label="breadcrumb" className={styles.breadcrumbNav}>
+      <ol className={styles.breadcrumbList}>
         
+        {/* Item 1: Beranda */}
         <li>
-          {/* Ganti to="/" menjadi href="/" */}
-          <Link href="/" style={{ textDecoration: 'none', color: '#38b6ff' }}>Beranda</Link>
+          <Link href="/" className={styles.link}>
+            Beranda
+          </Link>
         </li>
 
+        {/* Item Selanjutnya (Looping) */}
         {items.map((item, index) => (
-          <li key={index} style={{ display: 'flex', alignItems: 'center' }}>
-            <span style={{ margin: '0 8px', color: '#ccc', fontSize: '1.2em', lineHeight: '1' }}>
+          <li key={index} className={styles.listItem}>
+            {/* Separator Panah */}
+            <span className={styles.separator}>
                 &rsaquo; 
             </span>
+
             {item.link ? (
-              // Ganti to={item.link} menjadi href={item.link}
-              <Link href={item.link} style={{ textDecoration: 'none', color: '#38b6ff' }}>
+              // Jika ada link, render sebagai Link biru
+              <Link href={item.link} className={styles.link}>
                 {item.label}
               </Link>
             ) : (
-              <span style={{ color: '#333', fontWeight: '500' }}>
+              // Jika tidak ada link (halaman aktif), render teks biasa
+              <span className={styles.activeItem}>
                 {item.label}
               </span>
             )}

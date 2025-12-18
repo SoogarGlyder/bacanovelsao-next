@@ -6,17 +6,24 @@
   align-items: flex-start; 
   position: relative;
 }
+
 .mobileToggle {
   display: none;
   padding: 4.5px;
   width: 100vw;
   font-size: 1.1em;
   font-weight: bold;
-  background-color: #eee;
+  
+  /* Update Dark Mode */
+  background-color: var(--input-bg); /* Ganti #eee */
+  color: var(--foreground);
+  border-bottom: 1px solid var(--input-border);
+
   border-radius: 0px;
   cursor: pointer;
-  display: none;
+  border: none;
 }
+
 .leftSidebar {
   width: min(14.3vw, 205.771px);
   flex-shrink: 0; 
@@ -25,20 +32,34 @@
   top: var(--total-header-height);
   height: calc(100vh - var(--total-header-height)); 
   overflow-y: auto; 
-  background: #f9f9f9;
+  
+  /* Update Dark Mode */
+  background: var(--background); /* Ganti #f9f9f9 */
+  border-right: 1px solid var(--input-border);
   scrollbar-width: thin;
 }
+
 .leftSidebarTitle {
   padding: 10px;
+  /* Tambahan biar teks sidebar terlihat */
+  color: var(--foreground);
+  font-weight: bold;
 }
+
 .mainContent {
   /* margin-left: min(14.3vw, 205.771px); */
   flex-grow: 1; 
   min-width: 0; 
-  background: #ffffff;
+  
+  /* Update Dark Mode: Area Baca Utama */
+  background: var(--card-bg); /* Ganti #ffffff */
+  color: var(--foreground);
+  
   padding: 10px 20px;
-  border-right: 1px solid #f0f0f0;
+  border-right: 1px solid var(--input-border); /* Ganti #f0f0f0 */
+  padding-bottom: 100px;
 }
+
 .mainContent .content img {
     max-width: 100%;
     height: auto;
@@ -47,16 +68,21 @@
     border-radius: 5px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
+
 .chapter-image-center {
     text-align: center;
     margin: 30px auto;
 }
+
 .chapter-image-center figcaption {
     font-size: 0.9em;
-    color: #666;
+    /* Update Dark Mode */
+    color: var(--foreground); /* Ganti #666 */
+    opacity: 0.7;
     margin-top: 5px;
     margin-bottom: 20px;
 }
+
 .rightSidebar {
   width: min-content;
   max-width: 200px;
@@ -67,82 +93,111 @@
   height: fit-content;
   display: grid;
   justify-content: center;
+  
+  /* Update Dark Mode */
+  color: var(--foreground);
 }
+
 .rightSidebar h3 {
   text-align: center;
   margin-bottom: 10px;
 }
+
 .chapterList {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
+
 .chapterLink {
   display: block;
   padding: 5px 10px;
   text-decoration: none;
-  color: #333;
+  
+  /* Update Dark Mode */
+  color: var(--foreground); /* Ganti #333 */
+  transition: all 0.2s;
 }
+
 .chapterLink:hover {
-  background-color: #eee;
-  color: #333;
+  /* Update Dark Mode */
+  background-color: var(--input-bg); /* Ganti #eee */
+  color: var(--primary); /* Hover jadi biru */
   font-weight: bold;
   font-size: 110%;
 }
+
 .activeChapter {
-  background-color: #38b6ff;
-  color: whitesmoke;
+  background-color: var(--primary); /* Ganti #38b6ff */
+  color: white; /* whitesmoke */
   font-weight: bold;
   font-size: 110%;
 }
+
 .activeChapter:hover {
-  background-color: #38b6ff;
-  color: whitesmoke;
+  background-color: var(--primary);
+  color: white;
   font-weight: bold;
   font-size: 110%;
 }
+
 .chapterHeader h1 {
   font-size: 2.5em;
   margin: 0;
   line-height: 1.2;
+  color: var(--foreground);
 }
+
 .chapterHeader h4 {
   font-size: 1.2em;
   font-weight: 500;
-  color: #666;
+  /* Update Dark Mode */
+  color: var(--foreground); /* Ganti #666 */
+  opacity: 0.7;
   margin: 5px 0 20px 0;
 }
+
 .divider {
   border: 0;
-  border-top: 2px solid #f0f0f0;
+  /* Update Dark Mode */
+  border-top: 2px solid var(--input-border); /* Ganti #f0f0f0 */
   margin-bottom: 15px;
 }
+
 .content {
   font-size: 1.15em; 
   line-height: 1.5; 
-  color: #222; 
+  /* Update Dark Mode */
+  color: var(--foreground); /* Ganti #222 */
   text-align: justify;
 }
+
 .content p {
   margin-bottom: 0.75em;
 }
+
 .navigation {
   padding: 20px 0px;
-  border-top: 2px solid #f0f0f0;
-  border-bottom: 2px solid #f0f0f0;
+  /* Update Dark Mode */
+  border-top: 2px solid var(--input-border); /* Ganti #f0f0f0 */
+  border-bottom: 2px solid var(--input-border);
   display: flex;
   justify-content: space-between;
 }
+
 .disclaimer {
   font-size: 0.85rem;
-  background: #f9f9f9;
+  /* Update Dark Mode */
+  background: var(--input-bg); /* Ganti #f9f9f9 */
+  color: var(--foreground);    /* Ganti #222 */
+  
   margin-top: 15px;
   padding: 15px;
   border-radius: 5px;
   border-left: 3px solid #ff4757;
-  color: #222;
 }
 
+/* --- MOBILE RESPONSIVE --- */
 @media (max-width: 767px) {
   .holyGrailLayout {
     flex-direction: column;
@@ -151,20 +206,24 @@
     margin-top: var(--total-header-height)
   }
   .leftSidebar {
-    order: 1;
+    z-index: 3;
     width: 100%;
     position: fixed;
     left: 0;
     height: auto;
     overflow-y: visible;
     padding-top: 4px;
-    background: white;
+    
+    /* Update Dark Mode Mobile */
+    background: var(--card-bg); /* Ganti white */
+    border-bottom: 1px solid var(--input-border);
   }
   .mobileToggle {
     display: block;
   }
   .chapterList {
-    background: #fff;
+    /* Update Dark Mode Mobile */
+    background: var(--card-bg); /* Ganti #fff */
     width: 100vw;
     font-size: 0.95em;
     text-align: center;
@@ -179,6 +238,9 @@
     padding-top: 32px;
     margin-left: unset;
     border-right: none;
+    
+    /* Pastikan background HP tidak belang */
+    background: var(--card-bg);
   }
   .rightSidebar {
     order: 3;

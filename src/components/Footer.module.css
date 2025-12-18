@@ -1,17 +1,23 @@
 .footer {
-padding-top: 100px;
+  background-color: var(--background); /* Ikut warna body */
 }
+
 .copyright {
-  background-color: #111;
+  /* Update Dark Mode: Jangan hardcode hitam pekat (#111) */
+  background-color: var(--card-bg); /* Abu gelap di dark mode, putih/abu di light mode */
+  
   text-align: center;
   padding: 20px;
   font-size: 0.9rem;
-  color: #666;
-  border-top: 1px solid #333;
+  
+  color: var(--foreground); /* Ganti #666 agar terbaca di dark mode */
+  opacity: 0.8; /* Biar tidak terlalu mencolok */
+  
+  border-top: 1px solid var(--input-border); /* Ganti #333 */
 }
 
 @media (max-width: 767px) {
   .footer {
-  padding-top: 20px;
+    padding-top: 20px;
   }
 }

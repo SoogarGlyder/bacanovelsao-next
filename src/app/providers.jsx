@@ -1,16 +1,19 @@
-'use client'; // Menandakan ini berjalan di browser (bisa pakai useState)
+'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { ThemeProvider } from 'next-themes'; // 1. Import ThemeProvider
 
-// Membuat Context (pengganti Outlet context)
+// Membuat Context (Navigasi & Global State)
 const GlobalContext = createContext();
 
-export function GlobalProvider({ children }) {
+// Ubah nama fungsi export jadi "Providers" agar lebih umum
+export function Providers({ children }) {
+  // --- LOGIC LAMA (Navigasi) ---
   const [pageSerie, setPageSerie] = useState(null);
   const [dropdownSerie, setDropdownSerie] = useState(null);
   const [isListOpen, setIsListOpen] = useState(false);
 
-  // Logic untuk mengunci scroll saat menu terbuka (dari App.jsx lama)
+  // Logic kunci scroll saat menu mobile terbuka
   useEffect(() => {
     if (isListOpen) {
       document.body.style.overflow = 'hidden';
@@ -24,7 +27,6 @@ export function GlobalProvider({ children }) {
 
   const activeSerie = isListOpen ? dropdownSerie : pageSerie;
 
-  // Data yang akan bisa diakses oleh semua halaman
   const value = {
     pageSerie,
     setPageSerie,
@@ -35,10 +37,14 @@ export function GlobalProvider({ children }) {
     activeSerie
   };
 
+  // --- RENDER ---
+  // Kita bungkus GlobalContext di dalam ThemeProvider
   return (
-    <GlobalContext.Provider value={value}>
-      {children}
-    </GlobalContext.Provider>
+    <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem>
+      <GlobalContext.Provider value={value}>
+        {children}
+      </GlobalContext.Provider>
+    </ThemeProvider>
   );
 }
 

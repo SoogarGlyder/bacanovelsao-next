@@ -1,11 +1,11 @@
-'use client'; // Wajib karena pakai hooks (useState, useEffect, dll)
+'use client'; 
 
 import React, { useState, useEffect, useRef } from 'react';
-import Link from 'next/link'; // Pengganti react-router-dom Link
-import { usePathname, useRouter } from 'next/navigation'; // Pengganti useLocation, useNavigate
+import Link from 'next/link'; 
+import { usePathname, useRouter } from 'next/navigation'; 
 import styles from './Header.module.css';
-import { useGlobalContext } from '../app/providers'; // Ambil state global
-import NovelList from './NovelList'; // Kita butuh file ini nanti
+import { useGlobalContext } from '../app/providers'; 
+import NovelList from './NovelList'; 
 
 const seriesTabs = [
   { id: 'main', name: 'Main' },
@@ -18,7 +18,6 @@ const seriesTabs = [
 ];
 
 function Header() {
-  // 1. Ambil state dari GlobalContext (bukan dari props lagi)
   const { 
     activeSerie, 
     isListOpen, 
@@ -27,13 +26,11 @@ function Header() {
     setDropdownSerie 
   } = useGlobalContext();
 
-  // 2. Ganti Hooks Router
-  const pathname = usePathname(); // ganti useLocation
-  const router = useRouter();     // ganti useNavigate
+  const pathname = usePathname(); 
+  const router = useRouter();     
   const navRef = useRef(null);
   const [maskStyle, setMaskStyle] = useState({});
 
-  // Logic Masking (Tidak berubah)
   const updateMask = () => {
     const el = navRef.current;
     if (!el) return;
@@ -64,12 +61,11 @@ function Header() {
     return () => window.removeEventListener('resize', updateMask);
   }, []);
 
-  // Logic reset menu saat pindah halaman
   useEffect(() => {
     if (pathname !== '/') {
       setIsListOpen(false);
     }
-  }, [pathname]); // dependencies ganti ke pathname
+  }, [pathname]); 
 
   const handleTabClick = (serieId) => {
     if (serieId === activeSerie && isListOpen) {
@@ -84,12 +80,7 @@ function Header() {
     <>
       <div className={styles.headerBar}>
         <div className={styles.containerImgHeader}>
-            {/* Ganti a href dengan Link next/link */}
             <Link href="/" className={styles.imgHeader}>
-                {/* Catatan: Bisa di-upgrade ke component <Image /> Next.js nanti.
-                  Untuk sekarang pakai <img> biasa biar CSS-nya aman. 
-                  Pastikan file header-sao.svg ada di folder /public 
-                */}
                 <img src="/header-sao.svg"
                      alt="Logo"
                      style={{ height: '100%' }}
@@ -97,6 +88,7 @@ function Header() {
             </Link>
         </div>
         
+        {/* Navigasi Utama */}
         <nav
           className={styles.navContainer}
           ref={navRef}
@@ -124,7 +116,7 @@ function Header() {
         <NovelList 
           activeSerie={dropdownSerie}
           onNovelClick={() => setIsListOpen(false)}
-          navigate={router.push} // Pass router.push sebagai pengganti navigate
+          navigate={router.push} 
        />
       )}
     </>

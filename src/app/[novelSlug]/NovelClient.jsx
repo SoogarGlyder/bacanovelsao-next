@@ -80,7 +80,7 @@ export default function NovelClient() {
             Daftar Chapter {isListVisible ? '▴' : '▾'}
         </button>
         
-        <h2 className={styles.leftSidebarTitle} style={{ display: isListVisible || window.innerWidth > 767 ? 'block' : 'none' }}>
+        <h2 className={styles.leftSidebarTitle}>
            Daftar Chapter
         </h2>
 
@@ -135,10 +135,10 @@ export default function NovelClient() {
           {lastRead && (
             <div className={styles.lastRead}>
               <div>
-                <span style={{ display: 'block', fontSize: '0.85rem', color: '#666', marginRight: '20px' }}>
+                <span style={{ display: 'block', fontSize: '0.85rem', marginRight: '20px' }}>
                   Terakhir dibaca:
                 </span>
-                <strong style={{ color: '#333' }}>
+                <strong>
                   {lastRead.chapterTitle}
                 </strong>
               </div>

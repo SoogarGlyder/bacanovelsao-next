@@ -1,93 +1,141 @@
+/* --- CONTAINER UTAMA --- */
 .adminContainer {
     max-width: 1440px;
     margin: 20px auto;
     padding: 20px;
+    /* Tambahkan background agar konsisten dengan kartu */
+    background-color: var(--card-bg);
+    /* Ganti warna teks agar ikut mode */
+    color: var(--foreground);
+    border-radius: 8px; /* Sedikit lengkungan biar manis */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .adminContainer h1 {
-    color: #38b6ff;
-    border-bottom: 2px solid #ddd;
+    color: var(--primary); /* Pakai variable biru */
+    border-bottom: 2px solid var(--input-border); /* Ganti #ddd */
     padding-bottom: 10px;
     margin-bottom: 20px;
 }
 
+/* --- MENU ADMIN --- */
 .adminMenu ul {
     list-style: none;
     padding: 0;
     margin-top: 10px;
     display: flex;
     gap: 15px;
+    flex-wrap: wrap; /* Agar aman di layar kecil */
 }
 
 .adminMenu a {
-    background-color: #38b6ff;
-    color: white;
+    background-color: var(--primary);
+    color: white; /* Teks tombol tetap putih di kedua mode */
     padding: 8px 15px;
     border-radius: 5px;
     text-decoration: none;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, opacity 0.2s;
 }
 
 .adminMenu a:hover {
-    background-color: #2c93d8;
+    opacity: 0.8; /* Efek hover simpel */
 }
 
-/* Style Form & Table digabung disini agar rapi */
-.novelForm label, .novelForm select {
+/* --- FORM INPUT --- */
+.novelForm label {
     display: block;
     margin-top: 10px;
     font-weight: 600;
+    color: var(--foreground); /* Pastikan label terlihat */
 }
-.novelForm input[type='text'], .novelForm select, .novelForm textarea {
+
+.novelForm select {
+    display: block;
+    margin-top: 10px;
+    font-weight: 600;
+    color: var(--foreground);
+    background-color: var(--input-bg); /* Latar belakang select */
+}
+
+.novelForm input[type='text'], 
+.novelForm select, 
+.novelForm textarea {
     width: 100%;
     padding: 8px;
     margin-bottom: 10px;
-    border: 1px solid #ccc;
+    
+    /* Variable Penting untuk Dark Mode Input */
+    border: 1px solid var(--input-border);
+    background-color: var(--input-bg); 
+    color: var(--foreground);
+    
     border-radius: 4px;
 }
+
 .novelForm button {
     margin-top: 15px;
     padding: 10px 20px;
-    background-color: #38b6ff;
+    background-color: var(--primary);
     color: white;
     border: none;
     cursor: pointer;
     font-weight: bold;
 }
+
+/* Notifikasi */
 .error {
     color: white;
-    background-color: #ff6347;
+    background-color: #ff6347; /* Tomat terang, aman di dark mode */
     padding: 10px;
     border-radius: 4px;
+    margin-bottom: 15px;
 }
 .success {
     color: white;
-    background-color: #4CAF50;
+    background-color: #4CAF50; /* Hijau terang, aman */
     padding: 10px;
     border-radius: 4px;
+    margin-bottom: 15px;
 }
 
+/* --- TABEL --- */
 .tableWrapper {
     margin-top: 20px;
     overflow-x: auto;
+    /* Opsional: border tipis untuk memisahkan tabel */
+    border: 1px solid var(--input-border);
+    border-radius: 8px;
 }
+
 .novelTable {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 15px;
+    margin-top: 0; /* Margin diatur wrapper */
 }
+
 .novelTable th, .novelTable td {
     padding: 12px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--input-border); /* Ganti #ddd */
     text-align: left;
     vertical-align: top;
+    color: var(--foreground); /* Teks isi tabel */
 }
+
 .novelTable th {
-    background-color: #eee;
+    background-color: var(--input-bg); /* Ganti #eee jadi variable dinamis */
     font-weight: bold;
-    color: #333;
+    color: var(--foreground); /* Ganti #333 */
 }
+
+/* Trik Zebra Striping untuk Dark Mode:
+   Pakai rgba hitam/putih transparan agar beradaptasi dengan background apapun 
+*/
 .novelTable tr:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: rgba(127, 127, 127, 0.1); 
+    /* Di light mode: jadi abu tipis. Di dark mode: jadi abu sedikit lebih terang. */
+}
+
+/* Hover effect di baris tabel biar interaktif */
+.novelTable tr:hover {
+    background-color: rgba(56, 182, 255, 0.1); /* Highlight biru tipis */
 }

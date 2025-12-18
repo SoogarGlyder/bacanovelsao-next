@@ -1,141 +1,136 @@
 .page {
-  --background: #fafafa;
-  --foreground: #fff;
-
-  --text-primary: #000;
-  --text-secondary: #666;
-
-  --button-primary-hover: #383838;
-  --button-secondary-hover: #f2f2f2;
-  --button-secondary-border: #ebebeb;
-
   display: flex;
   min-height: 100vh;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-family: var(--font-geist-sans);
+  /* Hapus justify-content: center agar konten mulai dari atas (cocok untuk list novel) */
+  font-family: inherit;
+  
+  /* Gunakan Variable Global */
   background-color: var(--background);
+  color: var(--foreground);
 }
 
 .main {
   display: flex;
-  min-height: 100vh;
-  width: 100%;
-  max-width: 800px;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  background-color: var(--foreground);
-  padding: 120px 60px;
+  width: 100%;
+  max-width: 1000px; /* Lebarkan sedikit biar muat banyak novel */
+  align-items: center; /* Center content */
+  justify-content: flex-start;
+  
+  /* Gunakan Variable Global */
+  background-color: var(--card-bg); 
+  padding: 40px 20px;
+  
+  /* Tambahkan transisi halus */
+  transition: background-color 0.3s ease;
 }
 
 .intro {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
+  align-items: center; /* Center text */
+  text-align: center;
   gap: 24px;
+  margin-bottom: 40px;
 }
 
 .intro h1 {
-  max-width: 320px;
+  max-width: 600px;
   font-size: 40px;
   font-weight: 600;
-  line-height: 48px;
-  letter-spacing: -2.4px;
-  text-wrap: balance;
-  color: var(--text-primary);
+  line-height: 1.2;
+  letter-spacing: -1px;
+  
+  /* Gunakan warna teks utama */
+  color: var(--foreground); 
+}
+
+/* Highlight text biru (opsional, biar cantik) */
+.intro h1 span {
+  color: var(--primary);
 }
 
 .intro p {
-  max-width: 440px;
+  max-width: 500px;
   font-size: 18px;
-  line-height: 32px;
-  text-wrap: balance;
-  color: var(--text-secondary);
+  line-height: 1.6;
+  
+  /* Gunakan opacity untuk teks sekunder */
+  color: var(--foreground);
+  opacity: 0.8; 
 }
 
 .intro a {
   font-weight: 500;
-  color: var(--text-primary);
+  color: var(--link);
+  text-decoration: underline;
 }
 
 .ctas {
   display: flex;
   flex-direction: row;
-  width: 100%;
-  max-width: 440px;
+  justify-content: center;
   gap: 16px;
   font-size: 14px;
+  margin-top: 20px;
 }
 
 .ctas a {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 40px;
-  padding: 0 16px;
-  border-radius: 128px;
-  border: 1px solid transparent;
+  height: 45px;
+  padding: 0 24px;
+  border-radius: 8px; /* Ubah jadi kotak rounded biar konsisten sama input */
   transition: 0.2s;
   cursor: pointer;
-  width: fit-content;
-  font-weight: 500;
+  font-weight: 600;
+  text-decoration: none;
 }
 
+/* Tombol Utama (Primary) */
 a.primary {
-  background: var(--text-primary);
-  color: var(--background);
-  gap: 8px;
+  background: var(--primary);
+  color: white; /* Selalu putih biar kontras sama biru */
+  border: 1px solid var(--primary);
 }
 
+a.primary:hover {
+  opacity: 0.9;
+  transform: translateY(-2px); /* Efek naik dikit */
+}
+
+/* Tombol Sekunder (Secondary) */
 a.secondary {
-  border-color: var(--button-secondary-border);
+  background: transparent;
+  color: var(--foreground);
+  border: 1px solid var(--input-border);
 }
 
-/* Enable hover only on non-touch devices */
-@media (hover: hover) and (pointer: fine) {
-  a.primary:hover {
-    background: var(--button-primary-hover);
-    border-color: transparent;
-  }
-
-  a.secondary:hover {
-    background: var(--button-secondary-hover);
-    border-color: transparent;
-  }
+a.secondary:hover {
+  background: var(--input-bg);
+  border-color: var(--foreground);
 }
 
 @media (max-width: 600px) {
   .main {
-    padding: 48px 24px;
-  }
-
-  .intro {
-    gap: 16px;
+    padding: 24px 16px;
   }
 
   .intro h1 {
     font-size: 32px;
-    line-height: 40px;
-    letter-spacing: -1.92px;
+  }
+  
+  .ctas {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .ctas a {
+    width: 100%;
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  .logo {
-    filter: invert();
-  }
-
-  .page {
-    --background: #000;
-    --foreground: #000;
-
-    --text-primary: #ededed;
-    --text-secondary: #999;
-
-    --button-primary-hover: #ccc;
-    --button-secondary-hover: #1a1a1a;
-    --button-secondary-border: #1a1a1a;
-  }
-}
+/* HAPUS BLOCK @media (prefers-color-scheme: dark) KARENA SUDAH DIHANDLE GLOBAL */
