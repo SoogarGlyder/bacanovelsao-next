@@ -110,7 +110,7 @@ export default function ChapterClient() {
             />
             <div className={styles.chapterHeader}>
               <h1>{chapter.novel.title}</h1>
-              <h4>{chapter.title}</h4>
+              <h2>{chapter.title}</h2>
               <span style={{ fontSize: '0.9rem', color: '#888' }}>
                   Estimasi waktu baca: {readingTime} menit
               </span>
