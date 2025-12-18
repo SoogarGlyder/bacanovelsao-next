@@ -1,0 +1,17 @@
+.footer {
+padding-top: 100px;
+}
+.copyright {
+  background-color: #111;
+  text-align: center;
+  padding: 20px;
+  font-size: 0.9rem;
+  color: #666;
+  border-top: 1px solid #333;
+}
+
+@media (max-width: 767px) {
+  .footer {
+  padding-top: 20px;
+  }
+}
