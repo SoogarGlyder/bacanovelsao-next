@@ -1,12 +1,12 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { ThemeProvider } from 'next-themes'; // 1. Import ThemeProvider
+import { ThemeProvider } from 'next-themes'; 
+import { FontSizeProvider } from '@/contexts/FontSizeContext';
 
 // Membuat Context (Navigasi & Global State)
 const GlobalContext = createContext();
 
-// Ubah nama fungsi export jadi "Providers" agar lebih umum
 export function Providers({ children }) {
   // --- LOGIC LAMA (Navigasi) ---
   const [pageSerie, setPageSerie] = useState(null);
@@ -27,6 +27,7 @@ export function Providers({ children }) {
 
   const activeSerie = isListOpen ? dropdownSerie : pageSerie;
 
+  // Nilai yang akan disebar ke seluruh aplikasi
   const value = {
     pageSerie,
     setPageSerie,
@@ -38,12 +39,20 @@ export function Providers({ children }) {
   };
 
   // --- RENDER ---
-  // Kita bungkus GlobalContext di dalam ThemeProvider
   return (
-    <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem>
-      <GlobalContext.Provider value={value}>
-        {children}
-      </GlobalContext.Provider>
+    // 1. ThemeProvider (Dark/Light Mode)
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      
+      {/* 2. FontSizeProvider (Ukuran Huruf) */}
+      <FontSizeProvider>
+        
+        {/* 3. GlobalContext (Navigasi & State Menu) - TADI INI HILANG */}
+        <GlobalContext.Provider value={value}>
+          {children}
+        </GlobalContext.Provider>
+        
+      </FontSizeProvider>
+
     </ThemeProvider>
   );
 }

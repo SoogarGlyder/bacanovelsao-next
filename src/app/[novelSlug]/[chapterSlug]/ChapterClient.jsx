@@ -19,7 +19,6 @@ export default function ChapterClient() {
   
   const { setPageSerie } = useGlobalContext();
   const [isListVisible, setIsListVisible] = useState(true);
-  const [fontSize, setFontSize] = useState(18); 
 
   const {
     chapter, 
@@ -111,7 +110,7 @@ export default function ChapterClient() {
             />
             <div className={styles.chapterHeader}>
               <h1>{chapter.novel.title}</h1>
-              <h2>{chapter.title}</h2>
+              <h4>{chapter.title}</h4>
               <span style={{ fontSize: '0.9rem', color: '#888' }}>
                   Estimasi waktu baca: {readingTime} menit
               </span>
@@ -119,13 +118,13 @@ export default function ChapterClient() {
             
             <hr className={styles.divider} />
             
-            <div className={styles.content} style={{ fontSize: `${fontSize}px`, lineHeight: '1.6' }}>
-              {(chapter.content || '').split('\n').map((paragraph, index) => {
-                const cleanedHtml = DOMPurify.sanitize(paragraph);
-                if (!cleanedHtml.trim()) return null;
-                return <p key={index} dangerouslySetInnerHTML={{ __html: cleanedHtml }} />;
-              })}
-            </div>
+      <div className={styles.content}>
+        {(chapter.content || '').split('\n').map((paragraph, index) => {
+          const cleanedHtml = DOMPurify.sanitize(paragraph);
+          if (!cleanedHtml.trim()) return null;
+          return <p key={index} dangerouslySetInnerHTML={{ __html: cleanedHtml }} />;
+        })}
+      </div>
 
             <div className={styles.navigation}>
               <button 

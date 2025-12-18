@@ -4,9 +4,7 @@ import { GoogleAnalytics } from '@next/third-parties/google';
 import { Providers } from './providers'; 
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-
-// 1. IMPORT KOMPONEN TOMBOL MELAYANG
-import FloatingThemeToggle from '@/components/FloatingThemeToggle'; 
+import FloatingSettings from '@/components/FloatingSettings';
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -29,22 +27,17 @@ export const viewport = {
 
 export const metadata = {
   metadataBase: new URL('https://bacanovelsao.vercel.app'), 
-
   title: {
     template: '%s | Baca Novel SAO',
     default: 'Beranda | Baca Novel SAO',
   },
   description: 'Baca Novel Sword Art Online Bahasa Indonesia lengkap. Aincrad, Progressive, Gun Gale Online, dan lainnya.',
-  
   keywords: ["novel sao", "sword art online", "aincrad", "progressive", "light novel", "baca online", "ggo", "novel fantasi"],
-  
   manifest: '/manifest.json',
-  
   icons: {
     icon: '/favicon.png',
     apple: '/icon-512.png',
   },
-  
   openGraph: {
     type: 'website',
     siteName: 'Baca Novel SAO',
@@ -56,11 +49,9 @@ export const metadata = {
       }
     ],
   },
-  
   twitter: {
     card: 'summary_large_image',
   },
-
   other: {
     "google-adsense-account": "ca-pub-4365395677457990"
   }  
@@ -74,7 +65,6 @@ export default function RootLayout({ children }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4365395677457990"
@@ -98,9 +88,8 @@ export default function RootLayout({ children }) {
 
           <Footer />
 
-          {/* 2. PASANG TOMBOL DISINI */}
-          {/* Posisinya di luar main/footer, tapi tetap di dalam Providers agar Theme-nya jalan */}
-          <FloatingThemeToggle />
+          {/* Tombol Pengaturan (Theme & Font) */}
+          <FloatingSettings />
           
         </Providers>
 

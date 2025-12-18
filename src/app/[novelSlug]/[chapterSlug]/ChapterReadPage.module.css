@@ -165,8 +165,8 @@
 }
 
 .content {
-  font-size: 1.15em; 
-  line-height: 1.5; 
+  font-size: var(--novel-font-size);
+  line-height: 1.6; 
   /* Update Dark Mode */
   color: var(--foreground); /* Ganti #222 */
   text-align: justify;

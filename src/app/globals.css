@@ -4,6 +4,8 @@
   --logo-margin-bottom: 10px;
   --nav-height: 35px;
   --total-header-height: calc(var(--logo-height) + var(--logo-margin-top) + var(--logo-margin-bottom) + var(--nav-height));
+  
+  /* --- DEFAULT (LIGHT MODE) --- */
   --background: #ffffff;
   --foreground: #213547;         /* Warna Teks Utama */
   --primary: #38b6ff;            /* Warna Brand (Biru Langit) */
@@ -17,17 +19,18 @@
 }
 
 /* --- DARK MODE SETTINGS --- */
-[data-theme='dark'] {
-  --background: #242424;         /* Abu Gelap (bukan hitam pekat biar nyaman) */
-  --foreground: rgba(255, 255, 255, 0.87); /* Putih agak soft */
-  --primary: #38b6ff;            /* Tetap biru, atau bisa diganti #646cff */
-  --link: #646cff;               /* Ungu terang agar kontras di gelap */
+/* GANTI INI: Dari [data-theme='dark'] menjadi .dark */
+.dark {
+  --background: #171717;         /* Hitam Abu (Standard Next.js) */
+  --foreground: #ededed;         /* Putih soft */
+  --primary: #38b6ff;            
+  --link: #646cff;               
   --link-hover: #8086ff;
-  --button-bg: #1a1a1a;
+  --button-bg: #262626;
   --button-text: whitesmoke;
-  --input-bg: #333333;
-  --input-border: #555555;
-  --card-bg: #2d2d2d;
+  --input-bg: #262626;
+  --input-border: #404040;
+  --card-bg: #171717;
 }
 
 /* 2. RESET & BASE STYLES */
@@ -42,7 +45,6 @@
   line-height: 1.5;
   font-weight: 400;
   
-  /* Next-themes akan menangani ini, tapi kita biarkan sebagai fallback */
   color-scheme: light dark; 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -61,8 +63,7 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Style wrapper utama (jika masih pakai id root atau main wrapper) */
-#root
+/* Style Global Heading */
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
@@ -113,11 +114,11 @@ button:focus, button:focus-visible {
 /* Container untuk Form/Halaman */
 .container {
   display: grid;
-  min-height: calc(100vh - 130px); /* Ganti height jadi min-height agar aman */
+  min-height: calc(100vh - 130px); 
   width: 100vw;
   align-content: center;
   justify-items: center;
-  background-color: var(--card-bg); /* Ikut berubah */
+  background-color: var(--card-bg); 
 }
 
 label {
@@ -129,7 +130,7 @@ label {
 
 input[type='text'],
 textarea,
-select { /* Tambahkan select juga */
+select { 
   width: 100%;
   padding: 10px;
   margin-top: 5px;
@@ -151,13 +152,13 @@ select { /* Tambahkan select juga */
   align-items: center;
   height: calc(100vh - (var(--total-header-height)));
   width: 100%;
-  background-color: var(--background); /* Pastikan background loading ikut tema */
+  background-color: var(--background); 
   z-index: 50;
 }
 
 .spinner {
-  border: 4px solid rgba(128, 128, 128, 0.2); /* Ubah jadi transparan netral */
-  border-top: 4px solid var(--primary);      /* Biru */
+  border: 4px solid rgba(128, 128, 128, 0.2); 
+  border-top: 4px solid var(--primary);      
   border-radius: 50%;
   width: 50px;
   height: 50px;
