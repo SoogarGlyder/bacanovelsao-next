@@ -4,32 +4,21 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import DOMPurify from 'dompurify';
-import styles from './NovelDetailPage.module.css'; 
-import { useNovelDetail } from '../../hooks/useNovelData'; // Pastikan path import ini benar
-import LoadingSpinner from '../../components/LoadingSpinner'; // Pastikan path benar
-import Breadcrumbs from '../../components/Breadcrumbs'; // Pastikan path benar
-import { useGlobalContext } from '../providers'; // Pastikan path benar
-import { getReadingHistory } from '../../utils/readingHistory'; // Pastikan path benar
+import styles from './NovelDetailPage.module.css';
+import Breadcrumbs from '../../components/Breadcrumbs';
+import { useGlobalContext } from '../providers';
+import { getReadingHistory } from '../../utils/readingHistory';
 
-// GANTI NAMA FUNCTION JADI NovelClient
-export default function NovelClient() {
-  const params = useParams();
-  // ... SISA KODE SAMA PERSIS SEPERTI YANG KAMU KIRIM ...
-  // ... DARI const novelSlug ... SAMPAI TUTUP KURUNG KURAWAL TERAKHIR ...
-  const novelSlug = params.novelSlug;
-  
+export default function NovelClient({ initialNovel, initialChapters }) {
   const router = useRouter();
   const { setPageSerie, setDropdownSerie, setIsListOpen } = useGlobalContext();
-  
+
   const [isListVisible, setIsListVisible] = useState(true);
   const [lastRead, setLastRead] = useState(null);
 
-  const {
-    novel,
-    chapters: allChapters,
-    loading,
-    error
-  } = useNovelDetail(novelSlug);
+  const novel = initialNovel;
+  const allChapters = initialChapters || [];
+  const novelSlug = novel.novel_slug;
 
   useEffect(() => {
     setIsListVisible(window.innerWidth > 767);
@@ -57,17 +46,8 @@ export default function NovelClient() {
       }
     }
   }, [novelSlug]);
-
-  if (loading) return <LoadingSpinner />;
   
-  if (error || !novel) {
-      return (
-        <div className="container" style={{padding: '2rem', textAlign:'center'}}>
-          <h2>Novel Tidak Ditemukan</h2>
-          <Link href="/" style={{color: '#09f'}}>Kembali ke Beranda</Link>
-        </div>
-      );
-  }
+  if (!novel) return null;
 
   const firstChapterSlug = allChapters.length > 0 ? allChapters[0].chapter_slug : null;
 

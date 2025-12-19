@@ -1,37 +1,34 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import DOMPurify from 'dompurify';
-import styles from './ChapterReadPage.module.css'; // Pastikan path CSS benar
-import { useChapterData, useNovelList } from '../../../hooks/useNovelData'; // Pastikan path hooks benar
-import LoadingSpinner from '../../../components/LoadingSpinner';
+import styles from './ChapterReadPage.module.css';
+import { useNovelList } from '../../../hooks/useNovelData';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import { useGlobalContext } from '../../providers'; 
 import ReadingProgressBar from '../../../components/ReadingProgressBar';
 import { saveReadingHistory } from '../../../utils/readingHistory';
 
-export default function ChapterClient() {
-  const params = useParams();
-  const { novelSlug, chapterSlug } = params;
+export default function ChapterClient({
+  novel, 
+  chapter, 
+  allChapters, 
+  prevChapter, 
+  nextChapter 
+}) {
   const router = useRouter();
-  
   const { setPageSerie } = useGlobalContext();
   const [isListVisible, setIsListVisible] = useState(true);
+  const novelSlug = novel.novel_slug;
+  const chapterSlug = chapter.chapter_slug;
+  const { novels: serieNovels } = useNovelList(novel.serie);
 
-  const {
-    chapter, 
-    loading, 
-    error, 
-    prevChapterSlug, 
-    nextChapterSlug, 
-    allChapters
-  } = useChapterData(novelSlug, chapterSlug, setPageSerie);
-
-  const currentSerie = chapter?.novel?.serie;
-  const { novels: serieNovels } = useNovelList(currentSerie);
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [chapter]);
+  
   useEffect(() => {
     setIsListVisible(window.innerWidth > 767);
     const handleResize = () => setIsListVisible(window.innerWidth > 767);
@@ -40,26 +37,21 @@ export default function ChapterClient() {
   }, []);
 
   useEffect(() => {
-    if (chapter && chapter.novel) {
+    if (novel && novel.serie) {
+      setPageSerie(novel.serie);
+    }
+
+    if (chapter && novel) {
        saveReadingHistory(
-          chapter.novel.novel_slug,
+          novel.novel_slug,
           chapter.chapter_slug,
           chapter.title,
           chapter.chapter_number
        );
     }
-  }, [chapter]);
-
-  if (loading) return <LoadingSpinner />;
+  }, [novel, chapter, setPageSerie]);
   
-  if (error || !chapter) {
-     return (
-        <div className="container" style={{padding:'2rem', textAlign:'center'}}>
-          <h3>Chapter tidak ditemukan</h3>
-          <Link href={`/${novelSlug}`} style={{color:'#09f'}}>Kembali ke Daftar Chapter</Link>
-        </div>
-     );
-  }
+  if (!chapter || !novel) return null;
 
   const wordCount = chapter.content ? chapter.content.replace(/<[^>]*>/g, '').split(/\s+/).length : 0;
   const readingTime = Math.ceil(wordCount / 200);
@@ -104,12 +96,12 @@ export default function ChapterClient() {
       <main className={styles.mainContent}>
             <Breadcrumbs 
               items={[
-                { label: chapter.novel.title, link: `/${novelSlug}` }, 
-                { label: chapter.title, link: null } 
+                { label: novel.title, link: `/${novelSlug}` }, 
+                { label: chapter.title, link: null }
               ]} 
             />
             <div className={styles.chapterHeader}>
-              <h1>{chapter.novel.title}</h1>
+              <h1>{novel.title}</h1>
               <h2>{chapter.title}</h2>
               <span style={{ fontSize: '0.9rem', color: '#888' }}>
                   Estimasi waktu baca: {readingTime} menit
@@ -129,17 +121,17 @@ export default function ChapterClient() {
             <div className={styles.navigation}>
               <button 
                 onClick={() => {
-                  if (prevChapterSlug) router.push(`/${novelSlug}/${prevChapterSlug}`);
+                  if (prevChapter) router.push(`/${novelSlug}/${prevChapter.chapter_slug}`);
                   else router.push(`/${novelSlug}`);
                 }}
               >
-                {prevChapterSlug ? '« Chapter Sebelumnya' : '« Sinopsis'}
+                {prevChapter ? '« Chapter Sebelumnya' : '« Sinopsis'}
               </button>
 
               <button 
                 onClick={() => {
-                  if (nextChapterSlug) {
-                    router.push(`/${novelSlug}/${nextChapterSlug}`);
+                  if (nextChapter) {
+                    router.push(`/${novelSlug}/${nextChapter.chapter_slug}`);
                   } else {
                     if (serieNovels && serieNovels.length > 0) {
                       const idx = serieNovels.findIndex(n => n.novel_slug === novelSlug);
@@ -154,15 +146,15 @@ export default function ChapterClient() {
                   }
                 }}
               >
-                {nextChapterSlug ? 'Chapter Selanjutnya »' : 'Novel Selanjutnya »'}
+                {nextChapter ? 'Chapter Selanjutnya »' : 'Novel Selanjutnya »'}
               </button>
             </div>
       </main>
 
       <aside className={styles.rightSidebar}>
         <h3>Dukung Kami Yuk!</h3>
-        <a href="https://saweria.co/SoogarGlyder" target="_blank">
-          <img src="/saweria.png" alt="Saweria" width="200"/>
+        <a href="https://saweria.co/SoogarGlyder" target="_blank" rel="noreferrer">
+          <img src="/saweria.png" alt="QR Code Saweria" width="200"/>
         </a>
       </aside>
     </div>
