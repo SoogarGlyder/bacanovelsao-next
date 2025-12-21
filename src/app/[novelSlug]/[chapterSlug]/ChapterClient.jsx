@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import DOMPurify from 'dompurify';
+import DOMPurify from 'isomorphic-dompurify';
 import styles from './ChapterReadPage.module.css';
 import { useNovelList } from '../../../hooks/useNovelData';
 import Breadcrumbs from '../../../components/Breadcrumbs';
@@ -28,7 +28,7 @@ export default function ChapterClient({
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [chapter]);
-  
+
   useEffect(() => {
     setIsListVisible(window.innerWidth > 767);
     const handleResize = () => setIsListVisible(window.innerWidth > 767);

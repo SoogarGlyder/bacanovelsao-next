@@ -6,10 +6,7 @@
   top: 0;
   width: 100%;
   z-index: 1001; 
-  
-  /* Update Dark Mode */
-  background-color: var(--card-bg); /* Ganti white */
-  border-bottom: 1px solid var(--input-border); /* Tambah border biar tegas */
+  background-color: var(--card-bg);
 }
 
 .containerImgHeader {
@@ -18,7 +15,6 @@
     height: var(--logo-height);
     margin-top: var(--logo-margin-top);
     margin-bottom: var(--logo-margin-bottom);
-    /* Logo biasanya gambar/svg, jadi aman. Kalau text, pastikan color: var(--foreground) */
 }
 
 .imgHeader {
@@ -30,11 +26,9 @@
     display: flex;
     justify-content: center;
     height: var(--nav-height);
-    
-    /* Update Dark Mode: Bar navigasi */
-    background-color: var(--input-bg); /* Ganti whitesmoke */
+    background-color: var(--input-bg);
     border-top: 1px solid var(--input-border);
-    
+    border-bottom: 1px solid var(--input-border);
     overflow-x: auto;
     overflow-y: hidden;
     -ms-overflow-style: none;
@@ -50,12 +44,9 @@
     place-items: center;
     padding: 0 20px;
     width: 100%;
-    margin: auto;
-    height: 35px;
-    
-    /* Gunakan Primary Color Variable */
-    color: var(--primary); /* Ganti #38b6ff */
-    
+    /* margin: auto; */
+    height: calc(var(--nav-height)-2px);
+    color: var(--primary);
     font-weight: bold;
     cursor: pointer;
     white-space: nowrap;
@@ -63,19 +54,17 @@
 }
 
 .navContent:hover {
-    /* Update Dark Mode Hover */
-    background-color: var(--input-border); /* Ganti #eee */
+    background-color: var(--input-border);
     color: var(--primary);
     font-size: 120%;
 }
 
 .navContent.active {
-    background-color: var(--primary); /* Ganti #38b6ff */
-    color: white; /* Tetap putih */
+    background-color: var(--primary);
+    color: white;
     font-size: 130%;
 }
 
-/* --- DROPDOWN LIST NOVEL --- */
 .novelListWrapper {
   position: fixed;
   justify-self: center;
@@ -85,9 +74,7 @@
   z-index: 1000; 
   height: calc(100vh - var(--total-header-height));
   overflow-y: auto;
-  
-  /* Update Dark Mode: Background dropdown */
-  background-color: var(--background); /* Ganti white */
+  background-color: var(--background);
   
   padding: 20px;
 }
@@ -104,23 +91,19 @@
     text-align: center;
     width: 330px; 
     text-decoration: none; 
-    
-    /* Update Dark Mode: Kartu Novel di Menu */
-    background-color: var(--card-bg); /* Ganti white */
-    color: var(--foreground); /* Ganti inherit */
+    background-color: var(--card-bg);
+    color: var(--foreground);
     
     border-radius: 8px; 
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); 
     overflow: hidden; 
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    
-    /* Tambahan border tipis untuk dark mode biar kelihatan batasnya */
     border: 1px solid var(--input-border);
 }
 
 .contentCover:hover {
     transform: translateY(-5px) scale(1.02); 
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Shadow lebih gelap dikit */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
     border-color: var(--primary);
 }
 

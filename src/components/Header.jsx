@@ -31,6 +31,8 @@ function Header() {
   const navRef = useRef(null);
   const [maskStyle, setMaskStyle] = useState({});
 
+  const isHomePage = pathname === '/';
+
   const updateMask = () => {
     const el = navRef.current;
     if (!el) return;
@@ -59,13 +61,13 @@ function Header() {
     updateMask();
     window.addEventListener('resize', updateMask);
     return () => window.removeEventListener('resize', updateMask);
-  }, []);
+  }, [isHomePage]);
 
   useEffect(() => {
-    if (pathname !== '/') {
+    if (!isHomePage) {
       setIsListOpen(false);
     }
-  }, [pathname]); 
+  }, [pathname, isHomePage, setIsListOpen]);
 
   const handleTabClick = (serieId) => {
     if (serieId === activeSerie && isListOpen) {
@@ -87,32 +89,31 @@ function Header() {
                 />
             </Link>
         </div>
-        
-        {/* Navigasi Utama */}
-        <nav
-          className={styles.navContainer}
-          ref={navRef}
-          onScroll={updateMask}
-          style={maskStyle}
-          >
-          {seriesTabs.map((tab) => {
-            const showAsActive = activeSerie === tab.id;
-            return (
-              <div
-                key={tab.id}
-                className={`${styles.navContent} ${
-                  showAsActive ? styles.active : ''
-                }`}
-                onClick={() => handleTabClick(tab.id)}
-              >
-                {tab.name}
-              </div>
-            );
-          })}
-        </nav>
+        {!isHomePage && (
+          <nav
+            className={styles.navContainer}
+            ref={navRef}
+            onScroll={updateMask}
+            style={maskStyle}
+            >
+            {seriesTabs.map((tab) => {
+              const showAsActive = activeSerie === tab.id;
+              return (
+                <div
+                  key={tab.id}
+                  className={`${styles.navContent} ${
+                    showAsActive ? styles.active : ''
+                  }`}
+                  onClick={() => handleTabClick(tab.id)}
+                >
+                  {tab.name}
+                </div>
+              );
+            })}
+          </nav>
+        )}
       </div>
-
-      {isListOpen && (
+      {!isHomePage && isListOpen && (
         <NovelList 
           activeSerie={dropdownSerie}
           onNovelClick={() => setIsListOpen(false)}

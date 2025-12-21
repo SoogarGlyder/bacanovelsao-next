@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import DOMPurify from 'dompurify';
+import DOMPurify from 'isomorphic-dompurify';
 import styles from './NovelDetailPage.module.css';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import { useGlobalContext } from '../providers';
