@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import parse, { domToReact } from 'html-react-parser';
-import DOMPurify from 'isomorphic-dompurify';
+import sanitizeHtml from 'sanitize-html';
 import styles from './ChapterReadPage.module.css';
 import { useNovelList } from '../../../hooks/useNovelData';
 import Breadcrumbs from '../../../components/Breadcrumbs';
@@ -89,7 +89,18 @@ export default function ChapterClient({
   };
 
   const contentWithBreaks = (chapter.content || '').replace(/\n/g, '<div style="height: 0.75em;"></div>');
-  const cleanContent = DOMPurify.sanitize(contentWithBreaks);
+  const cleanContent = sanitizeHtml(contentWithBreaks, {
+  allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img', 'div', 'span', 'br', 'hr' ]),
+  allowedAttributes: {
+    ...sanitizeHtml.defaults.allowedAttributes,
+    'img': ['src', 'alt', 'width', 'height', 'title'],
+    'div': ['class', 'style', 'id'],
+    'span': ['class', 'style'],
+    'p': ['class', 'style']
+  },
+  
+  allowedSchemes: [ 'http', 'https', 'data', 'mailto' ]
+  });
 
   return (
     <div className={styles.holyGrailLayout}>

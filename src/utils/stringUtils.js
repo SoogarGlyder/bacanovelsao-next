@@ -1,11 +1,9 @@
-export const stripHtml = (html) => {
+import sanitizeHtml from 'sanitize-html';
+
+export function stripHtml(html) {
   if (!html) return '';
-  let text = html.replace(/<br\s*\/?>/gi, ' ');
-  text = text.replace(/<[^>]+>/g, '');
-  text = text.replace(/\s+/g, ' ').trim();
-  
-  if (text.length > 160) {
-      return text.substring(0, 160) + '...';
-  }
-  return text;
-};
+  return sanitizeHtml(html, {
+    allowedTags: [],
+    allowedAttributes: {}
+  });
+}
