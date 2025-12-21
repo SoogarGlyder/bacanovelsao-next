@@ -7,8 +7,6 @@ export default function robots() {
       allow: '/',
       disallow: [
         '/admin/',
-        '/api/',
-        '/_next/',
       ],
     },
     sitemap: `${baseUrl}/sitemap.xml`,
