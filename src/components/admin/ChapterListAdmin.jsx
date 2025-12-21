@@ -10,10 +10,19 @@ function ChapterListAdmin({ onEditChapter, refreshToggle, styles }) {
   useEffect(() => {
     const fetchAllChapters = async () => {
         setLoading(true);
+        setError(null);
         try {
-            const res = await fetch('/api/chapters/all'); 
+            const res = await fetch('/api/chapters'); 
             const data = await res.json();
-            if (Array.isArray(data)) setChapters(data);
+            
+            if (Array.isArray(data)) {
+                setChapters(data);
+            } else if (data.data && Array.isArray(data.data)) {
+                setChapters(data.data);
+            } else {
+                setChapters([]);
+            }
+
         } catch (err) {
             setError(err.message);
         } finally {
@@ -27,7 +36,9 @@ function ChapterListAdmin({ onEditChapter, refreshToggle, styles }) {
     if (!window.confirm(`Hapus chapter "${title}"?`)) return;
     setLoading(true);
     try {
-      await fetch(`/api/chapters/${chapterId}`, { method: 'DELETE' });
+      const res = await fetch(`/api/chapters/${chapterId}`, { method: 'DELETE' });
+      if(!res.ok) throw new Error("Gagal menghapus chapter");
+      
       setChapters(prev => prev.filter(c => c._id !== chapterId));
       alert(`Chapter dihapus.`);
     } catch (err) {

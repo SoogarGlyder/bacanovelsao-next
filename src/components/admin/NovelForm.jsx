@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
 const seriesOptions = [
-  { id: 'main', name: 'Main' },
+  { id: 'main', name: 'Main (Utama)' },
   { id: 'progressive', name: 'Progressive' },
   { id: 'ggo', name: 'Gun Gale Online' },
   { id: 'clover', name: "Clover's Regret" },
   { id: 'anthology', name: 'Anthology' },
   { id: 'gourmet', name: 'Gourmet Seekers' },
   { id: 'mystery', name: 'Mystery Labyrinth' },
+  { id: 'alternative', name: 'Alternative' },
 ];
 
 const initialFormState = {
@@ -34,7 +35,7 @@ function NovelForm({ novelToEdit, onSaveSuccess, styles }) {
         synopsis: novelToEdit.synopsis || '',
         cover_image: novelToEdit.cover_image || '',
         novel_slug: novelToEdit.novel_slug || '',
-        _id: novelToEdit._id 
+        _id: novelToEdit._id
       });
     } else {
       setFormData(initialFormState);
@@ -54,7 +55,7 @@ function NovelForm({ novelToEdit, onSaveSuccess, styles }) {
 
     const method = isEditing ? 'PUT' : 'POST';
     const url = isEditing 
-        ? `/api/novels/slug/${formData.novel_slug}` 
+        ? `/api/novels/${formData._id}`
         : '/api/novels';
 
     try {
@@ -64,18 +65,24 @@ function NovelForm({ novelToEdit, onSaveSuccess, styles }) {
         body: JSON.stringify(formData),
       });
 
+      const data = await res.json();
+
       if (!res.ok) {
-        const errData = await res.json();
-        throw new Error(errData.message || 'Gagal menyimpan novel');
+        throw new Error(data.error || data.message || 'Gagal menyimpan novel');
       }
 
       setSuccess(`Novel berhasil di${isEditing ? 'perbarui' : 'buat'}!`);
+      
       if (!isEditing) {
         setFormData(initialFormState);
       }
-      onSaveSuccess();
+      
+      if (onSaveSuccess) {
+        onSaveSuccess();
+      }
       
     } catch (err) {
+      console.error(err);
       setError(err.message);
     } finally {
       setLoading(false);
@@ -84,8 +91,8 @@ function NovelForm({ novelToEdit, onSaveSuccess, styles }) {
 
   return (
     <form onSubmit={handleSubmit} className={styles.novelForm}>
-      {error && <p className={styles.error}>{error}</p>}
-      {success && <p className={styles.success}>{success}</p>}
+      {error && <p className={styles.error} style={{ color: 'red', marginBottom: '10px' }}>{error}</p>}
+      {success && <p className={styles.success} style={{ color: 'green', marginBottom: '10px' }}>{success}</p>}
 
       <label htmlFor="title">Judul Novel</label>
       <input
@@ -95,6 +102,7 @@ function NovelForm({ novelToEdit, onSaveSuccess, styles }) {
         value={formData.title}
         onChange={handleChange}
         required
+        placeholder="Contoh: Sword Art Online Vol 1"
       />
 
       <label htmlFor="serie">Seri</label>
@@ -111,6 +119,21 @@ function NovelForm({ novelToEdit, onSaveSuccess, styles }) {
           </option>
         ))}
       </select>
+      
+      <label htmlFor="novel_slug">Slug URL (Unik)</label>
+      <input
+        id="novel_slug"
+        name="novel_slug"
+        type="text"
+        value={formData.novel_slug}
+        onChange={handleChange}
+        required
+        placeholder="contoh: sao-vol-1-aincrad (tanpa spasi)"
+        style={{ marginBottom: '5px' }}
+      />
+      <small style={{ display:'block', marginBottom:'15px', color:'#666' }}>
+        Gunakan huruf kecil dan tanda strip (-). Jangan pakai spasi.
+      </small>
 
       <label htmlFor="cover_image">URL Cover Image</label>
       <input
@@ -119,16 +142,7 @@ function NovelForm({ novelToEdit, onSaveSuccess, styles }) {
         type="text"
         value={formData.cover_image}
         onChange={handleChange}
-      />
-      
-      <label htmlFor="novel_slug">Slug URL</label>
-      <input
-        id="novel_slug"
-        name="novel_slug"
-        type="text"
-        value={formData.novel_slug}
-        onChange={handleChange}
-        placeholder="kosongkan untuk auto-generate (di backend)"
+        placeholder="https://..."
       />
 
       <label htmlFor="synopsis">Sinopsis</label>
@@ -137,10 +151,11 @@ function NovelForm({ novelToEdit, onSaveSuccess, styles }) {
         name="synopsis"
         value={formData.synopsis}
         onChange={handleChange}
-        rows={5}
+        rows={6}
+        placeholder="Tulis sinopsis singkat..."
       />
 
-      <button type="submit" disabled={loading}>
+      <button type="submit" disabled={loading} style={{ marginTop: '10px' }}>
         {loading ? 'Memproses...' : (isEditing ? 'Update Novel' : 'Simpan Novel')}
       </button>
     </form>

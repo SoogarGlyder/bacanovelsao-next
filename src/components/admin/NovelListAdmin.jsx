@@ -6,7 +6,7 @@ function NovelListAdmin({ onEditNovel, styles }) {
   const [error, setError] = useState(null);
   const [refreshToggle, setRefreshToggle] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  const [sortConfig, setSortConfig] = useState({ key: 'title', direction: 'ascending' });
+  const [sortConfig, setSortConfig] = useState({ key: 'last_updated', direction: 'descending' });
 
   useEffect(() => {
     const fetchAllNovels = async () => {
@@ -15,8 +15,10 @@ function NovelListAdmin({ onEditNovel, styles }) {
         try {
             const response = await fetch('/api/novels'); 
             if (!response.ok) throw new Error('Gagal mengambil data novel.');
+            
             const data = await response.json();
-            setNovels(data);
+            const list = Array.isArray(data) ? data : (data.data || []);
+            setNovels(list);
         } catch (err) {
             setError(err.message);
         } finally {
@@ -26,13 +28,18 @@ function NovelListAdmin({ onEditNovel, styles }) {
     fetchAllNovels();
   }, [refreshToggle]);
 
-  const handleDelete = async (novelSlug, title) => {
+  const handleDelete = async (id, title) => {
     if (!window.confirm(`Yakin hapus novel "${title}"? SEMUA CHAPTER JUGA HILANG!`)) return;
 
     setLoading(true);
     try {
-      const res = await fetch(`/api/novels/slug/${novelSlug}`, { method: 'DELETE' });
-      if(!res.ok) throw new Error("Gagal hapus");
+      const res = await fetch(`/api/novels/${id}`, { method: 'DELETE' });
+      
+      if(!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.error || "Gagal hapus");
+      }
+      
       setRefreshToggle(prev => !prev); 
       alert(`Novel "${title}" berhasil dihapus.`);
     } catch (err) {
@@ -64,12 +71,16 @@ function NovelListAdmin({ onEditNovel, styles }) {
 
     if (sortConfig.key) {
       items.sort((a, b) => {
-        if (a[sortConfig.key] < b[sortConfig.key]) {
-          return sortConfig.direction === 'ascending' ? -1 : 1;
+        let valA = a[sortConfig.key];
+        let valB = b[sortConfig.key];
+        
+        if (sortConfig.key === 'last_updated' || sortConfig.key === 'createdAt') {
+            valA = new Date(valA).getTime();
+            valB = new Date(valB).getTime();
         }
-        if (a[sortConfig.key] > b[sortConfig.key]) {
-          return sortConfig.direction === 'ascending' ? 1 : -1;
-        }
+
+        if (valA < valB) return sortConfig.direction === 'ascending' ? -1 : 1;
+        if (valA > valB) return sortConfig.direction === 'ascending' ? 1 : -1;
         return 0;
       });
     }
@@ -132,7 +143,7 @@ function NovelListAdmin({ onEditNovel, styles }) {
                     Edit
                   </button>
                   <button 
-                    onClick={() => handleDelete(novel.novel_slug, novel.title)}
+                    onClick={() => handleDelete(novel._id, novel.title)}
                     style={{ backgroundColor: '#ff6347', color: 'white', border:'none', padding:'5px 10px', borderRadius:'4px', cursor:'pointer' }}
                   >
                     Hapus

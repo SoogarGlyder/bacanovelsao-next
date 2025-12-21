@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
 import Novel from '@/models/Novel';
 
+// 1. GET: Ambil Daftar Novel (Bisa filter by Serie)
 export async function GET(request) {
   try {
     await dbConnect();
@@ -14,12 +15,17 @@ export async function GET(request) {
         query.serie = serie;
     }
 
-    const novels = await Novel.find(query, 'title serie novel_slug cover_image')
-                              .sort({ createdAt: 1 });
+    const novels = await Novel.find(query)
+                              .sort({ last_updated: -1, createdAt: -1 });
 
-    return NextResponse.json(novels);
+    return NextResponse.json(novels, { status: 200 });
+
   } catch (error) {
-    return NextResponse.json({ message: 'Error fetching novels' }, { status: 500 });
+    console.error("Error fetching novels:", error);
+    return NextResponse.json(
+      { success: false, error: 'Gagal mengambil data novel' }, 
+      { status: 500 }
+    );
   }
 }
 
@@ -28,39 +34,35 @@ export async function POST(request) {
     await dbConnect();
 
     const body = await request.json();
-    const { title, serie, synopsis, cover_image, novel_slug } = body;
+    const { title, novel_slug } = body;
 
     if (!title || !novel_slug) {
        return NextResponse.json(
-         { message: 'Judul dan Slug wajib diisi!' }, 
+         { success: false, error: 'Judul dan Slug wajib diisi!' }, 
          { status: 400 }
        );
     }
 
-    const existingNovel = await Novel.findOne({ novel_slug });
-    if (existingNovel) {
-        return NextResponse.json(
-            { message: 'Slug novel ini sudah ada. Ganti slug lain.' }, 
-            { status: 400 }
-        );
-    }
+    const newNovelData = {
+      ...body,
+      last_updated: new Date() 
+    };
 
-    const newNovel = new Novel({
-      title,
-      serie,
-      synopsis,
-      cover_image,
-      novel_slug
-    });
+    const newNovel = await Novel.create(newNovelData);
 
-    const savedNovel = await newNovel.save();
-
-    return NextResponse.json(savedNovel, { status: 201 });
+    return NextResponse.json({ success: true, data: newNovel }, { status: 201 });
 
   } catch (error) {
+    if (error.code === 11000) {
+      return NextResponse.json(
+        { success: false, error: 'Slug URL ini sudah dipakai novel lain. Mohon ganti.' },
+        { status: 400 }
+      );
+    }
+
     console.error('Error creating novel:', error);
     return NextResponse.json(
-      { message: 'Gagal membuat novel', error: error.message },
+      { success: false, error: error.message },
       { status: 500 }
     );
   }

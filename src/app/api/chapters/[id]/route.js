@@ -1,14 +1,32 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
 import Chapter from '@/models/Chapter';
-import Novel from '@/models/Novel';
+
+export async function GET(request, { params }) {
+  try {
+    const { id } = await params;
+    await dbConnect();
+
+    const chapter = await Chapter.findById(id).populate('novel', 'title');
+
+    if (!chapter) {
+      return NextResponse.json(
+        { success: false, error: 'Chapter tidak ditemukan' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(chapter, { status: 200 }); // Return object langsung
+
+  } catch (error) {
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  }
+}
 
 export async function PUT(request, { params }) {
   try {
     const { id } = await params;
-
     await dbConnect();
-
     const body = await request.json();
 
     const updatedChapter = await Chapter.findByIdAndUpdate(id, body, {
@@ -26,11 +44,7 @@ export async function PUT(request, { params }) {
     return NextResponse.json({ success: true, data: updatedChapter }, { status: 200 });
 
   } catch (error) {
-    console.error('Error updating chapter:', error);
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
 
@@ -48,36 +62,9 @@ export async function DELETE(request, { params }) {
       );
     }
 
-    return NextResponse.json({ success: true, data: {} }, { status: 200 });
+    return NextResponse.json({ success: true, message: 'Chapter dihapus' }, { status: 200 });
 
   } catch (error) {
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
-
-export async function GET(request, { params }) {
-    try {
-      const { id } = await params;
-      await dbConnect();
-  
-      const chapter = await Chapter.findById(id).populate('novel', 'title');
-  
-      if (!chapter) {
-        return NextResponse.json(
-          { success: false, error: 'Chapter tidak ditemukan' },
-          { status: 404 }
-        );
-      }
-  
-      return NextResponse.json({ success: true, data: chapter }, { status: 200 });
-  
-    } catch (error) {
-      return NextResponse.json(
-        { success: false, error: error.message },
-        { status: 500 }
-      );
-    }
-  }
