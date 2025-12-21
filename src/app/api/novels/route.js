@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
 import Novel from '@/models/Novel';
 
-// 1. GET: Ambil Daftar Novel (Bisa filter by Serie)
 export async function GET(request) {
   try {
     await dbConnect();
@@ -16,7 +15,7 @@ export async function GET(request) {
     }
 
     const novels = await Novel.find(query)
-                              .sort({ last_updated: -1, createdAt: -1 });
+                              .sort({ title: 1 });
 
     return NextResponse.json(novels, { status: 200 });
 

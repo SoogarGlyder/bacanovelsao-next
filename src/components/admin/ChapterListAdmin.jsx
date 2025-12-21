@@ -5,7 +5,7 @@ function ChapterListAdmin({ onEditChapter, refreshToggle, styles }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [sortConfig, setSortConfig] = useState({ key: 'chapter_number', direction: 'descending' });
+  const [sortConfig, setSortConfig] = useState({ key: 'novel_title', direction: 'ascending' });
 
   useEffect(() => {
     const fetchAllChapters = async () => {

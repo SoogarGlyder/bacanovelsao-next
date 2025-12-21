@@ -6,7 +6,7 @@ function NovelListAdmin({ onEditNovel, styles }) {
   const [error, setError] = useState(null);
   const [refreshToggle, setRefreshToggle] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  const [sortConfig, setSortConfig] = useState({ key: 'last_updated', direction: 'descending' });
+  const [sortConfig, setSortConfig] = useState({ key: 'title', direction: 'ascending' });
 
   useEffect(() => {
     const fetchAllNovels = async () => {
