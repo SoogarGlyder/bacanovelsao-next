@@ -6,55 +6,66 @@ import ChapterClient from './ChapterClient';
 import { notFound } from 'next/navigation';
 
 export async function generateMetadata({ params }) {
-  const { novelSlug, chapterSlug } = await params;
-  await dbConnect();
+  try {
+    const { novelSlug, chapterSlug } = await params;
+    await dbConnect();
 
-  const novel = await Novel.findOne({ novel_slug: novelSlug })
-    .select('title cover_image')
-    .lean();
-  
-  if (!novel) {
-    return { title: 'Novel Tidak Ditemukan' };
-  }
+    const novel = await Novel.findOne({ novel_slug: novelSlug })
+      .select('title cover_image')
+      .lean();
+    
+    if (!novel) {
+      return { title: 'Novel Tidak Ditemukan' };
+    }
 
-  const chapter = await Chapter.findOne({ 
-      novel: novel._id, 
-      chapter_slug: chapterSlug 
-  }).select('title content').lean();
+    const chapter = await Chapter.findOne({ 
+        novel: novel._id, 
+        chapter_slug: chapterSlug 
+    }).select('title content').lean();
 
-  if (!chapter) {
-    return { title: 'Chapter Tidak Ditemukan' };
-  }
+    if (!chapter) {
+      return { title: `Chapter Tidak Ditemukan | ${novel.title}` };
+    }
 
-  const descPreview = stripHtml(chapter.content || `Baca ${novel.title} ${chapter.title}`).substring(0, 160);
-  const ogImage = novel.cover_image || '/social-cover.jpg';
+    const rawContent = chapter.content || `Baca ${novel.title} ${chapter.title}`;
+    const descPreview = stripHtml(rawContent).substring(0, 160);
+    const ogImage = novel.cover_image || '/social-cover.jpg';
 
-  return {
-    title: `${chapter.title} | ${novel.title}`,
-    description: descPreview,    
-    openGraph: {
+    return {
       title: `${chapter.title} | ${novel.title}`,
-      description: descPreview,
-      images: [
-        {
-          url: ogImage,
-          width: 800,
-          height: 600,
-          alt: `${novel.title} - ${chapter.title}`,
-        },
-      ],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: `${chapter.title} | ${novel.title}`,
-      description: descPreview,
-      images: [ogImage],
-    },
-  };
+      description: descPreview,    
+      openGraph: {
+        title: `${chapter.title} | ${novel.title}`,
+        description: descPreview,
+        images: [
+          {
+            url: ogImage,
+            width: 800,
+            height: 600,
+            alt: `${novel.title} - ${chapter.title}`,
+          },
+        ],
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: `${chapter.title} | ${novel.title}`,
+        description: descPreview,
+        images: [ogImage],
+      },
+    };
+
+  } catch (error) {
+    console.error("Metadata Error:", error);
+    return {
+      title: 'Baca Novel SAO | BacaNovelSAO',
+      description: 'Baca Novel Sword Art Online Bahasa Indonesia Lengkap.',
+    };
+  }
 }
 
 export default async function Page({ params }) {
   const { novelSlug, chapterSlug } = await params;
+  
   await dbConnect();
 
   const novel = await Novel.findOne({ novel_slug: novelSlug }).lean();
