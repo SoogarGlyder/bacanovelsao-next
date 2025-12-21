@@ -4,12 +4,9 @@ function ChapterListAdmin({ onEditChapter, refreshToggle, styles }) {
   const [chapters, setChapters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  // 1. STATE UNTUK SEARCH & SORT
   const [searchTerm, setSearchTerm] = useState('');
   const [sortConfig, setSortConfig] = useState({ key: 'chapter_number', direction: 'descending' });
 
-  // 2. Fetch Data dari API
   useEffect(() => {
     const fetchAllChapters = async () => {
         setLoading(true);
@@ -40,7 +37,6 @@ function ChapterListAdmin({ onEditChapter, refreshToggle, styles }) {
     }
   };
 
-  // 3. LOGIKA SORTING (Klik Header)
   const requestSort = (key) => {
     let direction = 'ascending';
     if (sortConfig.key === key && sortConfig.direction === 'ascending') {
@@ -49,26 +45,22 @@ function ChapterListAdmin({ onEditChapter, refreshToggle, styles }) {
     setSortConfig({ key, direction });
   };
 
-  // 4. LOGIKA GABUNGAN (SEARCH + SORT) - INI BAGIAN PENTINGNYA
   const processedChapters = useMemo(() => {
     let items = [...chapters];
 
-    // -- A. Filter Search --
     if (searchTerm) {
       const lowerSearch = searchTerm.toLowerCase();
       items = items.filter(item => 
-        (item.title || '').toLowerCase().includes(lowerSearch) ||           // Cari Judul Chapter
-        (item.novel?.title || '').toLowerCase().includes(lowerSearch) ||    // Cari Judul Novel
-        String(item.chapter_number).includes(lowerSearch)                   // Cari Nomor Chapter
+        (item.title || '').toLowerCase().includes(lowerSearch) ||
+        (item.novel?.title || '').toLowerCase().includes(lowerSearch) ||
+        String(item.chapter_number).includes(lowerSearch)
       );
     }
 
-    // -- B. Sorting --
     if (sortConfig.key) {
       items.sort((a, b) => {
         let valA, valB;
 
-        // Penanganan khusus untuk kolom Novel Title (karena object nested)
         if (sortConfig.key === 'novel_title') {
             valA = a.novel?.title || '';
             valB = b.novel?.title || '';
@@ -95,7 +87,6 @@ function ChapterListAdmin({ onEditChapter, refreshToggle, styles }) {
 
   return (
     <div className={styles.tableWrapper}>
-        {/* === BAGIAN SEARCH BAR ADA DI SINI === */}
         <div style={{ alignItems: 'center', marginBottom: '15px' }}>
              <input 
                 type="text" 

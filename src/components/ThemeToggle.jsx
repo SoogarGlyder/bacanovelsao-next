@@ -8,13 +8,12 @@ export default function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
 
-  // Hindari error hydration (Next.js butuh ini)
   useEffect(() => {
     setMounted(true);
   }, []);
 
   if (!mounted) {
-    return null; // Jangan render apa-apa sebelum loading selesai
+    return null;
   }
 
   return (
@@ -26,7 +25,7 @@ export default function ThemeToggle() {
         cursor: 'pointer',
         padding: '8px',
         fontSize: '1.2rem',
-        color: 'var(--foreground)', // Ikon ikut warna teks
+        color: 'var(--foreground)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

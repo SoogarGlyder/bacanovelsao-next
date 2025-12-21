@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 import styles from '../components/Header.module.css';
 import NovelList from '../components/NovelList';
 
@@ -72,8 +73,7 @@ export default function HomeClient() {
             {tab.name}
           </div>
         ))}
-      </nav>  
-      
+      </nav>
       <NovelList 
         activeSerie={activeTab} 
         onNovelClick={() => {}}

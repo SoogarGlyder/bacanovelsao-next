@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
+import parse, { domToReact } from 'html-react-parser';
 import DOMPurify from 'isomorphic-dompurify';
 import styles from './NovelDetailPage.module.css';
 import Breadcrumbs from '../../components/Breadcrumbs';
@@ -50,6 +52,39 @@ export default function NovelClient({ initialNovel, initialChapters }) {
   if (!novel) return null;
 
   const firstChapterSlug = allChapters.length > 0 ? allChapters[0].chapter_slug : null;
+
+  const options = {
+    replace: (domNode) => {
+      if (domNode.type === 'tag' && domNode.name === 'img') {
+        const { src, alt } = domNode.attribs;
+        return (
+          <div className={styles.optimizedImageWrapper}>
+            <Image 
+              src={src}
+              alt={alt || 'Ilustrasi Novel'}
+              width={0}
+              height={0}
+              sizes="(max-width: 768px) 100vw, 800px"
+              style={{ width: '100%', height: 'auto' }}
+              loading="lazy"
+              quality={85}
+            />
+          </div>
+        );
+      }
+      
+      if (domNode.attribs && domNode.attribs.class === 'chapter-image-center') {
+         return (
+             <div className={styles.imageContainer}>
+                 {domToReact(domNode.children, options)}
+             </div>
+         );
+      }
+    }
+  };
+
+  const contentWithBreaks = (novel.synopsis || '').replace(/\n/g, '<div style="height: 0.75em;"></div>');
+  const cleanContent = DOMPurify.sanitize(contentWithBreaks);
 
   return (
     <div className={styles.holyGrailLayout}>
@@ -99,16 +134,11 @@ export default function NovelClient({ initialNovel, initialChapters }) {
           <h1>{novel.title}</h1>
           <h2>Sinopsis</h2>
         </div>
+
         <hr className={styles.divider} />
         
         <div className={styles.content}>
-          {(novel.synopsis || '<p>Belum ada sinopsis.</p>').split('\n').map((paragraph, index) => {
-            const cleanedHtml = DOMPurify.sanitize(paragraph);
-              if (!cleanedHtml.trim()) return null;
-              return (
-                <p key={index} dangerouslySetInnerHTML={{ __html: cleanedHtml }} />
-              );
-          })}
+          {parse(cleanContent, options)}
         </div>
 
         <div className={styles.navigation}>

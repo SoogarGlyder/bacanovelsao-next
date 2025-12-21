@@ -1,7 +1,6 @@
 const HISTORY_KEY = 'bacanovelsao_history';
 
 export const saveReadingHistory = (novelSlug, chapterSlug, chapterTitle, chapterNumber) => {
-  // Pengecekan: Pastikan kode ini berjalan di browser (bukan server)
   if (typeof window === 'undefined') return;
 
   try {
@@ -21,7 +20,6 @@ export const saveReadingHistory = (novelSlug, chapterSlug, chapterTitle, chapter
 };
 
 export const getReadingHistory = (novelSlug) => {
-  // Pengecekan: Pastikan kode ini berjalan di browser
   if (typeof window === 'undefined') return null;
 
   try {

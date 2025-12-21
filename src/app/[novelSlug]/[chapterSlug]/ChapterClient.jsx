@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
+import parse, { domToReact } from 'html-react-parser';
 import DOMPurify from 'isomorphic-dompurify';
 import styles from './ChapterReadPage.module.css';
 import { useNovelList } from '../../../hooks/useNovelData';
@@ -55,6 +57,39 @@ export default function ChapterClient({
 
   const wordCount = chapter.content ? chapter.content.replace(/<[^>]*>/g, '').split(/\s+/).length : 0;
   const readingTime = Math.ceil(wordCount / 200);
+
+  const options = {
+    replace: (domNode) => {
+      if (domNode.type === 'tag' && domNode.name === 'img') {
+        const { src, alt } = domNode.attribs;
+        return (
+          <div className={styles.optimizedImageWrapper}>
+            <Image 
+              src={src}
+              alt={alt || 'Ilustrasi Novel'}
+              width={0}
+              height={0}
+              sizes="(max-width: 768px) 100vw, 800px"
+              style={{ width: '100%', height: 'auto' }}
+              loading="lazy"
+              quality={85}
+            />
+          </div>
+        );
+      }
+      
+      if (domNode.attribs && domNode.attribs.class === 'chapter-image-center') {
+         return (
+             <div className={styles.imageContainer}>
+                 {domToReact(domNode.children, options)}
+             </div>
+         );
+      }
+    }
+  };
+
+  const contentWithBreaks = (chapter.content || '').replace(/\n/g, '<div style="height: 0.75em;"></div>');
+  const cleanContent = DOMPurify.sanitize(contentWithBreaks);
 
   return (
     <div className={styles.holyGrailLayout}>
@@ -110,13 +145,9 @@ export default function ChapterClient({
             
             <hr className={styles.divider} />
             
-      <div className={styles.content}>
-        {(chapter.content || '').split('\n').map((paragraph, index) => {
-          const cleanedHtml = DOMPurify.sanitize(paragraph);
-          if (!cleanedHtml.trim()) return null;
-          return <p key={index} dangerouslySetInnerHTML={{ __html: cleanedHtml }} />;
-        })}
-      </div>
+            <div className={styles.content}>
+               {parse(cleanContent, options)}
+            </div>
 
             <div className={styles.navigation}>
               <button 

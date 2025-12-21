@@ -1,36 +1,32 @@
-/* --- CONTAINER UTAMA --- */
 .adminContainer {
     max-width: 1440px;
     margin: 20px auto;
     padding: 20px;
-    /* Tambahkan background agar konsisten dengan kartu */
     background-color: var(--card-bg);
-    /* Ganti warna teks agar ikut mode */
     color: var(--foreground);
-    border-radius: 8px; /* Sedikit lengkungan biar manis */
+    border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .adminContainer h1 {
-    color: var(--primary); /* Pakai variable biru */
-    border-bottom: 2px solid var(--input-border); /* Ganti #ddd */
+    color: var(--primary);
+    border-bottom: 2px solid var(--input-border);
     padding-bottom: 10px;
     margin-bottom: 20px;
 }
 
-/* --- MENU ADMIN --- */
 .adminMenu ul {
     list-style: none;
     padding: 0;
     margin-top: 10px;
     display: flex;
     gap: 15px;
-    flex-wrap: wrap; /* Agar aman di layar kecil */
+    flex-wrap: wrap;
 }
 
 .adminMenu a {
     background-color: var(--primary);
-    color: white; /* Teks tombol tetap putih di kedua mode */
+    color: white;
     padding: 8px 15px;
     border-radius: 5px;
     text-decoration: none;
@@ -38,15 +34,14 @@
 }
 
 .adminMenu a:hover {
-    opacity: 0.8; /* Efek hover simpel */
+    opacity: 0.8;
 }
 
-/* --- FORM INPUT --- */
 .novelForm label {
     display: block;
     margin-top: 10px;
     font-weight: 600;
-    color: var(--foreground); /* Pastikan label terlihat */
+    color: var(--foreground);
 }
 
 .novelForm select {
@@ -54,7 +49,7 @@
     margin-top: 10px;
     font-weight: 600;
     color: var(--foreground);
-    background-color: var(--input-bg); /* Latar belakang select */
+    background-color: var(--input-bg);
 }
 
 .novelForm input[type='text'], 
@@ -63,12 +58,9 @@
     width: 100%;
     padding: 8px;
     margin-bottom: 10px;
-    
-    /* Variable Penting untuk Dark Mode Input */
     border: 1px solid var(--input-border);
     background-color: var(--input-bg); 
-    color: var(--foreground);
-    
+    color: var(--foreground); 
     border-radius: 4px;
 }
 
@@ -82,27 +74,24 @@
     font-weight: bold;
 }
 
-/* Notifikasi */
 .error {
     color: white;
-    background-color: #ff6347; /* Tomat terang, aman di dark mode */
+    background-color: #ff6347;
     padding: 10px;
     border-radius: 4px;
     margin-bottom: 15px;
 }
 .success {
     color: white;
-    background-color: #4CAF50; /* Hijau terang, aman */
+    background-color: #4CAF50;
     padding: 10px;
     border-radius: 4px;
     margin-bottom: 15px;
 }
 
-/* --- TABEL --- */
 .tableWrapper {
     margin-top: 20px;
     overflow-x: auto;
-    /* Opsional: border tipis untuk memisahkan tabel */
     border: 1px solid var(--input-border);
     border-radius: 8px;
 }
@@ -110,32 +99,27 @@
 .novelTable {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 0; /* Margin diatur wrapper */
+    margin-top: 0;
 }
 
 .novelTable th, .novelTable td {
     padding: 12px;
-    border: 1px solid var(--input-border); /* Ganti #ddd */
+    border: 1px solid var(--input-border);
     text-align: left;
     vertical-align: top;
-    color: var(--foreground); /* Teks isi tabel */
+    color: var(--foreground);
 }
 
 .novelTable th {
-    background-color: var(--input-bg); /* Ganti #eee jadi variable dinamis */
+    background-color: var(--input-bg);
     font-weight: bold;
-    color: var(--foreground); /* Ganti #333 */
+    color: var(--foreground);
 }
 
-/* Trik Zebra Striping untuk Dark Mode:
-   Pakai rgba hitam/putih transparan agar beradaptasi dengan background apapun 
-*/
 .novelTable tr:nth-child(even) {
     background-color: rgba(127, 127, 127, 0.1); 
-    /* Di light mode: jadi abu tipis. Di dark mode: jadi abu sedikit lebih terang. */
 }
 
-/* Hover effect di baris tabel biar interaktif */
 .novelTable tr:hover {
-    background-color: rgba(56, 182, 255, 0.1); /* Highlight biru tipis */
+    background-color: rgba(56, 182, 255, 0.1);
 }

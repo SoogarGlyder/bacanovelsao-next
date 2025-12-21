@@ -5,7 +5,6 @@ function LoadingSpinner({ message = '' }) {
   return (
     <div className={styles.loadingContainer}>
       <div className={styles.spinner}></div>
-      {/* Jika ada pesan, tampilkan */}
       {message && <p style={{ marginLeft: '15px', color: '#555' }}>{message}</p>}
     </div>
   );

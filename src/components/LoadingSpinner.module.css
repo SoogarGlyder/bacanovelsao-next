@@ -8,20 +8,12 @@
 }
 
 .spinner {
-  /* Update Dark Mode:
-     Masalah: rgba(0,0,0,0.1) itu hitam transparan. 
-     Di background hitam, spinnernya HILANG.
-     
-     Solusi: Gunakan abu-abu netral transparan atau variable border.
-  */
   border: 4px solid rgba(128, 128, 128, 0.2); 
   
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  
-  /* Warna putaran */
-  border-left-color: var(--primary); /* Ganti #09f */
+  border-left-color: var(--primary);
   
   animation: spin 1s linear infinite;
 }

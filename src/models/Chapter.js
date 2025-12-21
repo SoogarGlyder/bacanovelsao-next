@@ -43,11 +43,8 @@ chapterSchema.pre('validate', function(next) {
     next();
 });
 
-// Index ini penting untuk kecepatan query
 chapterSchema.index({ novel: 1, chapter_slug: 1 });
 
-// PENGAMAN (Singleton Pattern):
-// Cek apakah model Chapter sudah ada di memori?
 const Chapter = mongoose.models.Chapter || mongoose.model("Chapter", chapterSchema);
 
 export default Chapter;

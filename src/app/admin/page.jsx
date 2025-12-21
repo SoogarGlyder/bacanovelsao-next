@@ -2,8 +2,6 @@
 
 import React, { useState, useEffect } from 'react'; 
 import styles from './admin.module.css'; 
-
-// Kita akan buat folder ini di langkah selanjutnya
 import NovelListAdmin from '@/components/admin/NovelListAdmin'; 
 import NovelForm from '@/components/admin/NovelForm'; 
 import ChapterListAdmin from '@/components/admin/ChapterListAdmin';
@@ -13,15 +11,11 @@ export default function AdminDashboard() {
   const [novelToEdit, setNovelToEdit] = useState(null); 
   const [chapterToEdit, setChapterToEdit] = useState(null);
   const [refreshList, setRefreshList] = useState(false); 
-  const [isMobile, setIsMobile] = useState(false); // Default false untuk SSR
+  const [isMobile, setIsMobile] = useState(false);
 
-  // Cek Ukuran Layar (Client Side Only)
   useEffect(() => {
     const checkResize = () => setIsMobile(window.innerWidth < 768);
-    
-    // Cek saat pertama kali load
     checkResize();
-
     window.addEventListener('resize', checkResize);
     return () => window.removeEventListener('resize', checkResize);
   }, []);
@@ -48,7 +42,6 @@ export default function AdminDashboard() {
 
   const listKey = refreshList ? 'refresh' : 'initial'; 
 
-  // Tampilan Mobile Blocked
   if (isMobile) {
     return (
       <div className={styles.adminContainer} style={{ textAlign: 'center', padding: '50px' }}>
@@ -76,7 +69,7 @@ export default function AdminDashboard() {
           <NovelForm 
             novelToEdit={novelToEdit}
             onSaveSuccess={handleSaveSuccess}
-            styles={styles} // Oper styles ke child
+            styles={styles}
           />
       </section>
       

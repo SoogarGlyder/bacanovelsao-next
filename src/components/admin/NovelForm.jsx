@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// HAPUS useAdminFetcher, kita pakai fetch biasa
 
 const seriesOptions = [
   { id: 'main', name: 'Main' },
@@ -54,7 +53,6 @@ function NovelForm({ novelToEdit, onSaveSuccess, styles }) {
     setSuccess(null);
 
     const method = isEditing ? 'PUT' : 'POST';
-    // FIX: Gunakan SLUG untuk update, karena API kita /api/novels/slug/[slug]
     const url = isEditing 
         ? `/api/novels/slug/${formData.novel_slug}` 
         : '/api/novels';

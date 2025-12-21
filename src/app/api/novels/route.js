@@ -6,7 +6,6 @@ export async function GET(request) {
   try {
     await dbConnect();
 
-    // Ambil query param (?serie=...)
     const { searchParams } = new URL(request.url);
     const serie = searchParams.get('serie');
 
@@ -15,8 +14,6 @@ export async function GET(request) {
         query.serie = serie;
     }
 
-    // Logic: Ambil field tertentu saja, urutkan dari terlama (createdAt: 1)
-    // Sesuai logic lama: packages/server/routes/novels.js
     const novels = await Novel.find(query, 'title serie novel_slug cover_image')
                               .sort({ createdAt: 1 });
 
@@ -30,11 +27,9 @@ export async function POST(request) {
   try {
     await dbConnect();
 
-    // 1. Ambil data dari body request
     const body = await request.json();
     const { title, serie, synopsis, cover_image, novel_slug } = body;
 
-    // 2. Validasi sederhana
     if (!title || !novel_slug) {
        return NextResponse.json(
          { message: 'Judul dan Slug wajib diisi!' }, 
@@ -42,7 +37,6 @@ export async function POST(request) {
        );
     }
 
-    // 3. Cek apakah slug sudah terpakai?
     const existingNovel = await Novel.findOne({ novel_slug });
     if (existingNovel) {
         return NextResponse.json(
@@ -51,7 +45,6 @@ export async function POST(request) {
         );
     }
 
-    // 4. Simpan ke Database
     const newNovel = new Novel({
       title,
       serie,

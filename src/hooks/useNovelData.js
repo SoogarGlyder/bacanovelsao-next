@@ -1,10 +1,6 @@
-'use client'; // Wajib di Next.js untuk custom hooks yang pakai state/effect
+'use client';
 
 import { useState, useEffect } from 'react';
-
-// ====================================================================
-// 1. Hook untuk mengambil daftar novel berdasarkan seri
-// ====================================================================
 
 export function useNovelList(serie) {
   const [novels, setNovels] = useState([]);
@@ -13,13 +9,11 @@ export function useNovelList(serie) {
 
   useEffect(() => {
     const fetchNovels = async () => {
-      // Jika tidak ada seri, jangan fetch dulu (atau fetch semua tergantung logic backend)
       if (!serie) return; 
 
       setLoading(true);
       setError(null);
       try {
-        // Fetch ke proxy /api (sudah diatur di next.config.mjs)
         const response = await fetch(`/api/novels?serie=${serie}`);
         if (!response.ok) throw new Error('Gagal mengambil data novel');
         const data = await response.json();
@@ -35,10 +29,6 @@ export function useNovelList(serie) {
 
   return { novels, loading, error };
 }
-
-// ===================================================================
-// 2. Hook untuk mengambil data chapter, navigasi, dll
-// ===================================================================
 
 export function useChapterData(novelSlug, chapterSlug, setPageSerie) {
   const [chapter, setChapter] = useState(null);
@@ -75,7 +65,6 @@ export function useChapterData(novelSlug, chapterSlug, setPageSerie) {
 
         setChapter(chapterData);
         
-        // Panggil fungsi setPageSerie (yang nanti diambil dari Context)
         if (setPageSerie && typeof setPageSerie === 'function') {
             setPageSerie(chapterData.novel.serie);
         }
@@ -105,10 +94,6 @@ export function useChapterData(novelSlug, chapterSlug, setPageSerie) {
 
   return { chapter, loading, error, prevChapterSlug, nextChapterSlug, allChapters };
 }
-
-// ===================================================================
-// 3. HOOK MENGAMBIL NOVEL DETAIL DAN CHAPTERS
-// ===================================================================
 
 export const useNovelDetail = (novelSlug) => {
     const [data, setData] = useState({ novel: null, chapters: [] });

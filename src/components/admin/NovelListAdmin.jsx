@@ -5,8 +5,6 @@ function NovelListAdmin({ onEditNovel, styles }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [refreshToggle, setRefreshToggle] = useState(false);
-
-  // STATE UNTUK SEARCH & SORT
   const [searchTerm, setSearchTerm] = useState('');
   const [sortConfig, setSortConfig] = useState({ key: 'title', direction: 'ascending' });
 
@@ -44,7 +42,6 @@ function NovelListAdmin({ onEditNovel, styles }) {
     }
   };
 
-  // LOGIKA SORTING
   const requestSort = (key) => {
     let direction = 'ascending';
     if (sortConfig.key === key && sortConfig.direction === 'ascending') {
@@ -53,11 +50,9 @@ function NovelListAdmin({ onEditNovel, styles }) {
     setSortConfig({ key, direction });
   };
 
-  // LOGIKA FILTER & SORT FINAL
   const processedNovels = useMemo(() => {
     let items = [...novels];
 
-    // 1. Filter Search
     if (searchTerm) {
       const lowerSearch = searchTerm.toLowerCase();
       items = items.filter(item => 
@@ -67,7 +62,6 @@ function NovelListAdmin({ onEditNovel, styles }) {
       );
     }
 
-    // 2. Sorting
     if (sortConfig.key) {
       items.sort((a, b) => {
         if (a[sortConfig.key] < b[sortConfig.key]) {
@@ -82,9 +76,8 @@ function NovelListAdmin({ onEditNovel, styles }) {
     return items;
   }, [novels, searchTerm, sortConfig]);
 
-  // Helper untuk menampilkan panah sort
   const getSortIcon = (name) => {
-    if (sortConfig.key !== name) return '↕'; // Netral
+    if (sortConfig.key !== name) return '↕';
     return sortConfig.direction === 'ascending' ? '↑' : '↓';
   };
 
@@ -92,7 +85,6 @@ function NovelListAdmin({ onEditNovel, styles }) {
 
   return (
     <div className={styles.tableWrapper}>
-      {/* AREA SEARCH & REFRESH */}
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
         <input 
           type="text" 

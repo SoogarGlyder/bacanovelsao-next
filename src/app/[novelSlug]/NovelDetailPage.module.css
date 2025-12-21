@@ -104,10 +104,9 @@
   line-height: 1.6; 
   color: var(--foreground);
   text-align: justify;
+  margin-bottom: 1em;
 }
-.content p {
-  margin-bottom: 0.75em;
-}
+
 .navigation {
   padding: 20px 0px;
   border-top: 2px solid var(--input-border);

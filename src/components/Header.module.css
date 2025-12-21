@@ -44,7 +44,6 @@
     place-items: center;
     padding: 0 20px;
     width: 100%;
-    /* margin: auto; */
     height: calc(var(--nav-height)-2px);
     color: var(--primary);
     font-weight: bold;
@@ -88,12 +87,14 @@
 }
 
 .contentCover {
+    aspect-ratio: 1000 / 1429;
     text-align: center;
     width: 330px; 
     text-decoration: none; 
     background-color: var(--card-bg);
     color: var(--foreground);
-    
+    position: relative;
+    display: block;
     border-radius: 8px; 
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); 
     overflow: hidden; 

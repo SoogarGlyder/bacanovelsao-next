@@ -1,19 +1,18 @@
 .footer {
-  background-color: var(--background); /* Ikut warna body */
+  background-color: var(--background);
 }
 
 .copyright {
-  /* Update Dark Mode: Jangan hardcode hitam pekat (#111) */
-  background-color: var(--card-bg); /* Abu gelap di dark mode, putih/abu di light mode */
+  background-color: var(--card-bg);
   
   text-align: center;
   padding: 20px;
   font-size: 0.9rem;
   
-  color: var(--foreground); /* Ganti #666 agar terbaca di dark mode */
-  opacity: 0.8; /* Biar tidak terlalu mencolok */
+  color: var(--foreground);
+  opacity: 0.8;
   
-  border-top: 1px solid var(--input-border); /* Ganti #333 */
+  border-top: 1px solid var(--input-border);
 }
 
 @media (max-width: 767px) {

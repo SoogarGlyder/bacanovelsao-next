@@ -44,8 +44,6 @@ novelSchema.pre('validate', function(next) {
     next();
 });
 
-// PERUBAHAN PENTING DI SINI:
-// Cek apakah mongoose.models.Novel sudah ada sebelum membuatnya.
 const Novel = mongoose.models.Novel || mongoose.model("Novel", novelSchema);
 
 export default Novel;

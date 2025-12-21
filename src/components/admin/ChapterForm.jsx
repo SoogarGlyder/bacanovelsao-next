@@ -37,7 +37,7 @@ function ChapterForm({ chapterToEdit, onSaveSuccess, styles }) {
   useEffect(() => {
     if (chapterToEdit) {
       setFormData({
-        novel: chapterToEdit.novel?._id || chapterToEdit.novel, // Handle populate or id
+        novel: chapterToEdit.novel?._id || chapterToEdit.novel,
         title: chapterToEdit.title,
         chapter_number: chapterToEdit.chapter_number,
         content: chapterToEdit.content,
@@ -69,7 +69,6 @@ function ChapterForm({ chapterToEdit, onSaveSuccess, styles }) {
     };
 
     const method = isEditing ? 'PUT' : 'POST';
-    // FIX: Gunakan ID untuk chapter
     const url = isEditing 
         ? `/api/chapters/${formData._id}` 
         : '/api/chapters';
@@ -85,7 +84,6 @@ function ChapterForm({ chapterToEdit, onSaveSuccess, styles }) {
 
       setSuccess(`Chapter berhasil di${isEditing ? 'perbarui' : 'buat'}!`);
       if (!isEditing) {
-        // Reset form tapi pertahankan pilihan novel terakhir
         setFormData(prev => ({ 
             ...initialChapterState, 
             novel: prev.novel 

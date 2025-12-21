@@ -1,10 +1,9 @@
-/* Container Utama */
 .breadcrumbNav {
   margin-left: 3px;
-  margin-bottom: 10px; /* Tambah jarak dikit biar lega */
+  margin-bottom: 10px;
   font-size: 0.9em;
   color: var(--foreground);
-  opacity: 0.8; /* Sedikit transparan agar tidak terlalu mencolok */
+  opacity: 0.8;
 }
 
 .breadcrumbList {
@@ -16,10 +15,9 @@
   align-items: center;
 }
 
-/* Link (Beranda & Link aktif) */
 .link {
   text-decoration: none;
-  color: var(--primary); /* Menggunakan warna Biru Tema (#38b6ff) */
+  color: var(--primary);
   font-weight: 500;
   transition: opacity 0.2s;
 }
@@ -29,23 +27,20 @@
   opacity: 0.8;
 }
 
-/* Tanda Panah (Separator) */
 .separator {
   margin: 0 8px;
-  color: var(--foreground); /* Otomatis putih di dark mode */
-  opacity: 0.4; /* Biar samar-samar */
+  color: var(--foreground);
+  opacity: 0.4;
   font-size: 1.2em;
   line-height: 1;
 }
 
-/* Item Terakhir (Teks Biasa/Current Page) */
 .activeItem {
-  color: var(--foreground); /* Otomatis putih di dark mode */
+  color: var(--foreground);
   font-weight: 500;
   opacity: 0.9;
 }
 
-/* Item List Container */
 .listItem {
   display: flex;
   align-items: center;

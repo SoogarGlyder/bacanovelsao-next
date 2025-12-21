@@ -4,12 +4,10 @@
   --logo-margin-bottom: 10px;
   --nav-height: 35px;
   --total-header-height: calc(var(--logo-height) + var(--logo-margin-top) + var(--logo-margin-bottom) + var(--nav-height));
-  
-  /* --- DEFAULT (LIGHT MODE) --- */
   --background: #ffffff;
-  --foreground: #213547;         /* Warna Teks Utama */
-  --primary: #38b6ff;            /* Warna Brand (Biru Langit) */
-  --link: #007bff;               /* Warna Link */
+  --foreground: #213547;
+  --primary: #38b6ff;
+  --link: #007bff;
   --link-hover: #0056b3;
   --button-bg: whitesmoke;
   --button-text: #213547;
@@ -18,11 +16,9 @@
   --card-bg: #ffffff;
 }
 
-/* --- DARK MODE SETTINGS --- */
-/* GANTI INI: Dari [data-theme='dark'] menjadi .dark */
 .dark {
-  --background: #171717;         /* Hitam Abu (Standard Next.js) */
-  --foreground: #ededed;         /* Putih soft */
+  --background: #171717;
+  --foreground: #ededed;
   --primary: #38b6ff;            
   --link: #646cff;               
   --link-hover: #8086ff;
@@ -33,7 +29,6 @@
   --card-bg: #171717;
 }
 
-/* 2. RESET & BASE STYLES */
 * {
   margin: 0;
   padding: 0;
@@ -52,18 +47,15 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* 3. PENERAPAN VARIABLE KE ELEMENT */
 body {
   color: var(--foreground);
   background-color: var(--background);
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  /* Transisi halus saat ganti tema */
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Style Global Heading */
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
@@ -80,7 +72,6 @@ a:hover {
   color: var(--link-hover);
 }
 
-/* 4. TOMBOL & INPUT */
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -102,8 +93,8 @@ button:disabled {
 }
 
 button:not(:disabled):hover {
-  background-color: var(--primary); /* Biru saat hover */
-  color: white; /* Teks putih saat hover */
+  background-color: var(--primary);
+  color: white;
   font-weight: bold;
 }
 
@@ -111,7 +102,6 @@ button:focus, button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-/* Container untuk Form/Halaman */
 .container {
   display: grid;
   min-height: calc(100vh - 130px); 
@@ -144,7 +134,6 @@ select {
   background-color: var(--input-bg);
 }
 
-/* 5. LOADING SPINNER */
 .loadingContainer {
   position: absolute;
   display: flex;
@@ -170,7 +159,6 @@ select {
   100% { transform: rotate(360deg); }
 }
 
-/* 6. RESPONSIVE */
 @media (max-width: 767px) {
   :root {
     --logo-height: 60px;

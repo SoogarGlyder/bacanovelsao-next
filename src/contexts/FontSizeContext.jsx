@@ -1,55 +1,45 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
-// Context dengan nilai default
-const FontSizeContext = createContext({
-  fontSize: 18,
-  changeFontSize: () => {}
-});
+const FontSizeContext = createContext();
+
+const DEFAULT_SIZE = 18; 
 
 export function FontSizeProvider({ children }) {
-  const [fontSize, setFontSize] = useState(18);
+  const [fontSize, setFontSize] = useState(DEFAULT_SIZE);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const savedSize = localStorage.getItem('novel-font-size');
-      if (savedSize) {
-        setFontSize(parseInt(savedSize));
-      }
-      setMounted(true);
+    const savedSize = localStorage.getItem('novel-font-size');
+    if (savedSize) {
+      setFontSize(parseInt(savedSize));
     }
+    setMounted(true);
   }, []);
 
-  // --- INI BAGIAN PENTING YANG SERING TERLEWAT ---
-  // Kita harus menempelkan variable '--novel-font-size' ke HTML (root)
-  // agar bisa dibaca oleh file CSS Module manapun.
   useEffect(() => {
     if (mounted) {
+      localStorage.setItem('novel-font-size', fontSize);
       document.documentElement.style.setProperty('--novel-font-size', `${fontSize}px`);
     }
   }, [fontSize, mounted]);
-  // ------------------------------------------------
 
-  const changeFontSize = (amount) => {
+  const changeFontSize = (increment) => {
     setFontSize((prev) => {
-      const newSize = prev + amount;
-      // Batas Min 14px, Max 30px
-      if (newSize < 14 || newSize > 30) return prev;
-      
-      localStorage.setItem('novel-font-size', newSize);
+      const newSize = prev + increment;
+      if (newSize < 12) return 12;
+      if (newSize > 30) return 30;
       return newSize;
     });
   };
 
-  if (!mounted) {
-    return <div style={{ visibility: 'hidden' }}>{children}</div>;
-  }
+  const resetFontSize = () => {
+    setFontSize(DEFAULT_SIZE);
+  };
 
   return (
-    <FontSizeContext.Provider value={{ fontSize, changeFontSize }}>
-      {/* Kita render children LANGSUNG tanpa wrapper div style */}
+    <FontSizeContext.Provider value={{ fontSize, changeFontSize, resetFontSize }}>
       {children}
     </FontSizeContext.Provider>
   );
