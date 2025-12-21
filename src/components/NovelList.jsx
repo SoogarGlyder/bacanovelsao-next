@@ -43,7 +43,6 @@ function NovelList({ activeSerie, onNovelClick }) {
                   fill
                   sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 20vw"
                   className={styles.contentCoverImg}
-                  style={{ objectFit: 'cover' }}
                   priority={false}
                 />
               </div>
