@@ -5,13 +5,15 @@ import styles from './CommentSection.module.css';
 
 export default function CommentSection({ novelSlug, chapterSlug }) {
   const [comments, setComments] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({ name: '', content: '' });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    fetchComments();
+    if (chapterSlug) {
+      fetchComments();
+    }
   }, [chapterSlug]);
 
   const fetchComments = async () => {
@@ -85,6 +87,7 @@ export default function CommentSection({ novelSlug, chapterSlug }) {
             className={styles.input}
             required
             maxLength={50}
+            disabled={submitting}
           />
         </div>
         <div className={styles.inputGroup}>
@@ -95,16 +98,19 @@ export default function CommentSection({ novelSlug, chapterSlug }) {
             className={styles.textarea}
             required
             maxLength={1000}
+            disabled={submitting}
           />
         </div>
+
         <button 
           type="submit" 
           className={styles.button} 
-          disabled={isSubmitting || !formData.name || !formData.content}
+          disabled={submitting || !formData.name || !formData.content}
         >
-          {isSubmitting ? 'Mengirim...' : 'Kirim Komentar'}
+          {submitting ? 'Mengirim...' : 'Kirim Komentar'}
         </button>
-        {message && <p className={styles.message}>{message}</p>}
+
+        {error && <p className={styles.message} style={{color: 'red', marginTop: '10px'}}>{error}</p>}
       </form>
 
       <div className={styles.list}>
