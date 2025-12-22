@@ -42,7 +42,8 @@ export async function GET(request) {
 
 export async function POST(request) {
   try {
-    const ip = request.headers.get('x-forwarded-for') || 'unknown-ip';
+    const forwarded = request.headers.get('x-forwarded-for');
+    const ip = forwarded ? forwarded.split(',')[0] : 'unknown-ip';
     
     if (isRateLimited(ip)) {
       return NextResponse.json(
