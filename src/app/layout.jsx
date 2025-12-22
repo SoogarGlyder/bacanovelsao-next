@@ -32,6 +32,7 @@ export const metadata = {
     default: 'Beranda | Baca Novel SAO',
   },
   description: 'Baca Novel Sword Art Online Bahasa Indonesia lengkap. Aincrad, Progressive, Gun Gale Online, dan lainnya.',
+  applicationName: 'Baca Novel SAO',
   keywords: ["novel sao", "sword art online", "aincrad", "progressive", "light novel", "baca online", "ggo", "novel fantasi"],
   manifest: '/manifest.json',
   icons: {
@@ -39,6 +40,11 @@ export const metadata = {
     apple: '/icon-512.png',
   },
   openGraph: {
+    title: 'Baca Novel SAO',
+    description: 'Baca Novel Seri Sword Art Online (SAO) lengkap Bahasa Indonesia.',
+    url: 'https://bacanovelsao.vercel.app',
+    siteName: 'Baca Novel SAO',
+    locale: 'id_ID',
     type: 'website',
     siteName: 'Baca Novel SAO',
     images: [
@@ -58,6 +64,13 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Baca Novel SAO',
+    alternateName: ['Novel SAO', 'SAO Reader'],
+    url: 'https://bacanovelsao.vercel.app',
+  };
   return (
     <html lang="id" suppressHydrationWarning>
       <head>
@@ -75,7 +88,6 @@ export default function RootLayout({ children }) {
       <body suppressHydrationWarning>
         <Providers>
           <Header /> 
-
           <main style={{ 
             marginTop: 'var(--total-header-height)', 
             minHeight: 'calc(100vh - var(--total-header-height))',
@@ -85,14 +97,9 @@ export default function RootLayout({ children }) {
           }}>
             {children}
           </main>
-
           <Footer />
-
-          {/* Tombol Pengaturan (Theme & Font) */}
           <FloatingSettings />
-          
         </Providers>
-
         <GoogleAnalytics gaId="G-3Y3LMERW26" />
       </body>
     </html>

@@ -96,7 +96,6 @@
 .divider {
   border: 0;
   border-top: 2px solid var(--input-border);
-  margin-top: 15px;
   margin-bottom: 15px;
 }
 .content {

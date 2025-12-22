@@ -151,7 +151,7 @@ export default function ChapterClient({
               <h1>{novel.title}</h1>
               <h2>{chapter.title}</h2>
               <span style={{ fontSize: '0.9rem', color: '#888' }}>
-                  Estimasi waktu baca: {readingTime} menit
+                Estimasi waktu baca: {readingTime} menit
               </span>
             </div>
             

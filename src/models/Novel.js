@@ -31,6 +31,10 @@ const novelSchema = new mongoose.Schema({
         type: String,
         required: false
     },
+    views: {
+        type: Number,
+        default: 0
+    },
     last_updated: {
         type: Date,
         default: Date.now

@@ -65,8 +65,12 @@ export async function GET(request, { params }) {
   try {
     const { id } = await params;
     await dbConnect();
-
-    const novel = await Novel.findById(id);
+    
+    const novel = await Novel.findByIdAndUpdate(
+      id,
+      { $inc: { views: 1 } }, 
+      { new: true } 
+    );
 
     if (!novel) {
       return NextResponse.json(

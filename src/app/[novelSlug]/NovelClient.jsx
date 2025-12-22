@@ -143,8 +143,10 @@ export default function NovelClient({ initialNovel, initialChapters }) {
         <div className={styles.chapterHeader}>
           <h1>{novel.title}</h1>
           <h2>Sinopsis</h2>
+          <span style={{ fontSize: '0.9rem', color: '#888' }}>
+            Sudah dilihat oleh {novel.views ? novel.views.toLocaleString() : 0} pembaca
+          </span>
         </div>
-
         <hr className={styles.divider} />
         
         <div className={styles.content}>
