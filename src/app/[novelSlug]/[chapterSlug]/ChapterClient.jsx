@@ -12,6 +12,7 @@ import Breadcrumbs from '../../../components/Breadcrumbs';
 import { useGlobalContext } from '../../providers'; 
 import ReadingProgressBar from '../../../components/ReadingProgressBar';
 import { saveReadingHistory } from '../../../utils/readingHistory';
+import CommentSection from '../../../components/CommentSection';
 
 export default function ChapterClient({
   novel, 
@@ -191,6 +192,10 @@ export default function ChapterClient({
                 {nextChapter ? 'Chapter Selanjutnya »' : 'Novel Selanjutnya »'}
               </button>
             </div>
+            <CommentSection 
+              novelSlug={novelSlug} 
+              chapterSlug={chapterSlug} 
+            />
       </main>
 
       <aside className={styles.rightSidebar}>
