@@ -30,8 +30,13 @@ export default function CommentSection({ novelSlug, chapterSlug }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setMessage('');
+    if (!formData.name.trim() || !formData.content.trim()) {
+        setError("Nama dan komentar tidak boleh kosong.");
+        return;
+    }
+
+    setSubmitting(true);
+    setError('');
 
     try {
       const res = await fetch('/api/comments', {
@@ -46,18 +51,23 @@ export default function CommentSection({ novelSlug, chapterSlug }) {
       });
 
       const result = await res.json();
+      
+      console.log("Respon Server:", result); 
 
-      if (result.success) {
-        setFormData({ name: '', content: '' });
-        fetchComments(); 
-        setMessage('Komentar berhasil dikirim!');
-      } else {
-        setMessage('Gagal mengirim: ' + result.error);
+      if (!res.ok || !result.success) {
+        const pesanError = result.error || result.message || "Terjadi kesalahan misterius.";
+        throw new Error(pesanError);
       }
-    } catch (error) {
-      setMessage('Terjadi kesalahan jaringan.');
+
+      setFormData({ name: '', content: '' });
+      fetchComments(); 
+      alert("Komentar berhasil dikirim!");
+
+    } catch (err) {
+      console.error(err);
+      setError(err.message);
     } finally {
-      setIsSubmitting(false);
+      setSubmitting(false);
     }
   };
 
