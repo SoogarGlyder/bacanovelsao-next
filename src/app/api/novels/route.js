@@ -2,12 +2,28 @@ import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
 import Novel from '@/models/Novel';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request) {
   try {
     await dbConnect();
 
     const { searchParams } = new URL(request.url);
     const serie = searchParams.get('serie');
+    const slug = searchParams.get('slug');
+
+    if (slug) {
+        const novel = await Novel.findOneAndUpdate(
+            { novel_slug: slug },
+            { $inc: { views: 1 } },
+            { new: true }
+        );
+
+        if (!novel) {
+            return NextResponse.json({ success: false, error: 'Novel not found' }, { status: 404 });
+        }
+        return NextResponse.json({ success: true, data: novel }, { status: 200 });
+    }
 
     let query = {};
     if (serie) {

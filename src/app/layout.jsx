@@ -60,7 +60,10 @@ export const metadata = {
   },
   other: {
     "google-adsense-account": "ca-pub-4365395677457990"
-  }  
+  }, 
+  verification: {
+    google: 'nhiEmkP869Z5j_Sm6ArCX-QUlFNlEl-tHBl2aP5kQHk',
+  },
 };
 
 export default function RootLayout({ children }) {

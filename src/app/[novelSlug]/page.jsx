@@ -50,7 +50,11 @@ export default async function Page({ params }) {
   const { novelSlug } = await params;
   await dbConnect();
 
-  const novel = await Novel.findOne({ novel_slug: novelSlug }).lean();
+  const novel = await Novel.findOneAndUpdate(
+    { novel_slug: novelSlug },
+    { $inc: { views: 1 } },
+    { new: true }
+  ).lean();
 
   if (!novel) {
     notFound();

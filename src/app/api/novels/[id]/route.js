@@ -3,6 +3,8 @@ import dbConnect from '@/lib/dbConnect';
 import Novel from '@/models/Novel';
 import Chapter from '@/models/Chapter';
 
+export const dynamic = 'force-dynamic';
+
 export async function PUT(request, { params }) {
   try {
     const { id } = await params;
