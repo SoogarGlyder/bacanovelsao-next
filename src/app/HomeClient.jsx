@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import styles from '../components/Header.module.css';
 import NovelList from '../components/NovelList';
+import Footer from '@/components/Footer';
 
 const seriesTabs = [
   { id: 'main', name: 'Main' },
