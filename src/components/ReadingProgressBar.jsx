@@ -5,39 +5,57 @@ import React, { useEffect, useState } from 'react';
 const ReadingProgressBar = () => {
   const [width, setWidth] = useState(0);
 
-  const scrollHeight = () => {
-    if (typeof window === 'undefined') return;
+  useEffect(() => {
+    let animationFrameId;
 
-    const el = document.documentElement;
-    const ScrollTop = el.scrollTop || document.body.scrollTop;
-    const ScrollHeight = el.scrollHeight || document.body.scrollHeight;
-    const clientHeight = el.clientHeight;
-    
-    if (ScrollHeight - clientHeight <= 0) {
+    const updateProgress = () => {
+      const currentScroll = window.scrollY || document.documentElement.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight;
+      const clientHeight = document.documentElement.clientHeight;
+      const totalScrollable = scrollHeight - clientHeight;
+
+      if (totalScrollable <= 0) {
         setWidth(0);
         return;
-    }
+      }
 
-    const percent = (ScrollTop / (ScrollHeight - clientHeight)) * 100;
-    setWidth(percent);
-  };
+      const percent = (currentScroll / totalScrollable) * 100;
+      const constrainedPercent = Math.min(100, Math.max(0, percent));
+      setWidth(constrainedPercent);
+    };
 
-  useEffect(() => {
-    window.addEventListener('scroll', scrollHeight);
-    return () => window.removeEventListener('scroll', scrollHeight);
+    const onScroll = () => {
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+      animationFrameId = requestAnimationFrame(updateProgress);
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    updateProgress();
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    };
   }, []);
 
+  if (width === 0) return null;
+
   return (
-    <div style={{
-      position: 'fixed',
-      top: 'var(--total-header-height, 60px)', 
-      left: 0,
-      width: `${width}%`,
-      height: '4px',
-      backgroundColor: '#38b6ff',
-      zIndex: 9999,
-      transition: 'width 0.1s ease-out'
-    }} />
+    <div 
+      style={{
+        position: 'absolute',
+        top: 'var(--total-header-height)',
+        left: 0,
+        width: `${width}%`,
+        height: '4px', 
+        backgroundColor: 'var(--primary, #38b6ff)',
+        zIndex: 1002, 
+        transition: 'width 0.1s ease-out',
+        borderTopRightRadius: '2px',
+        borderBottomRightRadius: '2px',
+        pointerEvents: 'none',
+      }} 
+    />
   );
 };
 

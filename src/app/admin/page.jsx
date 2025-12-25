@@ -46,7 +46,7 @@ export default function AdminDashboard() {
 
   if (isMobile) {
     return (
-      <div className={styles.adminContainer} style={{ textAlign: 'center', padding: '50px' }}>
+      <div className={styles.adminContainer} style={{ textAlign: 'center', padding: '50px', height: '100vh', alignContent: 'center'}}>
         <h1 style={{color: '#ff6347'}}>Akses Dibatasi</h1>
         <p>Dashboard Administrasi hanya dapat diakses pada layar dengan lebar minimal 769px (Desktop/Tablet besar).</p>
       </div>

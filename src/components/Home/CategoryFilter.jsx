@@ -1,10 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import Image from 'next/image';
-import styles from '../components/Header.module.css';
-import NovelList from '../components/NovelList';
-import Footer from '@/components/Footer';
+import styles from './CategoryFilter.module.css';
 
 const seriesTabs = [
   { id: 'main', name: 'Main' },
@@ -16,22 +13,21 @@ const seriesTabs = [
   { id: 'mystery', name: 'Mystery Labyrinth' },
 ];
 
-export default function HomeClient() {
-  const [activeTab, setActiveTab] = useState('main');
+export default function CategoryFilter({ activeTab, setActiveTab }) {
   const navRef = useRef(null);
   const [maskStyle, setMaskStyle] = useState({});
+
   const updateMask = () => {
     const el = navRef.current;
     if (!el) return;
     
     const { scrollLeft, scrollWidth, clientWidth } = el;
     const isAtStart = scrollLeft <= 0;
-    const isAtEnd = scrollWidth - scrollLeft - clientWidth <= 1; 
-    
+    const isAtEnd = scrollWidth - scrollLeft - clientWidth <= 1;
     let maskImage = '';
 
     if (window.innerWidth > 1023) {
-      maskImage = ''; 
+      maskImage = '';
     } else if (isAtStart) {
       maskImage = 'linear-gradient(to right, black 85%, transparent 100%)';
     } else if (isAtEnd) {
@@ -53,32 +49,26 @@ export default function HomeClient() {
   }, []);
 
   return (
-    <>
-      <nav
-        className={styles.navContainer}
+    <div className={styles.wrapper}>
+      <div 
+        className={styles.filterContainer}
         ref={navRef}
         onScroll={updateMask}
-        style={{
-          marginTop: 'calc(0px - var(--nav-height))',
-          ...maskStyle 
-        }} 
+        style={maskStyle}
       >
-        {seriesTabs.map((tab) => (
-          <div
-            key={tab.id}
-            className={`${styles.navContent} ${
-              activeTab === tab.id ? styles.active : ''
-            }`}
-            onClick={() => setActiveTab(tab.id)}
-          >
-            {tab.name}
-          </div>
-        ))}
-      </nav>
-      <NovelList 
-        activeSerie={activeTab} 
-        onNovelClick={() => {}}
-      />
-    </>
+        {seriesTabs.map((tab) => {
+          const isActive = activeTab === tab.id;
+          return (
+            <div
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`${styles.filterItem} ${isActive ? styles.active : ''}`}
+            >
+              {tab.name}
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 }

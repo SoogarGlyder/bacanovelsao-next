@@ -92,7 +92,7 @@ export default function RootLayout({ children }) {
         <Providers>
           <Header /> 
           <main style={{ 
-            marginTop: 'var(--total-header-height)', 
+            marginTop: '0', 
             minHeight: 'calc(100vh - var(--total-header-height))',
             backgroundColor: 'var(--background)',
             color: 'var(--foreground)',

@@ -2,8 +2,9 @@
   --logo-height: 75px;
   --logo-margin-top: 10px;
   --logo-margin-bottom: 10px;
+  --total-logo: calc(var(--logo-height) + var(--logo-margin-top) + var(--logo-margin-bottom));
   --nav-height: 35px;
-  --total-header-height: calc(var(--logo-height) + var(--logo-margin-top) + var(--logo-margin-bottom) + var(--nav-height));
+  --total-header-height: calc(var(--total-logo) + var(--nav-height));
   --background: #ffffff;
   --foreground: #213547;
   --primary: #38b6ff;

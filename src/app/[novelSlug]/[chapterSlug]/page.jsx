@@ -57,7 +57,7 @@ export async function generateMetadata({ params }) {
   } catch (error) {
     console.error("Metadata Error:", error);
     return {
-      title: 'Baca Novel SAO | BacaNovelSAO',
+      title: 'Baca Novel SAO',
       description: 'Baca Novel Sword Art Online Bahasa Indonesia Lengkap.',
     };
   }
@@ -93,12 +93,14 @@ export default async function Page({ params }) {
   const serializedNext = nextChapter ? JSON.parse(JSON.stringify(nextChapter)) : null;
 
   return (
-    <ChapterClient 
-      novel={serializedNovel}
-      chapter={serializedCurrentChapter}
-      allChapters={serializedAllChapters}
-      prevChapter={serializedPrev}
-      nextChapter={serializedNext}
-    />
+    <>
+      <ChapterClient 
+        novel={serializedNovel}
+        chapter={serializedCurrentChapter}
+        allChapters={serializedAllChapters}
+        prevChapter={serializedPrev}
+        nextChapter={serializedNext}
+      />
+    </>
   );
 }

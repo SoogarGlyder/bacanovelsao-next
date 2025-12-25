@@ -5,7 +5,8 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation'; 
 import styles from './Header.module.css';
 import { useGlobalContext } from '../app/providers'; 
-import NovelList from './NovelList'; 
+import NovelList from './NovelList';
+import ReadingProgressBar from '@/components/ReadingProgressBar';
 
 const seriesTabs = [
   { id: 'main', name: 'Main' },
@@ -31,7 +32,12 @@ function Header() {
   const navRef = useRef(null);
   const [maskStyle, setMaskStyle] = useState({});
 
+  if (pathname && pathname.startsWith('/admin')) {
+      return null;
+  }
+
   const isHomePage = pathname === '/';
+  const isChapterPage = pathname ? pathname.split('/').filter(Boolean).length === 2 : false;
 
   const updateMask = () => {
     const el = navRef.current;
@@ -58,13 +64,17 @@ function Header() {
   };
 
   useEffect(() => {
-    updateMask();
-    window.addEventListener('resize', updateMask);
-    return () => window.removeEventListener('resize', updateMask);
+    // Jalankan updateMask hanya jika Navigasi ada (bukan di homepage)
+    if (!isHomePage) {
+      updateMask();
+      window.addEventListener('resize', updateMask);
+      return () => window.removeEventListener('resize', updateMask);
+    }
   }, [isHomePage]);
 
+  // Tutup dropdown jika user pindah ke Homepage
   useEffect(() => {
-    if (!isHomePage) {
+    if (isHomePage) {
       setIsListOpen(false);
     }
   }, [pathname, isHomePage, setIsListOpen]);
@@ -82,7 +92,7 @@ function Header() {
     <>
       <div className={styles.headerBar}>
         <div className={styles.containerImgHeader}>
-            <Link href="/" className={styles.imgHeader}>
+            <Link href="/" className={styles.imgHeader} onClick={() => setIsListOpen(false)}>
                 <img src="/header-sao.svg"
                      alt="Logo"
                      style={{ height: '100%' }}
@@ -112,12 +122,14 @@ function Header() {
             })}
           </nav>
         )}
+        {isChapterPage && <ReadingProgressBar />}
       </div>
       {!isHomePage && isListOpen && (
         <NovelList 
           activeSerie={dropdownSerie}
           onNovelClick={() => setIsListOpen(false)}
           navigate={router.push} 
+          isOverlay={true}
        />
       )}
     </>

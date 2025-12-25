@@ -2,7 +2,8 @@
   display: flex;
   width: 100%;
   max-width: 1440px; 
-  margin: 0 auto;
+  justify-self: center;
+  align-items: flex-start; 
   position: relative;
 }
 .mobileToggle {
@@ -12,13 +13,13 @@
   width: min(14.3vw, 205.771px);
   flex-shrink: 0; 
   position: sticky;
+  position: -webkit-sticky;
   top: var(--total-header-height);
   height: calc(100vh - var(--total-header-height)); 
-  overflow-y: auto; 
+  overflow-y: auto;
   background: var(--background);
   border-right: 1px solid var(--input-border);
   scrollbar-width: thin;
-  scrollbar-color: var(--primary) transparent;
 }
 .leftSidebarTitle {
   padding: 10px;
@@ -117,9 +118,6 @@
   padding: 15px;
   background-color: var(--input-bg); 
   border-left: 5px solid var(--primary);
-  border-top: 1px solid var(--input-border);
-  border-right: 1px solid var(--input-border);
-  border-bottom: 1px solid var(--input-border);
   border-radius: 4px;
   display: flex;
   align-items: center;
@@ -147,7 +145,6 @@
   font-size: 0.85rem;
   background: var(--input-bg);
   color: var(--foreground);
-  
   margin-top: 15px;
   padding: 15px;
   border-radius: 5px;
@@ -157,21 +154,21 @@
 @media (max-width: 767px) {
   .holyGrailLayout {
     flex-direction: column;
+    padding-top: 0 !important;
     padding: 10px;
-    gap: 15px;
-    margin-top: var(--total-header-height)
+    gap: 10px;
+    align-items: center;
   }
   .leftSidebar {
     z-index: 3;
-    width: 100%;
-    position: fixed;
+    width: 100vw;
     left: 0;
     height: auto;
     overflow-y: visible;
     padding-top: 4px;
     background: var(--card-bg);
     border-bottom: 1px solid var(--input-border);
-    top: var(--total-header-height);
+    border-right: 0px;
   }
   .mobileToggle {
     display: block;
@@ -188,7 +185,6 @@
   }
   .chapterList {
     background: var(--card-bg);
-    width: 100vw;
     font-size: 0.95em;
     text-align: center;
   }
@@ -199,7 +195,6 @@
     order: 2;
     width: 100%;
     padding: 0 10px;
-    padding-top: 32px;
     margin-left: unset;
     border-right: none;
     background: var(--card-bg);
@@ -227,5 +222,8 @@
   }
   .chapterHeader h1 {
     font-size: 2em;
+  }
+  .lastRead {
+    border-radius: 4px 0 0 4px;
   }
 }

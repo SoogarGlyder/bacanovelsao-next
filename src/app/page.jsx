@@ -1,17 +1,24 @@
 'use client';
 
-import React, { useEffect } from 'react';
-import { useGlobalContext } from './providers';
-import HomeClient from './HomeClient';
+import React, { useState } from 'react';
+import CategoryFilter from '@/components/Home/CategoryFilter';
+import HomeGrid from '@/components/Home/HomeGrid';
 
 export default function HomePage() {
-  const { setPageSerie, setDropdownSerie, setIsListOpen, isListOpen } = useGlobalContext();
+  const [activeTab, setActiveTab] = useState('main');
 
-  useEffect(() => {
-    setPageSerie('main');       
-    setDropdownSerie('main');
-    setIsListOpen(true);
-  }, [setPageSerie, setDropdownSerie, setIsListOpen]);
-  
-  return <HomeClient />;
+  return (
+    <div style={{ 
+      display: 'flex',
+      flexDirection: 'column',
+      width: '100%',
+      paddingBottom: '20px'
+    }}>
+      <CategoryFilter 
+        activeTab={activeTab} 
+        setActiveTab={setActiveTab} 
+      />
+      <HomeGrid activeSerie={activeTab} />
+    </div>
+  );
 }
