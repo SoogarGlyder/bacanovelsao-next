@@ -83,7 +83,19 @@ const TIMELINE_DATA = [
         url: "/progressive-the-seventh-day/bagian-5",
       }
     ]
-  }
+  },
+  {
+    id: 4,
+    date: "2 Desember 2022",
+    event: "Aria of a Starless Night",
+    items: [
+      {
+        serie: "Sword Art Online Progressive 001 | Bagian 1",
+        title: "Di hari ketujuh, Kirito mulai merasakan tekanan batin yang membuatnya tidak bisa tidur.",
+        url: "/progressive-i/aria-malam-tanpa-bintang-1",
+      }
+    ]
+  },
 ];
 
 export const metadata = {

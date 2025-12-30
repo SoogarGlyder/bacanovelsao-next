@@ -15,18 +15,32 @@ export default function NovelClient({ initialNovel, initialChapters }) {
   const router = useRouter();
   const { setPageSerie, setDropdownSerie, setIsListOpen } = useGlobalContext();
 
-  const [isListVisible, setIsListVisible] = useState(true);
+  const [isListVisible, setIsListVisible] = useState(false);
   const [lastRead, setLastRead] = useState(null);
 
   const novel = initialNovel;
   const allChapters = initialChapters || [];
   const novelSlug = novel.novel_slug;
 
+  // useEffect(() => {
+  //   setIsListVisible(window.innerWidth > 767);
+  //   const handleResize = () => {
+  //     setIsListVisible(window.innerWidth > 767);
+  //   };
+  //   window.addEventListener('resize', handleResize);
+  //   return () => window.removeEventListener('resize', handleResize);
+  // }, []);
   useEffect(() => {
-    setIsListVisible(window.innerWidth > 767);
+    if (typeof window !== 'undefined') {
+      if (window.innerWidth > 767) {
+        setIsListVisible(true);
+      }
+    }
+
     const handleResize = () => {
       setIsListVisible(window.innerWidth > 767);
     };
+    
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);

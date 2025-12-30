@@ -22,7 +22,7 @@ export default function ChapterClient({
 }) {
   const router = useRouter();
   const { setPageSerie } = useGlobalContext();
-  const [isListVisible, setIsListVisible] = useState(true);
+  const [isListVisible, setIsListVisible] = useState(false);
   const novelSlug = novel.novel_slug;
   const chapterSlug = chapter.chapter_slug;
   const { novels: serieNovels } = useNovelList(novel.serie);
@@ -31,9 +31,28 @@ export default function ChapterClient({
     window.scrollTo(0, 0);
   }, [chapter]);
 
+  // useEffect(() => {
+  //   setIsListVisible(window.innerWidth > 767);
+  //   const handleResize = () => setIsListVisible(window.innerWidth > 767);
+  //   window.addEventListener('resize', handleResize);
+  //   return () => window.removeEventListener('resize', handleResize);
+  // }, []);
   useEffect(() => {
-    setIsListVisible(window.innerWidth > 767);
-    const handleResize = () => setIsListVisible(window.innerWidth > 767);
+    // Cek layar saat pertama kali load
+    // Jika Desktop (>767px), baru kita buka paksa.
+    // Jika Mobile, biarkan tertutup (sesuai default state false).
+    if (typeof window !== 'undefined') {
+      if (window.innerWidth > 767) {
+        setIsListVisible(true);
+      }
+    }
+
+    const handleResize = () => {
+      // Otomatis buka jika layar dibesarkan ke mode desktop
+      // Otomatis tutup jika layar dikecilkan ke mode mobile
+      setIsListVisible(window.innerWidth > 767);
+    };
+
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
