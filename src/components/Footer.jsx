@@ -29,6 +29,7 @@ function Footer() {
           <h4 className={styles.columnTitle}>Menu</h4>
           <ul className={styles.linkList}>
             <li><Link href="/">Beranda</Link></li>
+            <li><Link href="/timeline">Kronologis</Link></li>
           </ul>
         </div>
 

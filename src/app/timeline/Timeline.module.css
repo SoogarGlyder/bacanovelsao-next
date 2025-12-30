@@ -1,0 +1,128 @@
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 4rem 20px;
+  color: var(--foreground);
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed var(--input-border);
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  letter-spacing: -1px;
+}
+
+.highlight {
+  background: linear-gradient(45deg, #0070f3, #00c6ff);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: var(--foreground);
+  opacity: 0.7;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.section {
+  margin-bottom: 3rem;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 15px;
+  border-bottom: 2px solid var(--input-border);
+  padding-bottom: 8px;
+  margin-bottom: 1rem;
+}
+
+.dateTitle {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0;
+}
+
+.eventDescription {
+  font-size: 1rem;
+  opacity: 0.7;
+  font-style: italic;
+  margin: 0;
+}
+
+.chapterList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.chapterItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  color: var(--foreground);
+  padding: 12px 10px;
+  border-bottom: 1px dashed var(--input-border);
+  transition: all 0.2s ease;
+}
+
+.chapterItem:last-child {
+  border-bottom: none;
+}
+
+.chapterItem:hover {
+  background-color: var(--card-bg);
+  padding-left: 20px;
+  color: #0070f3;
+}
+
+.itemContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.serieLabel {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: #888;
+  margin-bottom: 4px;
+  letter-spacing: 0.5px;
+}
+
+.chapterTitle {
+  font-size: 1.05rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.arrow {
+  font-size: 1.2rem;
+  opacity: 0.3;
+  transition: opacity 0.2s;
+}
+
+.chapterItem:hover .arrow {
+  opacity: 1;
+  color: #0070f3;
+}
+
+@media (max-width: 768px) {
+  .title { font-size: 2rem; }
+  
+  .sectionHeader {
+    flex-direction: column;
+    gap: 5px;
+  }
+}
