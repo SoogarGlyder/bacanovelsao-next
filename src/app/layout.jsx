@@ -6,19 +6,6 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import FloatingSettings from '@/components/FloatingSettings';
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "Baca Novel SAO",
-  "alternateName": ["BacaNovelSAO"],
-  "url": "https://bacanovelsao.vercel.app/",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": "https://bacanovelsao.vercel.app/?search={search_term_string}",
-    "query-input": "required name=search_term_string"
-  }
-};
-
 export const viewport = {
   themeColor: '#38b6ff',
   width: 'device-width',
@@ -46,7 +33,6 @@ export const metadata = {
     siteName: 'Baca Novel SAO',
     locale: 'id_ID',
     type: 'website',
-    siteName: 'Baca Novel SAO',
     images: [
       {
         url: '/social-cover.jpg',
@@ -71,9 +57,15 @@ export default function RootLayout({ children }) {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'Baca Novel SAO',
-    alternateName: ['Novel SAO', 'SAO Reader'],
+    alternateName: ['BacaNovelSAO', 'Novel SAO', 'SAO Reader'], 
     url: 'https://bacanovelsao.vercel.app',
+    potentialAction: {
+      "@type": "SearchAction",
+      "target": "https://bacanovelsao.vercel.app/?search={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
   };
+
   return (
     <html lang="id" suppressHydrationWarning>
       <head>

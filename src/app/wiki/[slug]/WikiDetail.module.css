@@ -1,0 +1,269 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 4rem 20px;
+  min-height: 80vh;
+  color: var(--foreground);
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 25px;
+  color: #888;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.backLink:hover {
+  color: var(--primary);
+}
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px -10px rgba(0,0,0,0.2);
+}
+
+.header {
+  padding: 30px 30px 20px 30px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 100%);
+  border-bottom: 1px solid var(--input-border);
+  text-align: center;
+  position: relative;
+}
+
+.themeCharacter { border-top: 5px solid #3b82f6; } /* Biru */
+.themeGuild { border-top: 5px solid #ef4444; }     /* Merah */
+.themeLocation { border-top: 5px solid #10b981; }  /* Hijau */
+
+.typeBadge {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background: var(--input-border);
+  padding: 4px 12px;
+  border-radius: 20px;
+  opacity: 0.8;
+}
+
+.name {
+  margin: 15px 0 5px 0;
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--primary);
+  font-size: 1.1rem;
+  opacity: 0.9;
+  font-style: italic;
+}
+
+/* --- BODY CONTENT --- */
+.body {
+  padding: 30px;
+  display: grid;
+  grid-template-columns: 200px 1fr; /* Kiri 200px, Kanan sisa */
+  gap: 35px;
+}
+
+/* --- IMAGE VIEWER & TABS (Updated Compact Style) --- */
+.viewerContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: var(--card-bg); 
+  border: 1px solid var(--input-border);
+  border-radius: 12px;
+  overflow: hidden; /* Sudut membulat untuk container */
+}
+
+/* 1. Header Tab */
+.tabHeader {
+  display: flex;
+  overflow-x: auto;
+  background: rgba(0,0,0,0.2);
+  border-bottom: 1px solid var(--input-border);
+  scrollbar-width: none; /* Hide scrollbar Firefox */
+}
+
+.tabHeader::-webkit-scrollbar {
+  display: none; /* Hide scrollbar Chrome/Safari */
+}
+
+/* 2. Tombol Tab (Compact Style) */
+.tabLink {
+  flex: 1;                 /* Membagi rata lebar */
+  min-width: auto;         /* Hapus lebar minimum */
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  
+  /* Ukuran Compact */
+  padding: 10px 5px;       
+  font-size: 0.8rem;       
+  
+  color: #888;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tabLink:hover {
+  color: var(--foreground);
+  background: rgba(255,255,255,0.02);
+}
+
+/* 3. Status Aktif */
+.activeTabLink {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+  background: rgba(0, 112, 243, 0.05);
+}
+
+/* 4. Area Gambar */
+.imageWrapper {
+  width: 100%;
+  aspect-ratio: 3/4; /* Rasio Potret */
+  position: relative;
+  background-color: #000;
+  border-radius: 0; /* Tidak perlu radius karena container sudah punya */
+  border: none; 
+}
+
+/* Animasi Fade */
+.animatedImage {
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* --- INFO SECTION (KANAN) --- */
+.infoSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.description {
+  line-height: 1.7;
+  opacity: 0.9;
+  margin-bottom: 25px;
+  text-align: justify;
+}
+
+/* Statistik Grid */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.statItem {
+  background: rgba(125, 125, 125, 0.05);
+  padding: 10px 15px;
+  border-radius: 8px;
+  border-left: 2px solid var(--input-border);
+}
+
+.statLabel {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: #888;
+  margin-bottom: 4px;
+}
+
+.statValue {
+  display: block;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+/* Timeline / References */
+.timelineSection {
+  margin-top: auto;
+  border-top: 1px dashed var(--input-border);
+  padding-top: 20px;
+}
+
+.timelineTitle {
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.timelineList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.timelineLink {
+  text-decoration: none;
+  color: var(--primary);
+  font-size: 0.95rem;
+  transition: padding-left 0.2s;
+}
+
+.timelineLink:hover {
+  text-decoration: underline;
+  padding-left: 5px;
+}
+
+@media (max-width: 768px) {
+  .body {
+    grid-template-columns: 1fr; /* Stack jadi 1 kolom */
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  /* Viewer di HP full width container */
+  .viewerContainer {
+    width: 100%;
+    margin: 0 auto;
+  }
+  
+  /* Sesuaikan rasio gambar di HP jika perlu, tapi 3/4 biasanya oke */
+  .imageWrapper {
+    aspect-ratio: 3/4;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .header {
+    padding: 20px;
+  }
+  
+  .name {
+    font-size: 1.8rem;
+  }
+
+  /* Font tab di HP sedikit lebih kecil lagi jika perlu */
+  .tabLink {
+    font-size: 0.75rem;
+    padding: 10px 4px;
+  }
+}

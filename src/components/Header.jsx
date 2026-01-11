@@ -37,7 +37,10 @@ function Header() {
   }
 
   const isHomePage = pathname === '/';
-  const isChapterPage = pathname ? pathname.split('/').filter(Boolean).length === 2 : false;
+  const isWikiPage = pathname?.startsWith('/wiki');
+  const isChapterPage = pathname && !isWikiPage
+    ? pathname.split('/').filter(Boolean).length === 2 
+    : false;
 
   const updateMask = () => {
     const el = navRef.current;
@@ -64,7 +67,6 @@ function Header() {
   };
 
   useEffect(() => {
-    // Jalankan updateMask hanya jika Navigasi ada (bukan di homepage)
     if (!isHomePage) {
       updateMask();
       window.addEventListener('resize', updateMask);
@@ -72,7 +74,6 @@ function Header() {
     }
   }, [isHomePage]);
 
-  // Tutup dropdown jika user pindah ke Homepage
   useEffect(() => {
     if (isHomePage) {
       setIsListOpen(false);

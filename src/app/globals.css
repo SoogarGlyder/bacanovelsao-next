@@ -99,9 +99,9 @@ button:not(:disabled):hover {
   font-weight: bold;
 }
 
-button:focus, button:focus-visible {
+/* button:focus, button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
-}
+} */
 
 .container {
   display: grid;

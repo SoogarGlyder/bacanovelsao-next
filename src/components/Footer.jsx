@@ -30,6 +30,7 @@ function Footer() {
           <ul className={styles.linkList}>
             <li><Link href="/">Beranda</Link></li>
             <li><Link href="/timeline">Kronologis</Link></li>
+            <li><Link href="/wiki"> Database / Wiki SAO </Link></li>
           </ul>
         </div>
 
