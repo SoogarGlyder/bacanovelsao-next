@@ -1,5 +1,8 @@
+/* src/app/wiki/[slug]/WikiDetail.module.css */
+
+/* --- CONTAINER UTAMA --- */
 .container {
-  max-width: 800px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 4rem 20px;
   min-height: 80vh;
@@ -25,21 +28,23 @@
   background: var(--card-bg);
   border: 1px solid var(--input-border);
   border-radius: 16px;
-  overflow: hidden;
   box-shadow: 0 10px 40px -10px rgba(0,0,0,0.2);
+  /* Overflow hidden dihapus agar sticky jalan di desktop */
 }
 
+/* --- HEADER --- */
 .header {
-  padding: 30px 30px 20px 30px;
+  padding: 30px;
   background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 100%);
   border-bottom: 1px solid var(--input-border);
   text-align: center;
   position: relative;
+  border-radius: 16px 16px 0 0;
 }
 
-.themeCharacter { border-top: 5px solid #3b82f6; } /* Biru */
-.themeGuild { border-top: 5px solid #ef4444; }     /* Merah */
-.themeLocation { border-top: 5px solid #10b981; }  /* Hijau */
+.themeCharacter { border-top: 5px solid #3b82f6; }
+.themeGuild { border-top: 5px solid #ef4444; }
+.themeLocation { border-top: 5px solid #10b981; }
 
 .typeBadge {
   font-size: 0.7rem;
@@ -56,6 +61,7 @@
   font-size: 2.2rem;
   font-weight: 800;
   letter-spacing: -0.5px;
+  line-height: 1.2;
 }
 
 .subtitle {
@@ -66,15 +72,22 @@
   font-style: italic;
 }
 
-/* --- BODY CONTENT --- */
+/* --- 🔥 BODY LAYOUT 🔥 --- */
 .body {
   padding: 30px;
   display: grid;
-  grid-template-columns: 200px 1fr; /* Kiri 200px, Kanan sisa */
+  grid-template-columns: 320px 1fr; /* Desktop: Kiri 320px */
   gap: 35px;
+  /* align-items: start dihapus agar height leftColumn stretch */
 }
 
-/* --- IMAGE VIEWER & TABS (Updated Compact Style) --- */
+.leftColumn, .rightColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+/* --- IMAGE VIEWER --- */
 .viewerContainer {
   display: flex;
   flex-direction: column;
@@ -82,34 +95,26 @@
   background: var(--card-bg); 
   border: 1px solid var(--input-border);
   border-radius: 12px;
-  overflow: hidden; /* Sudut membulat untuk container */
+  overflow: hidden;
 }
 
-/* 1. Header Tab */
 .tabHeader {
   display: flex;
   overflow-x: auto;
   background: rgba(0,0,0,0.2);
   border-bottom: 1px solid var(--input-border);
-  scrollbar-width: none; /* Hide scrollbar Firefox */
+  scrollbar-width: none;
 }
+.tabHeader::-webkit-scrollbar { display: none; }
 
-.tabHeader::-webkit-scrollbar {
-  display: none; /* Hide scrollbar Chrome/Safari */
-}
-
-/* 2. Tombol Tab (Compact Style) */
 .tabLink {
-  flex: 1;                 /* Membagi rata lebar */
-  min-width: auto;         /* Hapus lebar minimum */
+  flex: 1;
+  min-width: auto;
   background: transparent;
   border: none;
   border-bottom: 2px solid transparent;
-  
-  /* Ukuran Compact */
   padding: 10px 5px;       
   font-size: 0.8rem;       
-  
   color: #888;
   font-weight: 600;
   cursor: pointer;
@@ -125,145 +130,184 @@
   background: rgba(255,255,255,0.02);
 }
 
-/* 3. Status Aktif */
 .activeTabLink {
   color: var(--primary);
   border-bottom-color: var(--primary);
   background: rgba(0, 112, 243, 0.05);
 }
 
-/* 4. Area Gambar */
 .imageWrapper {
   width: 100%;
-  aspect-ratio: 3/4; /* Rasio Potret */
+  aspect-ratio: 3/4;
   position: relative;
   background-color: #000;
-  border-radius: 0; /* Tidak perlu radius karena container sudah punya */
   border: none; 
 }
 
-/* Animasi Fade */
 .animatedImage {
   animation: fadeIn 0.4s ease-in-out;
 }
-
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
-/* --- INFO SECTION (KANAN) --- */
-.infoSection {
-  display: flex;
-  flex-direction: column;
+/* --- 🔥 INFO BOX (STICKY) 🔥 --- */
+.infoBox {
+  border: 1px solid var(--input-border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--card-bg);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  
+  /* Desktop Sticky */
+  position: sticky;
+  position: -webkit-sticky;
+  top: 100px; 
+  z-index: 5;
 }
 
-.description {
-  line-height: 1.7;
-  opacity: 0.9;
-  margin-bottom: 25px;
-  text-align: justify;
+.infoBoxHeader {
+  color: white;
+  padding: 12px;
+  text-align: center;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.9rem;
 }
 
-/* Statistik Grid */
+.infoTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  /* 🔥 FIX MOBILE: Pastikan tabel tidak melebar */
+  table-layout: fixed; 
+}
+
+.infoTable tr {
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.infoTable tr:last-child {
+  border-bottom: none;
+}
+
+.infoLabel {
+  padding: 12px 10px;
+  background: rgba(255,255,255,0.03);
+  font-weight: 600;
+  width: 35%; /* Perkecil sedikit label agar value muat */
+  color: #ccc;
+  vertical-align: top;
+  word-wrap: break-word; /* Mencegah label panjang memotong layout */
+}
+
+.infoValue {
+  padding: 12px 10px;
+  color: var(--foreground);
+  vertical-align: top;
+  line-height: 1.5;
+  /* 🔥 FIX MOBILE: Text wrap wajib aktif */
+  word-wrap: break-word; 
+  word-break: break-word;
+}
+
+/* --- SECTION TITLE --- */
+.sectionTitle {
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 2px solid var(--input-border);
+  padding-bottom: 8px;
+  margin: 0 0 15px 0;
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+/* --- STATS GRID --- */
+.statsContainer { margin-bottom: 10px; }
 .statsGrid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 15px;
-  margin-bottom: 30px;
 }
-
 .statItem {
   background: rgba(125, 125, 125, 0.05);
-  padding: 10px 15px;
+  padding: 12px 15px;
   border-radius: 8px;
-  border-left: 2px solid var(--input-border);
+  border: 1px solid var(--input-border);
 }
-
 .statLabel {
-  display: block;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  color: #888;
-  margin-bottom: 4px;
+  display: block; font-size: 0.75rem; text-transform: uppercase; color: #888; margin-bottom: 4px;
 }
-
 .statValue {
-  display: block;
-  font-weight: 600;
-  font-size: 1rem;
+  display: block; font-weight: 600; font-size: 1rem;
 }
 
-/* Timeline / References */
-.timelineSection {
-  margin-top: auto;
-  border-top: 1px dashed var(--input-border);
-  padding-top: 20px;
+/* --- DESCRIPTION --- */
+.descSection { margin-bottom: 10px; }
+.descParagraph {
+  line-height: 1.8; margin-bottom: 15px; color: #bbb; text-align: justify;
 }
 
-.timelineTitle {
-  font-size: 0.9rem;
-  font-weight: bold;
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.timelineList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
+/* --- TIMELINE --- */
+.timelineSection { margin-top: 10px; padding-top: 10px; }
+.timelineTitle { display: none; }
+.timelineList { list-style: none; padding: 0; margin: 0; }
 .timelineLink {
-  text-decoration: none;
-  color: var(--primary);
-  font-size: 0.95rem;
-  transition: padding-left 0.2s;
+  display: flex; align-items: center; gap: 10px; padding: 12px;
+  border-radius: 8px; text-decoration: none; color: #ccc;
+  border: 1px solid transparent; transition: all 0.2s;
+  background: rgba(255,255,255,0.02); margin-bottom: 8px;
 }
-
 .timelineLink:hover {
-  text-decoration: underline;
-  padding-left: 5px;
+  background: rgba(255,255,255,0.05); color: var(--primary); border-color: var(--input-border);
+  transform: translateX(5px);
 }
 
-@media (max-width: 768px) {
+/* --- 🔥 RESPONSIF MOBILE (OPTIMIZED) 🔥 --- */
+@media (max-width: 900px) {
+  .container { 
+    padding: 2rem 15px; /* Padding luar diperkecil */
+  }
+  
   .body {
-    grid-template-columns: 1fr; /* Stack jadi 1 kolom */
-    gap: 20px;
-    padding: 20px;
+    display: block;
+    padding: 15px; /* 🔥 PENTING: Padding dalam diperkecil (sebelumnya 30px) */
+    padding-top: 20px;
   }
   
-  /* Viewer di HP full width container */
-  .viewerContainer {
+  .leftColumn {
+    max-width: 100%; /* Full width */
     width: 100%;
-    margin: 0 auto;
-  }
-  
-  /* Sesuaikan rasio gambar di HP jika perlu, tapi 3/4 biasanya oke */
-  .imageWrapper {
-    aspect-ratio: 3/4;
+    margin: 0;
+    padding-bottom: 25px;
+    gap: 0px;
   }
 
-  .statsGrid {
-    grid-template-columns: 1fr;
+  .rightColumn {
+    gap: 0px;
+  }
+  /* Reset Sticky di HP */
+  .infoBox {
+    position: relative;
+    top: 0;
+  }
+  
+  /* Font size judul diperkecil agar tidak offside */
+  .name {
+    font-size: 1.6rem;
   }
 
   .header {
-    padding: 20px;
+    padding: 20px 15px;
   }
   
-  .name {
-    font-size: 1.8rem;
+  .infoLabel {
+    width: 30%; /* Label diperkecil di HP */
+    font-size: 0.8rem;
   }
-
-  /* Font tab di HP sedikit lebih kecil lagi jika perlu */
-  .tabLink {
-    font-size: 0.75rem;
-    padding: 10px 4px;
+  .infoValue {
+    font-size: 0.9rem;
   }
 }

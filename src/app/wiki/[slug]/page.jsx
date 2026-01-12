@@ -5,6 +5,22 @@ import { WIKI_DATA } from '@/data/wikiData';
 import styles from './WikiDetail.module.css';
 import WikiImageViewer from './WikiImageViewer';
 
+const formatDescription = (text) => {
+  if (!text) return null;
+  return text.split('\n').map((paragraph, index) => (
+    <p key={index} className={styles.descParagraph}>
+      {paragraph}
+    </p>
+  ));
+};
+
+const formatInfoValue = (text) => {
+  if (!text) return '-';
+  return text.split('\n').map((line, idx) => (
+    <div key={idx}>{line}</div>
+  ));
+};
+
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const data = WIKI_DATA[slug];
@@ -15,7 +31,7 @@ export async function generateMetadata({ params }) {
 
   return {
     title: `${data.name} | Wiki BacaNovelSAO`,
-    description: data.description.substring(0, 160) + '...', 
+    description: data.description ? data.description.substring(0, 160) + '...' : 'Detail Karakter', 
   };
 }
 
@@ -50,11 +66,17 @@ export default async function WikiDetailPage({ params }) {
       dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
     />
   );
-  
+
   const getThemeClass = (type) => {
     if (type === 'guild') return styles.themeGuild;       
     if (type === 'location') return styles.themeLocation; 
     return styles.themeCharacter;                         
+  };
+
+  const getAccentColor = () => {
+    if (entry.type === 'guild') return '#ef4444'; // Merah
+    if (entry.type === 'location') return '#10b981'; // Hijau
+    return '#3b82f6'; // Biru (Default Character)
   };
 
   return (
@@ -66,7 +88,6 @@ export default async function WikiDetailPage({ params }) {
       </Link>
 
       <div className={styles.card}>
-        
         <div className={`${styles.header} ${getThemeClass(entry.type)}`}>
           <span className={styles.typeBadge}>{entry.type}</span>
           <h1 className={styles.name}>{entry.name}</h1>
@@ -74,31 +95,60 @@ export default async function WikiDetailPage({ params }) {
         </div>
 
         <div className={styles.body}>
-          <div style={{ width: '100%' }}>
-            <WikiImageViewer 
-              images={entry.images} 
-              altText={entry.name} 
-            />
-          </div>
-          <div className={styles.infoSection}>
-            <p className={styles.description}>
-              {entry.description}
-            </p>
-
-            <div className={styles.statsGrid}>
-              {entry.stats && entry.stats.map((stat, idx) => (
-                <div key={idx} className={styles.statItem}>
-                  <span className={styles.statLabel}>{stat.label}</span>
-                  <span className={styles.statValue}>{stat.value}</span>
-                </div>
-              ))}
+          <div className={styles.leftColumn}>
+            <div style={{ width: '100%', marginBottom: '20px' }}>
+              <WikiImageViewer 
+                images={entry.images} 
+                altText={entry.name} 
+              />
             </div>
+            {entry.info && (
+              <div className={styles.infoBox}>
+                <div 
+                  className={styles.infoBoxHeader} 
+                  style={{ backgroundColor: getAccentColor() }}
+                >
+                  Personal Information
+                </div>
+                <table className={styles.infoTable}>
+                  <tbody>
+                    {entry.info.map((item, idx) => (
+                      <tr key={idx}>
+                        <td className={styles.infoLabel}>{item.label}</td>
+                        <td className={styles.infoValue}>
+                          {formatInfoValue(item.value)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
 
+          <div className={styles.rightColumn}>
+            <div className={styles.descSection}>
+               <h3 className={styles.sectionTitle}>Deskripsi</h3>
+               <div className={styles.description}>
+                  {formatDescription(entry.description)}
+               </div>
+            </div>
+            {entry.stats && (
+              <div className={styles.statsContainer}>
+                <h3 className={styles.sectionTitle}>Game Stats</h3>
+                <div className={styles.statsGrid}>
+                  {entry.stats.map((stat, idx) => (
+                    <div key={idx} className={styles.statItem}>
+                      <span className={styles.statLabel}>{stat.label}</span>
+                      <span className={styles.statValue}>{stat.value}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
             {entry.appearances && entry.appearances.length > 0 && (
               <div className={styles.timelineSection}>
-                <div className={styles.timelineTitle}>
-                  ⚡ Kemunculan / Referensi Timeline
-                </div>
+                <h3 className={styles.sectionTitle}>Kejadian</h3>
                 <ul className={styles.timelineList}>
                   {entry.appearances.map((item, idx) => (
                     <li key={idx}>
@@ -110,7 +160,6 @@ export default async function WikiDetailPage({ params }) {
                 </ul>
               </div>
             )}
-
           </div>
         </div>
       </div>
