@@ -8,16 +8,21 @@ import WikiImageViewer from './WikiImageViewer';
 const formatDescription = (text) => {
   if (!text) return null;
   return text.split('\n').map((paragraph, index) => (
-    <p key={index} className={styles.descParagraph}>
-      {paragraph}
-    </p>
+    <p 
+      key={index} 
+      className={styles.descParagraph}
+      dangerouslySetInnerHTML={{ __html: paragraph }}
+    />
   ));
 };
 
 const formatInfoValue = (text) => {
   if (!text) return '-';
   return text.split('\n').map((line, idx) => (
-    <div key={idx}>{line}</div>
+    <div 
+      key={idx}
+      dangerouslySetInnerHTML={{ __html: line }}
+    />
   ));
 };
 
@@ -29,9 +34,13 @@ export async function generateMetadata({ params }) {
     return { title: 'Halaman Tidak Ditemukan' };
   }
 
+  const cleanDescription = data.description 
+    ? data.description.replace(/<[^>]*>?/gm, '') 
+    : 'Detail Karakter';
+
   return {
     title: `${data.name} | Wiki BacaNovelSAO`,
-    description: data.description ? data.description.substring(0, 160) + '...' : 'Detail Karakter', 
+    description: cleanDescription.substring(0, 160) + '...', 
   };
 }
 

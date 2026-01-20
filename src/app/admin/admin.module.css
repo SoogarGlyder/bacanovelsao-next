@@ -123,3 +123,42 @@
 .novelTable tr:hover {
     background-color: rgba(56, 182, 255, 0.1);
 }
+
+.scrollTopBtn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background-color: var(--primary); /* Mengikuti warna tema utama */
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 999;
+    
+    /* Efek Animasi Muncul */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Class tambahan saat tombol aktif/muncul */
+.showScroll {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.scrollTopBtn:hover {
+    background-color: #333; /* Warna gelap saat hover */
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+}

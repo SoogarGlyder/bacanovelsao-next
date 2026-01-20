@@ -8,38 +8,85 @@ import ChapterListAdmin from '@/components/admin/ChapterListAdmin';
 import ChapterForm from '@/components/admin/ChapterForm';
 import CommentListAdmin from '@/components/admin/CommentListAdmin';
 
+// Import Komponen Artikel
+import ArticleForm from '@/components/admin/ArticleForm';
+import ArticleListAdmin from '@/components/admin/ArticleListAdmin';
+
 export default function AdminDashboard() {
   const [novelToEdit, setNovelToEdit] = useState(null); 
   const [chapterToEdit, setChapterToEdit] = useState(null);
+  const [articleToEdit, setArticleToEdit] = useState(null); 
+
   const [refreshList, setRefreshList] = useState(false); 
   const [isMobile, setIsMobile] = useState(false);
-  const [activeTab, setActiveTab] = useState('novels');
+  
+  // --- STATE BARU UNTUK TOMBOL SCROLL ---
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
   useEffect(() => {
+    // Cek Mobile
     const checkResize = () => setIsMobile(window.innerWidth < 768);
     checkResize();
     window.addEventListener('resize', checkResize);
-    return () => window.removeEventListener('resize', checkResize);
+
+    // Cek Posisi Scroll untuk tombol Top
+    const checkScroll = () => {
+      if (window.scrollY > 400) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+    };
+    window.addEventListener('scroll', checkScroll);
+
+    return () => {
+        window.removeEventListener('resize', checkResize);
+        window.removeEventListener('scroll', checkScroll);
+    };
   }, []);
+
+  // --- Fungsi Go To Top ---
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
 
   const handleSaveSuccess = () => {
     setNovelToEdit(null); 
     setChapterToEdit(null);
+    setArticleToEdit(null);
     setRefreshList(prev => !prev); 
+    // Opsional: Scroll ke atas sedikit setelah save
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleEditNovel = (novel) => {
-    setChapterToEdit(null);
+    setChapterToEdit(null); setArticleToEdit(null);
     const form = document.getElementById('edit-novel-form');
     if(form) form.scrollIntoView({ behavior: 'smooth' });
     setNovelToEdit(novel);
   };
   
   const handleEditChapter = (chapter) => {
-    setNovelToEdit(null);
+    setNovelToEdit(null); setArticleToEdit(null);
     const form = document.getElementById('edit-chapter-form');
     if(form) form.scrollIntoView({ behavior: 'smooth' });
     setChapterToEdit(chapter);
+  };
+
+  const handleEditArticle = (article) => {
+    setNovelToEdit(null); setChapterToEdit(null);
+    const form = document.getElementById('edit-article-form');
+    if(form) form.scrollIntoView({ behavior: 'smooth' });
+    setArticleToEdit(article);
+  };
+
+  const scrollToSection = (id) => {
+     setNovelToEdit(null); setChapterToEdit(null); setArticleToEdit(null);
+     const element = document.getElementById(id);
+     if(element) element.scrollIntoView({ behavior: 'smooth' });
   };
 
   const listKey = refreshList ? 'refresh' : 'initial'; 
@@ -55,56 +102,29 @@ export default function AdminDashboard() {
 
   return (
     <div className={styles.adminContainer}>
-      <h1>Dashboard Administrasi Novel (Local)</h1>
+      <h1>Dashboard Administrasi (CMS)</h1>
       
       <div className={styles.adminMenu}>
-        <h2>Kelola Data</h2>
+        <h2>Menu Cepat</h2>
         <ul>
-          <li>
-            <a href="#kelola-novel" onClick={(e) => { 
-              e.preventDefault(); 
-              setNovelToEdit(null); 
-              setChapterToEdit(null); 
-              document.getElementById('kelola-novel').scrollIntoView({behavior:'smooth'}); 
-            }}>
-              Kelola Novel
-            </a>
+          <li><a href="#kelola-novel" onClick={(e) => { e.preventDefault(); scrollToSection('kelola-novel'); }}>List Novel</a></li>
+          <li><a href="#kelola-chapter" onClick={(e) => { e.preventDefault(); scrollToSection('kelola-chapter'); }}>List Chapter</a></li>
+          <li><a href="#kelola-artikel" onClick={(e) => { e.preventDefault(); scrollToSection('kelola-artikel'); }}>List Artikel</a></li>
+          <li><a href="#kelola-komentar" onClick={(e) => { e.preventDefault(); scrollToSection('kelola-komentar'); }}>Komentar</a></li>
+          <li style={{ borderLeft: '2px solid #ccc', paddingLeft: '15px' }}>
+             <a href="#edit-novel-form" onClick={(e) => { e.preventDefault(); scrollToSection('edit-novel-form'); }}>+ Novel Baru</a>
           </li>
-          <li>
-            <a href="#kelola-chapter" onClick={(e) => { 
-              e.preventDefault(); 
-              setNovelToEdit(null); 
-              setChapterToEdit(null); 
-              document.getElementById('kelola-chapter').scrollIntoView({behavior:'smooth'}); 
-            }}>
-              Kelola Chapter
-            </a>
-          </li>
-          <li>
-            <a href="#kelola-komentar" onClick={(e) => { 
-              e.preventDefault(); 
-              setNovelToEdit(null); 
-              setChapterToEdit(null); 
-              document.getElementById('kelola-komentar').scrollIntoView({behavior:'smooth'}); 
-            }}>
-              Kelola Komentar
-            </a>
-          </li>
-          <li>
-            <a href="#buat-novel" onClick={(e) => { 
-              e.preventDefault(); 
-              setNovelToEdit(null); 
-              setChapterToEdit(null); 
-              document.getElementById('edit-novel-form').scrollIntoView({behavior:'smooth'}); 
-            }}>
-              Buat Baru
-            </a>
-          </li>
+          <li><a href="#edit-chapter-form" onClick={(e) => { e.preventDefault(); scrollToSection('edit-chapter-form'); }}>+ Chapter Baru</a></li>
+          <li><a href="#edit-article-form" onClick={(e) => { e.preventDefault(); scrollToSection('edit-article-form'); }}>+ Artikel Baru</a></li>
         </ul>
       </div>
       
-      <section id="edit-novel-form" style={{ marginTop: '30px' }}>
-          <h3>{novelToEdit ? 'Edit Novel' : 'Buat Novel Baru'}</h3>
+      {/* --- FORM SECTIONS --- */}
+      
+      <section id="edit-novel-form" style={{ marginTop: '40px' }}>
+          <h3 style={{ borderLeft: '5px solid var(--primary)', paddingLeft: '10px' }}>
+             {novelToEdit ? `Edit Novel: ${novelToEdit.title}` : 'Buat Novel Baru'}
+          </h3>
           <NovelForm 
             novelToEdit={novelToEdit}
             onSaveSuccess={handleSaveSuccess}
@@ -112,8 +132,10 @@ export default function AdminDashboard() {
           />
       </section>
       
-      <section id="edit-chapter-form" style={{ marginTop: '30px' }}>
-          <h3>{chapterToEdit ? 'Edit Chapter' : 'Buat Chapter Baru'}</h3>
+      <section id="edit-chapter-form" style={{ marginTop: '40px', borderTop: '1px dashed #ccc', paddingTop: '20px' }}>
+          <h3 style={{ borderLeft: '5px solid #FF9800', paddingLeft: '10px' }}>
+             {chapterToEdit ? `Edit Chapter: ${chapterToEdit.title}` : 'Buat Chapter Baru'}
+          </h3>
           <ChapterForm 
             chapterToEdit={chapterToEdit}
             onSaveSuccess={handleSaveSuccess}
@@ -121,7 +143,20 @@ export default function AdminDashboard() {
           />
       </section>
 
-      <section id="kelola-novel" style={{ marginTop: '30px', borderTop: '2px solid #eee', paddingTop: '20px' }}>
+      <section id="edit-article-form" style={{ marginTop: '40px', borderTop: '1px dashed #ccc', paddingTop: '20px' }}>
+          <h3 style={{ borderLeft: '5px solid #4CAF50', paddingLeft: '10px' }}>
+             {articleToEdit ? `Edit Artikel: ${articleToEdit.title}` : 'Buat Artikel Baru'}
+          </h3>
+          <ArticleForm 
+            articleToEdit={articleToEdit}
+            onSaveSuccess={handleSaveSuccess}
+            styles={styles}
+          />
+      </section>
+
+      {/* --- LIST SECTIONS --- */}
+
+      <section id="kelola-novel" style={{ marginTop: '60px', borderTop: '4px solid #333', paddingTop: '30px' }}>
           <h2>Daftar Novel</h2>
           <NovelListAdmin 
             key={`novel-${listKey}`} 
@@ -130,7 +165,7 @@ export default function AdminDashboard() {
           />
       </section>
 
-      <section id="kelola-chapter" style={{ marginTop: '30px', borderTop: '2px solid #eee', paddingTop: '20px' }}>
+      <section id="kelola-chapter" style={{ marginTop: '40px', borderTop: '2px solid #eee', paddingTop: '20px' }}>
           <h2>Daftar Chapter</h2>
           <ChapterListAdmin 
             key={`chapter-${listKey}`}
@@ -140,7 +175,17 @@ export default function AdminDashboard() {
           />
       </section>
 
-      <section id="kelola-komentar" style={{ marginTop: '30px', borderTop: '2px solid #eee', paddingTop: '20px', paddingBottom: '100px' }}>
+      <section id="kelola-artikel" style={{ marginTop: '40px', borderTop: '2px solid #eee', paddingTop: '20px' }}>
+          <h2>Daftar Artikel Blog</h2>
+          <ArticleListAdmin 
+             key={`article-${listKey}`}
+             onEditArticle={handleEditArticle}
+             refreshToggle={refreshList}
+             styles={styles}
+          />
+      </section>
+
+      <section id="kelola-komentar" style={{ marginTop: '40px', borderTop: '2px solid #eee', paddingTop: '20px', paddingBottom: '100px' }}>
           <h2>Moderasi Komentar Netizen</h2>
           <p style={{marginBottom: '10px', color: '#666'}}>Hapus komentar yang mengandung spam atau kata kasar.</p>
           <CommentListAdmin 
@@ -148,6 +193,16 @@ export default function AdminDashboard() {
           />
       </section>
       
+      {/* --- TOMBOL BACK TO TOP --- */}
+      <button 
+        className={`${styles.scrollTopBtn} ${showScrollTop ? styles.showScroll : ''}`} 
+        onClick={scrollToTop}
+        aria-label="Kembali ke atas"
+        title="Kembali ke atas"
+      >
+        ▲
+      </button>
+
     </div>
   );
 }

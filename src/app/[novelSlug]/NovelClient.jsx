@@ -1,11 +1,13 @@
 'use client'; 
 
 import React, { useState, useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import parse, { domToReact } from 'html-react-parser';
 import sanitizeHtml from 'sanitize-html';
+import { FaMinus, FaPlus, FaRedoAlt } from 'react-icons/fa';
+import { useFontSize } from '@/contexts/FontSizeContext'; 
 import styles from './NovelDetailPage.module.css';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import { useGlobalContext } from '../providers';
@@ -14,7 +16,7 @@ import { getReadingHistory } from '../../utils/readingHistory';
 export default function NovelClient({ initialNovel, initialChapters }) {
   const router = useRouter();
   const { setPageSerie, setDropdownSerie, setIsListOpen } = useGlobalContext();
-
+  const { fontSize, changeFontSize, resetFontSize } = useFontSize();
   const [isListVisible, setIsListVisible] = useState(false);
   const [lastRead, setLastRead] = useState(null);
 
@@ -22,14 +24,6 @@ export default function NovelClient({ initialNovel, initialChapters }) {
   const allChapters = initialChapters || [];
   const novelSlug = novel.novel_slug;
 
-  // useEffect(() => {
-  //   setIsListVisible(window.innerWidth > 767);
-  //   const handleResize = () => {
-  //     setIsListVisible(window.innerWidth > 767);
-  //   };
-  //   window.addEventListener('resize', handleResize);
-  //   return () => window.removeEventListener('resize', handleResize);
-  // }, []);
   useEffect(() => {
     if (typeof window !== 'undefined') {
       if (window.innerWidth > 767) {
@@ -163,7 +157,7 @@ export default function NovelClient({ initialNovel, initialChapters }) {
         </div>
         <hr className={styles.divider} />
         
-        <div className={styles.content}>
+        <div className={styles.content} style={{ fontSize: `${fontSize}px` }}>
           {parse(cleanContent, options)}
         </div>
 
@@ -201,12 +195,46 @@ export default function NovelClient({ initialNovel, initialChapters }) {
           </p>
         </div>
       </main>
-
       <aside className={styles.rightSidebar}>
-        <h3>Dukung Kami Yuk!</h3>
-        <a href="https://saweria.co/SoogarGlyder" target="_blank" rel="noreferrer">
-          <img src="/saweria.png" alt="QR Code Saweria" width="100hv"/>
-        </a>
+        <div className={styles.rightContainer}>
+            <h3 className={styles.sidebarTitle}>Ukuran Font</h3>
+            <div className={styles.fontControlButtons}>
+                <button 
+                  onClick={() => changeFontSize(-1)} 
+                  className={styles.fontBtn}
+                  title="Kecilkan Huruf"
+                  aria-label="Kecilkan Huruf"
+                >
+                  <FaMinus />
+                </button>
+                
+                <button 
+                  onClick={resetFontSize} 
+                  className={styles.fontBtn}
+                  title="Reset Ukuran Huruf"
+                  aria-label="Reset Ukuran Huruf"
+                  style={{ fontSize: '0.85rem' }}
+                >
+                  <FaRedoAlt />
+                </button>
+
+                <button 
+                  onClick={() => changeFontSize(1)} 
+                  className={styles.fontBtn}
+                  title="Besarkan Huruf"
+                  aria-label="Besarkan Huruf"
+                >
+                  <FaPlus />
+                </button>
+            </div>
+        </div>
+        
+        <div className={styles.rightContainer}>
+          <h3 className={styles.sidebarTitle}>Dukung Kami Yuk!</h3>
+          <a href="https://saweria.co/SoogarGlyder" target="_blank" rel="noreferrer">
+            <img className={styles.saweria} src="/saweria.png" alt="QR Code Saweria"/>
+          </a>
+        </div>
       </aside>
     </div>
   );

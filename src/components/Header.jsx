@@ -3,6 +3,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link'; 
 import { usePathname, useRouter } from 'next/navigation'; 
+import { useTheme } from 'next-themes'; // 1. Import Theme
+import { FaSun, FaMoon } from 'react-icons/fa'; // 2. Import Icon
 import styles from './Header.module.css';
 import { useGlobalContext } from '../app/providers'; 
 import NovelList from './NovelList';
@@ -27,21 +29,38 @@ function Header() {
     setDropdownSerie 
   } = useGlobalContext();
 
+  // 3. Setup Theme Logic
+  const { setTheme, resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
   const pathname = usePathname(); 
   const router = useRouter();     
   const navRef = useRef(null);
   const [maskStyle, setMaskStyle] = useState({});
-
-  if (pathname && pathname.startsWith('/admin')) {
-      return null;
-  }
-
+  
+  const isActive = (path) => pathname ? pathname.startsWith(path) : false;
   const isHomePage = pathname === '/';
+  const isAdminPage = pathname?.startsWith('/admin');
+  
   const isWikiPage = pathname?.startsWith('/wiki');
-  const isChapterPage = pathname && !isWikiPage
+  const isBlogPage = pathname?.startsWith('/blog') || pathname?.startsWith('/articles');
+  const isTimelinePage = pathname?.startsWith('/timeline') || pathname?.startsWith('/urutan');
+  const isOtherPage = isWikiPage || isBlogPage || isTimelinePage;
+
+  const isChapterPage = pathname && !isOtherPage && !isHomePage && !isAdminPage
     ? pathname.split('/').filter(Boolean).length === 2 
     : false;
 
+  useEffect(() => {
+    setIsListOpen(false);
+  }, [pathname, setIsListOpen]);
+
+  // 4. Pastikan component mounted sebelum render icon theme (mencegah hydration mismatch)
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // ... (kode updateMask dan handleTabClick biarkan sama) ...
   const updateMask = () => {
     const el = navRef.current;
     if (!el) return;
@@ -74,14 +93,8 @@ function Header() {
     }
   }, [isHomePage]);
 
-  useEffect(() => {
-    if (isHomePage) {
-      setIsListOpen(false);
-    }
-  }, [pathname, isHomePage, setIsListOpen]);
-
   const handleTabClick = (serieId) => {
-    if (serieId === activeSerie && isListOpen) {
+    if (serieId === dropdownSerie && isListOpen) {
       setIsListOpen(false);
     } else {
       setDropdownSerie(serieId);
@@ -89,17 +102,63 @@ function Header() {
     }
   };
 
+  // 5. Fungsi Toggle
+  const toggleTheme = () => {
+    if (resolvedTheme === 'dark') {
+      setTheme('light');
+    } else {
+      setTheme('dark');
+    }
+  };
+
+  if (isAdminPage) {
+      return null;
+  }
+
   return (
     <>
       <div className={styles.headerBar}>
-        <div className={styles.containerImgHeader}>
-            <Link href="/" className={styles.imgHeader} onClick={() => setIsListOpen(false)}>
-                <img src="/header-sao.svg"
-                     alt="Logo"
-                     style={{ height: '100%' }}
-                />
+        <div className={styles.topBar}>
+          <div className={styles.leftSection}>
+            <Link href="/" className={styles.logoLink}>
+                <img src="/header-sao.svg" alt="Link Start" className={styles.logoImg} />
             </Link>
+            
+            {/* Navigasi Utama */}
+            <nav className={styles.topNav}>
+              <Link 
+                href="/blog" 
+                className={`${styles.navItem} ${isActive('/blog') || isActive('/articles') ? styles.navActive : ''}`}
+              >
+                Blog
+              </Link>
+              <Link 
+                href="/wiki" 
+                className={`${styles.navItem} ${isActive('/wiki') ? styles.navActive : ''}`}
+              >
+                Wiki
+              </Link>
+              <Link 
+                href="/timeline" 
+                className={`${styles.navItem} ${pathname?.includes('timeline') || pathname?.includes('urutan') ? styles.navActive : ''}`}
+              >
+                Kronologis
+              </Link>
+
+              {/* 6. TOMBOL TOGGLE TEMA (Disini posisinya) */}
+              <button 
+                className={styles.themeToggleBtn}
+                onClick={toggleTheme}
+                aria-label="Ganti Tema"
+              >
+                {/* Render icon hanya jika mounted agar tidak error hydration */}
+                {mounted && (resolvedTheme === 'dark' ? <FaSun /> : <FaMoon />)}
+              </button>
+
+            </nav>
+          </div>
         </div>
+
         {!isHomePage && (
           <nav
             className={styles.navContainer}
@@ -108,7 +167,10 @@ function Header() {
             style={maskStyle}
             >
             {seriesTabs.map((tab) => {
-              const showAsActive = activeSerie === tab.id;
+              const isActiveByReading = !isOtherPage && activeSerie === tab.id;
+              const isActiveByDropdown = isListOpen && dropdownSerie === tab.id;
+              const showAsActive = isActiveByReading || isActiveByDropdown;
+
               return (
                 <div
                   key={tab.id}
@@ -125,6 +187,7 @@ function Header() {
         )}
         {isChapterPage && <ReadingProgressBar />}
       </div>
+
       {!isHomePage && isListOpen && (
         <NovelList 
           activeSerie={dropdownSerie}

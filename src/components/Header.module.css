@@ -3,26 +3,98 @@
   position: sticky;
   top: 0;
   max-width: 1440px;
-  display: grid;
   justify-self: center;
-  top: 0;
   width: 100%;
   z-index: 1001; 
   background-color: var(--card-bg);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
 }
 
-.containerImgHeader {
-    display: flex;
-    justify-content: center;
-    height: var(--logo-height);
-    margin-top: var(--logo-margin-top);
-    margin-bottom: var(--logo-margin-bottom);
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  padding: 0 20px;
+  background-color: var(--card-bg);
+  border-bottom: 1px solid var(--input-border);
 }
 
-.imgHeader {
-    cursor: pointer;
-    height: 100%;
+.leftSection {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.logoLink {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.logoLink:hover {
+  opacity: 0.8;
+}
+
+.logoImg {
+  height: 60px;
+  width: auto;
+  object-fit: contain;
+}
+
+.topNav {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.navItem {
+  color: var(--foreground);
+  text-decoration: none;
+  font-size: 1.10rem;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.navItem:hover {
+  background-color: var(--input-bg);
+  color: var(--primary);
+}
+
+.navActive {
+  background-color: var(--primary);
+  color: white !important;
+}
+
+.themeToggleBtn {
+  background: transparent;
+  border: 1px solid var(--input-border);
+  color: var(--foreground);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%; /* Bulat */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  margin-left: 10px; /* Memberi jarak sedikit dari menu teks */
+  width: 36px;
+  height: 36px;
+}
+
+.themeToggleBtn:hover {
+  background-color: var(--input-bg);
+  color: var(--primary);
+  border-color: var(--primary);
+  transform: rotate(15deg); /* Efek putar sedikit saat hover */
 }
 
 .navContainer {
@@ -31,7 +103,6 @@
     justify-content: center;
     height: var(--nav-height);
     background-color: var(--input-bg);
-    border-top: 1px solid var(--input-border);
     border-bottom: 1px solid var(--input-border);
     overflow-x: auto;
     overflow-y: hidden;
@@ -59,13 +130,13 @@
 .navContent:hover {
     background-color: var(--input-border);
     color: var(--primary);
-    font-size: 120%;
+    font-size: 110%;
 }
 
 .navContent.active {
     background-color: var(--primary);
     color: white;
-    font-size: 130%;
+    font-size: 115%;
 }
 
 .novelListWrapper {
@@ -75,7 +146,7 @@
   width: 100%;
   max-width: 1440px;
   z-index: 1000; 
-  height: calc(100vh - var(--total-header-height));
+  height: calc(100vh - 110px);
   overflow-y: auto;
   background-color: var(--background);
   padding: 20px;
@@ -145,29 +216,40 @@
 }
 
 @media (max-width: 767px) {
+  .topNav {
+    display: none; 
+  }
+  .topBar {
+    justify-content: center;
+  }
+  .leftSection {
+  justify-content: center;
+  }
   .navContent {
     font-size: 0.9em;
-}
+  }
   .navContent:hover {
     font-size: 1em;
-}
+  }
   .navContent.active {
     font-size: 1.1em;
-}
+  }
   .novelGallery {
     gap: 15px;
     padding: 15px 10px;
-}
+  }
   .contentCover {
     width: calc(50% - 15px); 
     font-size: 0.85em;
-}
+  }
   .novelListWrapper {
     padding: 0;
-}
+    top: 100px;
+    height: calc(100vh - 100px);
+  }
   .captionLink {
-  min-height: 40px;
-  padding: 5px;
-  font-size: .8em;
-}
+    min-height: 40px;
+    padding: 5px;
+    font-size: .8em;
+  }
 }

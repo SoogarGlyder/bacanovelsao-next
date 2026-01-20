@@ -18,9 +18,10 @@ function Footer() {
       <div className={styles.container}>
 
         <div className={styles.brandColumn}>
-          <h3 className={styles.brandName}>BacaNovelSAO</h3>
+          <h3 className={styles.brandName}>linkstart.id</h3>
           <p className={styles.brandDesc}>
-            Platform baca novel Sword Art Online (SAO) Bahasa Indonesia. 
+            Platform baca light novel Sword Art Online (SAO) Bahasa Indonesia. 
+            Dilengkapi wiki dan artikel menarik mengenai dunia Sword Art Online.
             Dibuat oleh penggemar, untuk penggemar.
           </p>
         </div>
@@ -29,6 +30,7 @@ function Footer() {
           <h4 className={styles.columnTitle}>Menu</h4>
           <ul className={styles.linkList}>
             <li><Link href="/">Beranda</Link></li>
+            <li><Link href="/blog"> Blog </Link></li>
             <li><Link href="/timeline">Kronologis</Link></li>
             <li><Link href="/wiki"> Database / Wiki SAO </Link></li>
           </ul>
@@ -48,7 +50,7 @@ function Footer() {
 
       <div className={styles.bottomBar}>
         <p>
-          &copy; {currentYear} BacaNovelSAO. <span className={styles.hiddenMobile}>All rights reserved.</span>
+          &copy; {currentYear} linkstart.id. <span className={styles.hiddenMobile}>All rights reserved.</span>
         </p>
         <p className={styles.maker}>
           Made with <span style={{color: '#e25555'}}>❤</span> by SoogarGlyder

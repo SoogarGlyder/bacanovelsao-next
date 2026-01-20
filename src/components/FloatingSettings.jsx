@@ -53,6 +53,7 @@ export default function FloatingSettings() {
         className={styles.actionBtn}
         onClick={() => changeFontSize(-1)}
         title="Kecilkan Huruf"
+        aria-label="Kecilkan Huruf"
         style={{ fontSize: '0.9rem' }}
       >
         <FaMinus />
@@ -72,6 +73,7 @@ export default function FloatingSettings() {
         className={styles.actionBtn}
         onClick={() => changeFontSize(1)}
         title="Besarkan Huruf"
+        aria-label="Besarkan Huruf"
         style={{ fontSize: '0.9rem' }}
       >
         <FaPlus />

@@ -6,6 +6,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import parse, { domToReact } from 'html-react-parser';
 import sanitizeHtml from 'sanitize-html';
+import { FaMinus, FaPlus, FaRedoAlt } from 'react-icons/fa';
+import { useFontSize } from '@/contexts/FontSizeContext'; 
 import styles from './ChapterReadPage.module.css';
 import { useNovelList } from '@/hooks/useNovelData';
 import Breadcrumbs from '@/components/Breadcrumbs';
@@ -22,6 +24,7 @@ export default function ChapterClient({
 }) {
   const router = useRouter();
   const { setPageSerie } = useGlobalContext();
+  const { fontSize, changeFontSize, resetFontSize } = useFontSize(); 
   const [isListVisible, setIsListVisible] = useState(false);
   const novelSlug = novel.novel_slug;
   const chapterSlug = chapter.chapter_slug;
@@ -31,16 +34,7 @@ export default function ChapterClient({
     window.scrollTo(0, 0);
   }, [chapter]);
 
-  // useEffect(() => {
-  //   setIsListVisible(window.innerWidth > 767);
-  //   const handleResize = () => setIsListVisible(window.innerWidth > 767);
-  //   window.addEventListener('resize', handleResize);
-  //   return () => window.removeEventListener('resize', handleResize);
-  // }, []);
   useEffect(() => {
-    // Cek layar saat pertama kali load
-    // Jika Desktop (>767px), baru kita buka paksa.
-    // Jika Mobile, biarkan tertutup (sesuai default state false).
     if (typeof window !== 'undefined') {
       if (window.innerWidth > 767) {
         setIsListVisible(true);
@@ -48,8 +42,6 @@ export default function ChapterClient({
     }
 
     const handleResize = () => {
-      // Otomatis buka jika layar dibesarkan ke mode desktop
-      // Otomatis tutup jika layar dikecilkan ke mode mobile
       setIsListVisible(window.innerWidth > 767);
     };
 
@@ -123,7 +115,7 @@ export default function ChapterClient({
   return (
     <div className={styles.holyGrailLayout}>
        <aside className={styles.leftSidebar}>
-        <button
+          <button
           className={styles.mobileToggle}
           onClick={() => setIsListVisible(!isListVisible)}>
           Daftar Chapter {isListVisible ? '▴' : '▾'}
@@ -172,8 +164,7 @@ export default function ChapterClient({
             </div>
             
             <hr className={styles.divider} />
-            
-            <div className={styles.content}>
+            <div className={styles.content} style={{ fontSize: `${fontSize}px` }}>
                {parse(cleanContent, options)}
             </div>
 
@@ -214,10 +205,46 @@ export default function ChapterClient({
             />
       </main>
       <aside className={styles.rightSidebar}>
-        <h3>Dukung Kami Yuk!</h3>
-        <a href="https://saweria.co/SoogarGlyder" target="_blank" rel="noreferrer">
-          <img src="/saweria.png" alt="QR Code Saweria" width="100hv"/>
-        </a>
+        <div className={styles.rightContainer}>
+            <h3 className={styles.sidebarTitle}>Ukuran Font</h3>
+            <div className={styles.fontControlButtons}>
+                <button 
+                  onClick={() => changeFontSize(-1)} 
+                  className={styles.fontBtn}
+                  title="Kecilkan Huruf"
+                  aria-label="Kecilkan Huruf"
+                  style={{ fontSize: '0.9rem' }}
+                >
+                  <FaMinus />
+                </button>
+                
+                <button 
+                  onClick={resetFontSize} 
+                  className={styles.fontBtn}
+                  title="Reset Ukuran Huruf"
+                  aria-label="Reset Ukuran Huruf"
+                  style={{ fontSize: '0.85rem' }}
+                >
+                  <FaRedoAlt />
+                </button>
+
+                <button 
+                  onClick={() => changeFontSize(1)} 
+                  className={styles.fontBtn}
+                  title="Besarkan Huruf"
+                  aria-label="Besarkan Huruf"
+                  style={{ fontSize: '0.9rem' }}
+                >
+                  <FaPlus />
+                </button>
+            </div>
+        </div>
+        <div className={styles.rightContainer}>
+          <h3 className={styles.sidebarTitle}>Dukung Kami Yuk!</h3>
+          <a href="https://saweria.co/SoogarGlyder" target="_blank" rel="noreferrer">
+            <img className={styles.saweria} src="/saweria.png" alt="QR Code Saweria"/>
+          </a>
+        </div>
       </aside>
     </div>
   );

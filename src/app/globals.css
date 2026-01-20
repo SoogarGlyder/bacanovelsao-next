@@ -1,7 +1,7 @@
 :root {
-  --logo-height: 75px;
-  --logo-margin-top: 10px;
-  --logo-margin-bottom: 10px;
+  --logo-height: 60px;
+  --logo-margin-top: 0px;
+  --logo-margin-bottom: 0px;
   --total-logo: calc(var(--logo-height) + var(--logo-margin-top) + var(--logo-margin-bottom));
   --nav-height: 35px;
   --total-header-height: calc(var(--total-logo) + var(--nav-height));

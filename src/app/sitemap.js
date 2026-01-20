@@ -1,13 +1,14 @@
 import dbConnect from '@/lib/dbConnect';
 import Novel from '@/models/Novel';
 import Chapter from '@/models/Chapter';
+import Article from '@/models/Article';
 
 const BASE_URL = 'https://bacanovelsao.vercel.app';
 
 export default async function sitemap() {
   await dbConnect();
 
-  const [novels, chapters] = await Promise.all([
+  const [novels, chapters, articles] = await Promise.all([
     Novel.find({})
       .select('novel_slug updatedAt last_updated')
       .lean(),
@@ -20,6 +21,11 @@ export default async function sitemap() {
       })
       .sort({ updatedAt: -1 })
       .limit(5000)
+      .lean(),
+
+    Article.find({})
+      .select('slug updatedAt date')
+      .sort({ date: -1 })
       .lean()
   ]);
 
@@ -29,6 +35,12 @@ export default async function sitemap() {
       lastModified: new Date(),
       changeFrequency: 'daily',
       priority: 1,
+    },
+    {
+      url: `${BASE_URL}/blog`,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.9,
     },
     {
       url: `${BASE_URL}/about`,
@@ -76,5 +88,12 @@ export default async function sitemap() {
     };
   }).filter(Boolean);
 
-  return [...routes, ...novelRoutes, ...chapterRoutes];
+  const articleRoutes = articles.map((article) => ({
+    url: `${BASE_URL}/blog/${article.slug}`,
+    lastModified: article.updatedAt || article.date || new Date(),
+    changeFrequency: 'weekly',
+    priority: 0.7,
+  }));
+
+  return [...routes, ...novelRoutes, ...chapterRoutes, ...articleRoutes];
 }

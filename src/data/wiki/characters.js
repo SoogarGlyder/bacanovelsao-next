@@ -15,16 +15,18 @@ export const characters = {
       { label: 'PA #4', url: '/images/wiki/kirito-pa-offline.svg' },
     ],
     info: [
-      { label: 'Name (Jap)', value: '桐ヶ谷 和人 (Kirigaya Kazuto)' },
-      { label: 'System Name', value: 'Kirito' },
-      { label: 'Epithet', value: 'The Black Swordsman, Beater, Star King' },
-      { label: 'Age', value: '14 (Awal Aincrad)\n16 (Akhir Aincrad)\n17 (GGO/Alicization)' },
-      { label: 'Birthdate', value: '7 Oktober 2008' },
-      { label: 'Gender', value: 'Male' },
-      { label: 'Height', value: '172 cm' },
-      { label: 'Weight', value: '59 kg' }
+      { label: 'Nama (Jepang)', value: '桐ヶ谷 和人\n鳴坂 和人 (Nama Lahir)' },
+      { label: 'Nama (Romanji)', value: 'Kirigaya Kazuto\nNarusaka Kazuto (Nama Lahir)' },
+      { label: 'IGN', value: 'Kirito' },
+      { label: 'Julukan', value: 'The Black Swordsman\nBlackie\nBeater\nStar King' },
+      { label: 'Usia', value: '14 (Awal Aincrad)\n16 (Akhir Aincrad, Fairy Dance)\n17 (GGO/Alicization)\n18 (Unital Ring)' },
+      { label: 'Tanggal Lahir', value: '7 Oktober 2008' },
+      { label: 'Jenis Kelamin', value: 'Laki-laki' },
+      { label: 'Tinggi', value: '172 cm' },
+      { label: 'Berat', value: '59 kg' },
+      { label: 'Gim', value: 'Sword Art Online\nALfheim Online\nGun Gale Online\nOrdinal Scale\nProject Alicization\nUnital Ring' }
     ],
-    description: 'Pemain solo yang berjuang di garis depan Aincrad. Memiliki waktu reaksi tercepat di seluruh server, memberikannya hak unik untuk menggunakan skill "Dual Blades". Ia sering disalahpahami sebagai pemain yang egois, padahal ia hanya ingin melindungi orang lain dari beban berat.',
+    description: 'Kirigaya Kazuto (桐ヶ谷 和人), terlahir dengan nama Narusaka Kazuto (鳴坂 和人), dan dikenal sebagai Kirito (キリト) di gim Sword Art Online (SAO), ALfheim Online (ALO), Gun Gale Online (GGO), Project Alicization, and Unital Ring, adalah seorang protagonis utama dalam seri Sword Art Online.\nKirito terpilih sebagai salah satu dari seribu <em>beta tester</em> untuk <em>closed beta</em> "Sword Art Online" (SAO)&mdash;VRMMORPG pertama yang menggunakan perangkat NerveGear&mdash;sebelum akhirnya bergabung dalam versi resminya. Ia kemudian menjadi satu dari 10.000 pemain yang terjebak di dalam <em>game</em> maut tersebut. \nDi dalam SAO, Kirito menghabiskan sebagian besar waktunya sebagai pemain solo (bermain sendirian). Ia rela menyandang gelar "Beater" demi mengurangi kebencian pemain lain terhadap para mantan <em>beta tester</em>, sekaligus aktif berjuang di garis depan sebagai salah satu Clearer (kelompok penakluk <em>dungeon</em>). Ia sempat bergabung dengan <em>guild</em> "Moonlit Black Cats" setelah menyelamatkan mereka, namun kembali bermain solo setelah sebuah insiden tragis menewaskan seluruh anggota <em>guild</em> tersebut. \nDikenal dengan julukan "Black Swordsman" karena kebiasaannya berpakaian serba hitam, Kirito akhirnya bergabung dengan <em>guild</em> <a href="/wiki/knights-of-the-blood" target="_blank" rel="noopener noreferrer">"Knights of the Blood"</a> setelah kalah taruhan melawan pemimpinnya, Heathcliff. Kirito jugalah yang pada akhirnya menamatkan permainan ini dengan mengalahkan bos terakhir, sehingga membebaskan para pemain yang tersisa. \nPasca insiden SAO, Asuna dan sekelompok kecil penyintas lainnya ternyata belum sadarkan diri (tidak <em>log out</em>). Setelah melihat tangkapan layar di dalam <em>game</em> yang mirip dengan Asuna, Kazuto (Kirito) mulai bermain "ALfheim Online" (ALO) menggunakan ras Spriggan untuk menyelidikinya. Setelah berhasil membebaskan 300 tawanan yang tersisa, Kazuto terus bermain ALO di bawah manajemen baru bersama teman-teman lamanya dari SAO serta teman-teman baru dari ALO. \nAtas permintaan Kikuoka Seijirou, Kazuto untuk sementara waktu mengonversi avatarnya dari ALO ke "Gun Gale Online" (GGO) melalui sistem The Seed. Misinya adalah menyelidiki serangkaian kematian aneh yang dirumorkan berkaitan dengan pemain misterius bernama "Death Gun". Untuk memancing perhatian pemain misterius tersebut, Kirito berpartisipasi dalam turnamen terbesar di <em>game</em> itu, Bullet of Bullets. Setelah insiden itu selesai, Kazuto kembali ke ALO bersama avatarnya dan lanjut bermain dengan teman-temannya. Beberapa bulan kemudian, ia ditawari pekerjaan paruh waktu untuk menguji mesin <em>FullDive</em> baru bernama "Soul Translator". Tanpa ia sadari, pekerjaan tersebut sebenarnya merupakan bagian dari proyek militer rahasia yang dikenal sebagai "Project Alicization".',
     stats: [
       { label: 'Level (End)', value: '96' },
       { label: 'Guild', value: 'Solo / KoB' },
