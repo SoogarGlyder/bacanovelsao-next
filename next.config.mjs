@@ -8,6 +8,14 @@ const nextConfig = {
         protocol: 'https',
         hostname: '**', 
       },
+      {
+        protocol: 'https',
+        hostname: 'i.postimg.cc', // Izinkan Postimages
+      },
+      {
+        protocol: 'https',
+        hostname: 'i.imgur.com',  // Jaga-jaga
+      },
     ],
   },
 };

@@ -24,7 +24,7 @@ export default function ArticleForm({ articleToEdit, onSaveSuccess, styles }) {
       setFormData({
         title: articleToEdit.title || '',
         slug: articleToEdit.slug || '',
-        subtitle: articleToEdit.subtitle || '', // Load subtitle
+        subtitle: articleToEdit.subtitle || '',
         author: articleToEdit.author || 'Admin',
         date: articleToEdit.date || '',
         image: articleToEdit.image || '',
@@ -34,7 +34,6 @@ export default function ArticleForm({ articleToEdit, onSaveSuccess, styles }) {
       });
       setMessage(null);
     } else {
-      // Reset form jika mode Create Baru
       setFormData({
         title: '',
         slug: '',
@@ -133,12 +132,11 @@ export default function ArticleForm({ articleToEdit, onSaveSuccess, styles }) {
             style={{ backgroundColor: 'var(--input-bg)' }}
         />
 
-        {/* --- INPUT SUBTITLE DITAMBAHKAN DI SINI --- */}
         <label>Sub Judul (Opsional)</label>
         <input 
             type="text" name="subtitle" 
             value={formData.subtitle} onChange={handleChange} 
-            placeholder="Contoh: Di Balik Kemenangan Lantai Satu"
+            placeholder="Contoh: Analisis Mendalam Floor 75"
         />
 
         <div style={{ display: 'flex', gap: '15px' }}>
@@ -158,12 +156,17 @@ export default function ArticleForm({ articleToEdit, onSaveSuccess, styles }) {
             </div>
         </div>
 
-        <label>URL Gambar (Thumbnail)</label>
+        <label>URL Gambar (Copy dari Postimages)</label>
         <input 
             type="text" name="image" 
             value={formData.image} onChange={handleChange} 
-            placeholder="/images/contoh.jpg atau https://..."
+            placeholder="https://i.postimg.cc/..../gambar.jpg"
         />
+        {formData.image && (
+            <div style={{ margin: '10px 0' }}>
+                <img src={formData.image} alt="Preview" style={{ height: '80px', borderRadius: '4px' }} />
+            </div>
+        )}
 
         <label>Tags (Pisahkan dengan koma)</label>
         <input 
@@ -180,7 +183,7 @@ export default function ArticleForm({ articleToEdit, onSaveSuccess, styles }) {
 
         <label>Konten Artikel (HTML allowed)</label>
         <p style={{fontSize: '0.8rem', color: '#888', marginBottom: '5px'}}>
-           Tips: Gunakan tag &lt;p&gt; untuk paragraf, &lt;b&gt; untuk tebal.
+           Tips: Gunakan class <code>math-inline</code> untuk rumus.
         </p>
         <textarea 
             name="content" rows="15" required
