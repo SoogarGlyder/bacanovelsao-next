@@ -146,7 +146,7 @@
   width: 100%;
   max-width: 1440px;
   z-index: 1000; 
-  height: calc(100vh - 110px);
+  height: calc(100vh - 95px);
   overflow-y: auto;
   background-color: var(--background);
   padding: 20px;

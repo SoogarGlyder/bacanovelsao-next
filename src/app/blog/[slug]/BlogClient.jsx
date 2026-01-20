@@ -231,7 +231,7 @@ export default function BlogClient({ article }) {
             )}
 
             {/* --- BAGIAN KOMENTAR --- */}
-            <div style={{ marginTop: '40px', borderTop: '1px solid var(--input-border)', paddingTop: '20px' }}>
+            <div style={{ marginTop: '40px', borderTop: '1px solid var(--input-border)'}}>
                 <CommentSection 
                     novelSlug="blog" 
                     chapterSlug={article.slug} 
