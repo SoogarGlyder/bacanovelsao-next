@@ -12,7 +12,7 @@ export default function AboutPage() {
     <div className={styles.container}>
       <header className={styles.hero}>
         <h1 className={styles.title}>
-          Tentang <span className={styles.highlight}>BacaNovelSAO</span>
+          Tentang <span className={styles.highlight}>linkstart.id</span>
         </h1>
         <p className={styles.subtitle}>
           Membawa dunia Aincrad, ALfheim, Gun Gale, Underworld, dan Unital Ring ke dalam genggaman Anda.
@@ -22,7 +22,7 @@ export default function AboutPage() {
       <section className={styles.section}>
           <h3 className={styles.sectionTitle}>Siapa Kami?</h3>
           <p>
-            <strong>BacaNovelSAO</strong> lahir dari keinginan sederhana: menciptakan tempat membaca novel <em>Sword Art Online</em> yang nyaman, cepat, dan modern.
+            <strong>linkstart.id</strong> lahir dari keinginan sederhana: menciptakan tempat membaca novel <em>Sword Art Online</em> yang nyaman, cepat, dan modern.
             <br />
             Kami menyadari betapa sulitnya menemukan terjemahan yang rapi dengan tampilan yang enak dipandang mata. Oleh karena itu, website ini dibangun dengan fokus pada <strong>User Experience</strong>. Tidak ada iklan popup yang mengganggu, navigasi yang membingungkan, atau teks yang sulit dibaca.
           </p>

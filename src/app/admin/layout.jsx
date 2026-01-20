@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const metadata = {
-  title: 'Admin Panel | Baca Novel SAO',
+  title: 'Admin Panel | linkstart.id',
   description: 'Halaman dashboard untuk administrator.',
   robots: {
     index: false,

@@ -57,7 +57,7 @@ export async function generateMetadata({ params }) {
   } catch (error) {
     console.error("Metadata Error:", error);
     return {
-      title: 'Baca Novel SAO',
+      title: 'linkstart.id',
       description: 'Baca Novel Sword Art Online Bahasa Indonesia Lengkap.',
     };
   }

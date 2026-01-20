@@ -1,5 +1,5 @@
 export default function robots() {
-  const baseUrl = 'https://bacanovelsao.vercel.app';
+  const baseUrl = 'https://linkstart.id';
 
   return {
     rules: {

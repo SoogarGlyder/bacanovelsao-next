@@ -3,7 +3,7 @@ import styles from '../styles/LandPages.module.css';
 
 export const metadata = {
   title: 'Hubungi Kami',
-  description: 'Hubungi tim BacaNovelSAO untuk saran, laporan bug, atau kerjasama.',
+  description: 'Hubungi tim linkstart.id untuk saran, laporan bug, atau kerjasama.',
 };
 
 export default function ContactPage() {
@@ -11,7 +11,7 @@ export default function ContactPage() {
     <div className={styles.container}>
       <header className={styles.hero}>
         <h1 className={styles.title}>
-          Hubungi <span className={styles.highlight}>BacaNovelSAO</span>
+          Hubungi <span className={styles.highlight}>linkstart.id</span>
         </h1>
         <p className={styles.subtitle}>
           Punya pertanyaan, saran, atau menemukan bug? Kami siap mendengar dari Anda.
@@ -28,8 +28,8 @@ export default function ContactPage() {
           
           <div className={styles.emailBox}>
             <span className={styles.emailLabel}>Official Email:</span>
-            <a href="mailto:admin@bacanovelsao.vercel.app" className={styles.emailLink}>
-              admin@bacanovelsao.vercel.app
+            <a href="mailto:admin@linkstart.id" className={styles.emailLink}>
+              admin@linkstart.id
             </a>
           </div>
         </div>

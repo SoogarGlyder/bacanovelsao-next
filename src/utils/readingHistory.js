@@ -1,4 +1,4 @@
-const HISTORY_KEY = 'bacanovelsao_history';
+const HISTORY_KEY = 'linkstart.id_history';
 
 export const saveReadingHistory = (novelSlug, chapterSlug, chapterTitle, chapterNumber) => {
   if (typeof window === 'undefined') return;

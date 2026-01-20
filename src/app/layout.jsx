@@ -13,13 +13,13 @@ export const viewport = {
 };
 
 export const metadata = {
-  metadataBase: new URL('https://bacanovelsao.vercel.app'), 
+  metadataBase: new URL('https://linkstart.id'), 
   title: {
-    template: '%s | Baca Novel SAO',
-    default: 'Beranda | Baca Novel SAO',
+    template: '%s | linkstart.id',
+    default: 'Beranda | linkstart.id',
   },
   description: 'Baca Novel Sword Art Online Bahasa Indonesia lengkap. Aincrad, Progressive, Gun Gale Online, dan lainnya.',
-  applicationName: 'Baca Novel SAO',
+  applicationName: 'linkstart.id',
   keywords: ["novel sao", "sword art online", "aincrad", "progressive", "light novel", "baca online", "ggo", "novel fantasi"],
   manifest: '/manifest.json',
   icons: {
@@ -27,10 +27,10 @@ export const metadata = {
     apple: '/icon-512.png',
   },
   openGraph: {
-    title: 'Baca Novel SAO',
+    title: 'linkstart.id',
     description: 'Baca Novel Seri Sword Art Online (SAO) lengkap Bahasa Indonesia.',
-    url: 'https://bacanovelsao.vercel.app',
-    siteName: 'Baca Novel SAO',
+    url: 'https://linkstart.id',
+    siteName: 'linkstart.id',
     locale: 'id_ID',
     type: 'website',
     images: [
@@ -56,12 +56,12 @@ export default function RootLayout({ children }) {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: 'Baca Novel SAO',
+    name: 'linkstart.id',
     alternateName: ['BacaNovelSAO', 'Novel SAO', 'SAO Reader'], 
-    url: 'https://bacanovelsao.vercel.app',
+    url: 'https://linkstart.id',
     potentialAction: {
       "@type": "SearchAction",
-      "target": "https://bacanovelsao.vercel.app/?search={search_term_string}",
+      "target": "https://linkstart.id/?search={search_term_string}",
       "query-input": "required name=search_term_string"
     }
   };

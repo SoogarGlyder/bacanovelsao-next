@@ -4,7 +4,7 @@ import styles from '../styles/LandPages.module.css';
 
 export const metadata = {
   title: 'Disclaimer & Catatan Penerjemah',
-  description: 'Informasi hak cipta dan catatan mengenai terjemahan di BacaNovelSAO.',
+  description: 'Informasi hak cipta dan catatan mengenai terjemahan di linkstart.id',
 };
 
 export default function DisclaimerPage() {
@@ -22,7 +22,7 @@ export default function DisclaimerPage() {
           <div className={styles.alertContent}>
             <h3>Penafian Hak Cipta (Copyright Disclaimer)</h3>
             <p>
-              <strong>BacaNovelSAO</strong> adalah situs penggemar (Unofficial Fan Site). Kami tidak berafiliasi, didukung, atau disponsori oleh <strong>Reki Kawahara</strong>, <strong>ASCII Media Works</strong>, <strong>Kadokawa</strong>, atau pemegang lisensi resmi seri Sword Art Online lainnya.
+              <strong>linkstart.id</strong> adalah situs penggemar (Unofficial Fan Site). Kami tidak berafiliasi, didukung, atau disponsori oleh <strong>Reki Kawahara</strong>, <strong>ASCII Media Works</strong>, <strong>Kadokawa</strong>, atau pemegang lisensi resmi seri Sword Art Online lainnya.
             </p>
             <p className={styles.smallText}>
               Seluruh aset gambar, nama karakter, dan alur cerita adalah kekayaan intelektual (Intellectual Property) dari pemilik sah. Penggunaan materi tersebut di situs ini ditujukan semata-mata untuk tujuan pendidikan, hiburan penggemar, dan pelestarian budaya pop (Fair Use).

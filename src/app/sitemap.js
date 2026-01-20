@@ -3,7 +3,7 @@ import Novel from '@/models/Novel';
 import Chapter from '@/models/Chapter';
 import Article from '@/models/Article';
 
-const BASE_URL = 'https://bacanovelsao.vercel.app';
+const BASE_URL = 'https://linkstart.id';
 
 export default async function sitemap() {
   await dbConnect();

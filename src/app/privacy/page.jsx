@@ -4,7 +4,7 @@ import styles from '../styles/LandPages.module.css';
 
 export const metadata = {
   title: 'Kebijakan Privasi',
-  description: 'Kebijakan privasi penggunaan website BacaNovelSAO.',
+  description: 'Kebijakan privasi penggunaan website linkstart.id.',
 };
 
 export default function PrivacyPage() {
@@ -12,7 +12,7 @@ export default function PrivacyPage() {
     <div className={styles.container}>
         <header className={styles.hero}>
           <h1 className={styles.title}>
-            Kebijakan Privasi <span className={styles.highlight}>BacaNovelSAO</span>
+            Kebijakan Privasi <span className={styles.highlight}>linkstart.id</span>
             </h1>
           <div className={styles.subtitle}>
               Terakhir Diperbarui: {new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })}
@@ -22,12 +22,12 @@ export default function PrivacyPage() {
         
         <div className={styles.content}>
           <p className={styles.intro}>
-            Di <strong>BacaNovelSAO</strong>, privasi pengunjung kami sangatlah penting. Dokumen Kebijakan Privasi ini menguraikan secara rinci jenis informasi pribadi yang dikumpulkan dan dicatat oleh BacaNovelSAO serta bagaimana kami menggunakannya.
+            Di <strong>linkstart.id</strong>, privasi pengunjung kami sangatlah penting. Dokumen Kebijakan Privasi ini menguraikan secara rinci jenis informasi pribadi yang dikumpulkan dan dicatat oleh linkstart.id serta bagaimana kami menggunakannya.
           </p>         
           <section className={styles.section}>
             <h3 className={styles.sectionTitle}>1. Informasi yang Kami Kumpulkan</h3>
             <p>
-              <strong>Log Files</strong>. Seperti kebanyakan standar situs web lain, BacaNovelSAO menggunakan sistem log files. File-file ini mencatat pengunjung ketika mereka mengunjungi situs web. Informasi yang dikumpulkan oleh file log meliputi:
+              <strong>Log Files</strong>. Seperti kebanyakan standar situs web lain, linkstart.id menggunakan sistem log files. File-file ini mencatat pengunjung ketika mereka mengunjungi situs web. Informasi yang dikumpulkan oleh file log meliputi:
             </p>
             <ul>
               <li>Alamat Protokol Internet (IP address)</li>
@@ -44,7 +44,7 @@ export default function PrivacyPage() {
           <section className={styles.section}>
             <h3 className={styles.sectionTitle}>2. Cookies dan Web Beacons</h3>
             <p>
-              BacaNovelSAO menggunakan "cookies" untuk menyimpan informasi tentang preferensi pengunjung, merekam informasi spesifik pengguna pada halaman mana yang diakses atau dikunjungi pengguna, serta menyesuaikan konten halaman web kami berdasarkan jenis browser pengunjung atau informasi lain yang dikirimkan pengunjung melalui browser mereka.
+              linkstart.id menggunakan "cookies" untuk menyimpan informasi tentang preferensi pengunjung, merekam informasi spesifik pengguna pada halaman mana yang diakses atau dikunjungi pengguna, serta menyesuaikan konten halaman web kami berdasarkan jenis browser pengunjung atau informasi lain yang dikirimkan pengunjung melalui browser mereka.
             </p>
           </section>
 
@@ -56,8 +56,8 @@ export default function PrivacyPage() {
             <div className={styles.highlightBox}>
               <h4>DoubleClick DART Cookie</h4>
               <ul>
-                <li>Google, sebagai vendor pihak ketiga, menggunakan cookies untuk menayangkan iklan di BacaNovelSAO.</li>
-                <li>Penggunaan cookie DART oleh Google memungkinkannya menayangkan iklan kepada pengunjung situs kami berdasarkan kunjungan mereka ke BacaNovelSAO dan situs lainnya di internet.</li>
+                <li>Google, sebagai vendor pihak ketiga, menggunakan cookies untuk menayangkan iklan di linkstart.id.</li>
+                <li>Penggunaan cookie DART oleh Google memungkinkannya menayangkan iklan kepada pengunjung situs kami berdasarkan kunjungan mereka ke linkstart.id dan situs lainnya di internet.</li>
                 <li>Pengguna dapat membatalkan penggunaan cookie DART dengan mengunjungi Kebijakan Privasi Jaringan Iklan dan Konten Google di URL berikut: <a href="https://policies.google.com/technologies/ads" target="_blank" rel="nofollow noreferrer">https://policies.google.com/technologies/ads</a></li>
               </ul>
             </div>
@@ -66,7 +66,7 @@ export default function PrivacyPage() {
           <section className={styles.section}>
             <h3 className={styles.sectionTitle}>4. Kebijakan Privasi Pihak Ketiga</h3>
             <p>
-              Kebijakan Privasi BacaNovelSAO tidak berlaku untuk pengiklan atau situs web lain. Karena itu, kami menyarankan Anda untuk membaca seksama Kebijakan Privasi masing-masing dari server iklan pihak ketiga ini untuk informasi yang lebih rinci.
+              Kebijakan Privasi linkstart.id tidak berlaku untuk pengiklan atau situs web lain. Karena itu, kami menyarankan Anda untuk membaca seksama Kebijakan Privasi masing-masing dari server iklan pihak ketiga ini untuk informasi yang lebih rinci.
             </p>
           </section>
 

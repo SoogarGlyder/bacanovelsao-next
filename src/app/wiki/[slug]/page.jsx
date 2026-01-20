@@ -39,7 +39,7 @@ export async function generateMetadata({ params }) {
     : 'Detail Karakter';
 
   return {
-    title: `${data.name} | Wiki BacaNovelSAO`,
+    title: `${data.name} | Wiki linkstart.id`,
     description: cleanDescription.substring(0, 160) + '...', 
   };
 }
@@ -61,11 +61,11 @@ export default async function WikiDetailPage({ params }) {
              entry.type === 'guild' ? 'Organization' : 'Place',
     name: entry.name,
     description: entry.description,
-    image: mainImage ? `https://bacanovelsao.vercel.app${mainImage}` : undefined,
-    url: `https://bacanovelsao.vercel.app/wiki/${slug}`,
+    image: mainImage ? `https://linkstart.id${mainImage}` : undefined,
+    url: `https://linkstart.id/wiki/${slug}`,
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `https://bacanovelsao.vercel.app/wiki/${slug}`
+      '@id': `https://linkstart.id/wiki/${slug}`
     }
   };
   

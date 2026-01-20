@@ -4,7 +4,7 @@ import styles from './WikiIndex.module.css';
 import WikiList from './WikiList';
 
 export const metadata = {
-  title: 'Database & Ensiklopedia SAO | BacaNovelSAO',
+  title: 'Database & Ensiklopedia SAO | linkstart.id',
   description: 'Kumpulan biodata karakter, guild, dan lokasi penting di dunia Sword Art Online.',
 };
 

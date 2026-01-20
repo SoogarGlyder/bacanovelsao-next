@@ -19,7 +19,7 @@ export async function generateMetadata({ params }) {
     };
   }
 
-  const cleanDescription = stripHtml(novel.synopsis || 'Baca Novel SAO Bahasa Indonesia').substring(0, 160);
+  const cleanDescription = stripHtml(novel.synopsis || 'linkstart.id').substring(0, 160);
   const ogImage = novel.cover_image || '/social-cover.jpg';
 
   return {
