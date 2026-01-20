@@ -6,7 +6,7 @@ import dbConnect from '@/lib/dbConnect';
 import Article from '@/models/Article';
 
 export const metadata = {
-  title: 'Blog & Artikel | Link Start ID',
+  title: 'Blog & Artikel',
   description: 'Update terbaru dunia Sword Art Online.',
 };
 
@@ -43,7 +43,6 @@ export default async function ArticleListPage() {
         {articles.map((article) => {
           // LOGIKA BARU: Jika image kosong, pakai no-image.jpg
           const displayImage = article.image || '/images/no-image.jpg';
-
           return (
             <Link href={`/blog/${article.slug}`} key={article._id} className={styles.card}>
               <div className={styles.imageWrapper}>

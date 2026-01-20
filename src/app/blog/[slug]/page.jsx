@@ -29,7 +29,7 @@ export async function generateMetadata({ params }) {
   if (!article) return { title: 'Artikel Tidak Ditemukan' };
   
   return {
-    title: `${article.title} | Link Start ID`,
+    title: `${article.title} | Blog & Artikel`,
     description: article.excerpt,
     openGraph: {
       images: article.image ? [article.image] : [],
