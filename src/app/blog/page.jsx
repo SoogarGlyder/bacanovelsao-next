@@ -13,7 +13,11 @@ export const metadata = {
 // Fungsi ambil semua data artikel
 async function getArticles() {
   await dbConnect();
-  const articles = await Article.find({}).sort({ createdAt: -1 }).lean();
+  // Mengambil field yang diperlukan saja agar lebih ringan
+  const articles = await Article.find({})
+    .select('title slug date image tags excerpt createdAt updatedAt')
+    .sort({ createdAt: -1 })
+    .lean();
   
   return articles.map(doc => ({
     ...doc,
@@ -36,31 +40,37 @@ export default async function ArticleListPage() {
       </div>
 
       <div className={styles.grid}>
-        {articles.map((article) => (
-          <Link href={`/blog/${article.slug}`} key={article._id} className={styles.card}>
-            <div className={styles.imageWrapper}>
-              {article.image ? (
+        {articles.map((article) => {
+          // LOGIKA BARU: Jika image kosong, pakai no-image.jpg
+          const displayImage = article.image || '/images/no-image.jpg';
+
+          return (
+            <Link href={`/blog/${article.slug}`} key={article._id} className={styles.card}>
+              <div className={styles.imageWrapper}>
                 <Image 
-                  src={article.image} 
+                  src={displayImage} 
                   alt={article.title} 
                   fill 
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   style={{ objectFit: 'cover' }} 
+                  className={styles.cardImage}
                 />
-              ) : (
-                <div className={styles.placeholderImage} />
-              )}
-            </div>
-            <div className={styles.cardContent}>
-              <div className={styles.meta}>
-                <span className={styles.date}>{article.date}</span>
-                <span className={styles.tag}>{article.tags[0]}</span>
               </div>
-              <h2 className={styles.cardTitle}>{article.title}</h2>
-              <p className={styles.cardExcerpt}>{article.excerpt}</p>
-              <span className={styles.readMore}>Baca Selengkapnya &rarr;</span>
-            </div>
-          </Link>
-        ))}
+              <div className={styles.cardContent}>
+                <div className={styles.meta}>
+                  <span className={styles.date}>{article.date}</span>
+                  {/* Cek apakah tags ada isinya agar tidak error */}
+                  <span className={styles.tag}>
+                    {Array.isArray(article.tags) && article.tags.length > 0 ? article.tags[0] : 'Umum'}
+                  </span>
+                </div>
+                <h2 className={styles.cardTitle}>{article.title}</h2>
+                <p className={styles.cardExcerpt}>{article.excerpt}</p>
+                <span className={styles.readMore}>Baca Selengkapnya &rarr;</span>
+              </div>
+            </Link>
+          );
+        })}
       </div>
     </div>
   );

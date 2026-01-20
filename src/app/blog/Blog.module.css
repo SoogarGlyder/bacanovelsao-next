@@ -42,7 +42,7 @@
 }
 
 .card {
-  background-color: var(--card-bg);
+  background-color: var(--card-bg); /* Pastikan variabel ini ada, atau ganti #fff/#1a1a1a */
   border: 1px solid var(--input-border);
   border-radius: 12px;
   overflow: hidden;
@@ -59,18 +59,23 @@
   box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
 
+/* --- BAGIAN GAMBAR (DIPERBAIKI) --- */
 .imageWrapper {
   width: 100%;
   height: 220px;
-  position: relative;
-  background: #111;
+  position: relative; /* WAJIB ada untuk Next/Image */
+  background-color: var(--input-bg); /* Warna cadangan saat loading */
   border-bottom: 1px solid var(--input-border);
+  overflow: hidden; /* Agar efek zoom tidak keluar garis */
 }
 
-.placeholderImage {
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(45deg, #1a1a1a, #2a2a2a);
+/* Target langsung ke tag img dari Next.js untuk efek zoom */
+.imageWrapper img {
+  transition: transform 0.5s ease;
+}
+
+.card:hover .imageWrapper img {
+  transform: scale(1.05); /* Efek zoom halus saat hover */
 }
 
 .cardContent {
