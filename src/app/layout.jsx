@@ -48,7 +48,7 @@ export const metadata = {
     "google-adsense-account": "ca-pub-4365395677457990"
   }, 
   verification: {
-    google: 'nhiEmkP869Z5j_Sm6ArCX-QUlFNlEl-tHBl2aP5kQHk',
+    google: 'evACUKravhwfZaodVDz4gMcDa3CiVHWpkKcDuh-3FC0',
   },
 };
 
