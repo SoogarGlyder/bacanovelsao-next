@@ -5,15 +5,15 @@ import styles from './Blog.module.css';
 import dbConnect from '@/lib/dbConnect';
 import Article from '@/models/Article';
 
+export const dynamic = 'force-dynamic'; 
+
 export const metadata = {
   title: 'Blog & Artikel',
   description: 'Update terbaru dunia Sword Art Online.',
 };
 
-// Fungsi ambil semua data artikel
 async function getArticles() {
   await dbConnect();
-  // Mengambil field yang diperlukan saja agar lebih ringan
   const articles = await Article.find({})
     .select('title slug date image tags excerpt createdAt updatedAt')
     .sort({ createdAt: -1 })
@@ -41,7 +41,6 @@ export default async function ArticleListPage() {
 
       <div className={styles.grid}>
         {articles.map((article) => {
-          // LOGIKA BARU: Jika image kosong, pakai no-image.jpg
           const displayImage = article.image || '/images/no-image.jpg';
           return (
             <Link href={`/blog/${article.slug}`} key={article._id} className={styles.card}>
@@ -58,7 +57,6 @@ export default async function ArticleListPage() {
               <div className={styles.cardContent}>
                 <div className={styles.meta}>
                   <span className={styles.date}>{article.date}</span>
-                  {/* Cek apakah tags ada isinya agar tidak error */}
                   <span className={styles.tag}>
                     {Array.isArray(article.tags) && article.tags.length > 0 ? article.tags[0] : 'Umum'}
                   </span>
