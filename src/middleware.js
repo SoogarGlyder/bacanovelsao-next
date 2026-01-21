@@ -2,37 +2,66 @@ import { NextResponse } from 'next/server';
 
 export function middleware(request) {
   const url = request.nextUrl.clone();
+  const { pathname } = request.nextUrl;
   const hostname = request.headers.get('host');
-  
-  // Ganti dengan domain barumu
+  const method = request.method;
+
+  // ============================================================
+  // BAGIAN 1: DOMAIN REDIRECT (Wajib Paling Atas)
+  // ============================================================
   const targetDomain = 'linkstart.id';
 
-  // Cek apakah user mengakses lewat domain lama (.vercel.app)
-  // Kita hanya redirect jika environment adalah PRODUCTION
+  // Jika user akses via vercel.app di production, lempar ke linkstart.id
   if (process.env.NODE_ENV === 'production' && 
       hostname.includes('vercel.app')) {
       
     url.hostname = targetDomain;
     url.protocol = 'https';
-    url.port = ''; // Hapus port jika ada
-    
-    // Lakukan Redirect 301 (Permanen)
+    url.port = ''; 
     return NextResponse.redirect(url, 301);
   }
 
+  // ============================================================
+  // BAGIAN 2: ADMIN & API PROTECTION
+  // ============================================================
+  const isAdminEnabled = process.env.ADMIN_ENABLED === 'true';
+
+  // 1. Proteksi Halaman /admin
+  if (pathname.startsWith('/admin')) {
+    if (!isAdminEnabled) {
+      // Redirect ke Home jika admin dimatikan
+      return NextResponse.redirect(new URL('/', request.url));
+    }
+  }
+
+  // 2. Proteksi Route /api
+  if (pathname.startsWith('/api')) {
+    
+    const publicPostRoutes = [
+      '/api/comments' 
+    ];
+
+    if (method === 'POST' && publicPostRoutes.includes(pathname)) {
+      return NextResponse.next();
+    }
+
+    if (method !== 'GET') {
+       if (!isAdminEnabled) {
+          return NextResponse.json(
+            { message: 'Forbidden: Admin access currently disabled' },
+            { status: 403 }
+          );
+       }
+    }
+  }
   return NextResponse.next();
 }
 
-// Konfigurasi agar middleware berjalan di semua halaman
+// ============================================================
+// KONFIGURASI MATCHER
+// ============================================================
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     */
-    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+    '/((?!_next/static|_next/image|favicon.ico).*)',
   ],
 };
