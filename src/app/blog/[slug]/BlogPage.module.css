@@ -121,6 +121,16 @@
     height: 0.5em;
 }
 
+.content a {
+  color: var(--foreground);
+  text-decoration: none;
+}
+
+.content a:hover {
+  color: var(--primary);
+  background: rgba(56, 182, 255, 0.15);
+}
+
 /* ------------------------------------------------ */
 
 .imageContainer {

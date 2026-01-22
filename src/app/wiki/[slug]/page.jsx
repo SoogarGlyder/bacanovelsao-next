@@ -39,7 +39,7 @@ export async function generateMetadata({ params }) {
     : 'Detail Karakter';
 
   return {
-    title: `${data.name} | Wiki linkstart.id`,
+    title: `${data.name} | Wiki`,
     description: cleanDescription.substring(0, 160) + '...', 
   };
 }
