@@ -239,16 +239,16 @@
   }
   .mobileToggle {
     display: block;
-    padding: 10px; /* Padding dibesarkan sedikit */
+    padding: 4.5px;
     width: 100vw;
-    font-size: 1rem;
+    font-size: 1.1em;
     font-weight: bold;
     background-color: var(--input-bg);
     color: var(--foreground);
-    border: none;
     border-bottom: 1px solid var(--input-border);
+    border-radius: 0px;
     cursor: pointer;
-    text-align: left;
+    border: none;
   }
   .chapterList {
     background: var(--card-bg);

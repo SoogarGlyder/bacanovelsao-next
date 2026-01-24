@@ -31,7 +31,9 @@ export default function ChapterClient({
   const { novels: serieNovels } = useNovelList(novel.serie);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    if (!window.location.hash) {
+      window.scrollTo(0, 0);
+    } 
   }, [chapter]);
 
   useEffect(() => {
