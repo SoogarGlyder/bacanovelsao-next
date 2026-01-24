@@ -106,8 +106,9 @@ export default function ChapterClient({
         ...sanitizeHtml.defaults.allowedAttributes,
         'img': ['src', 'alt', 'width', 'height', 'title'],
         'div': ['class', 'style', 'id'],
-        'span': ['class', 'style'],
-        'p': ['class', 'style']
+        'span': ['class', 'style', 'id'], 
+        'p': ['class', 'style', 'id'],
+        'a': ['href', 'target', 'id']
     },
     allowedSchemes: [ 'http', 'https', 'data', 'mailto' ]
   });
