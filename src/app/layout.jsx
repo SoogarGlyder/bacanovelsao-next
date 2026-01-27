@@ -14,6 +14,11 @@ export const viewport = {
 
 export const metadata = {
   metadataBase: new URL('https://linkstart.id'), 
+  
+  alternates: {
+    canonical: './',
+  },
+
   title: {
     template: '%s | linkstart.id',
     default: 'Beranda | linkstart.id',

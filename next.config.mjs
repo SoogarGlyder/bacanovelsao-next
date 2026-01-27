@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  trailingSlash: false,
+
   serverExternalPackages: ['jsdom', 'isomorphic-dompurify'],
 
   images: {

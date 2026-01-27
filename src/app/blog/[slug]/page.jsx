@@ -1,18 +1,16 @@
 import React from 'react';
 import { notFound } from 'next/navigation';
-import dbConnect from '@/lib/dbConnect'; // Menggunakan file yang Anda kirim
-import Article from '@/models/Article';   // Model yang baru dibuat
-import BlogClient from './BlogClient';    // Layout Holy Grail yang sudah ada
+import dbConnect from '@/lib/dbConnect'; 
+import Article from '@/models/Article';   
+import BlogClient from './BlogClient';    
 
-// Fungsi helper untuk mengambil data (agar kode lebih rapi)
+// Fungsi helper untuk mengambil data
 async function getArticle(slug) {
   await dbConnect();
-  // lean() mengubah dokumen Mongoose menjadi objek JavaScript biasa (lebih ringan)
   const article = await Article.findOne({ slug }).lean();
   
   if (!article) return null;
 
-  // Serialisasi data (ubah ObjectId dan Date jadi string agar Next.js tidak error)
   return {
     ...article,
     _id: article._id.toString(),
@@ -31,6 +29,13 @@ export async function generateMetadata({ params }) {
   return {
     title: `${article.title} | Blog & Artikel`,
     description: article.excerpt,
+    
+    // --- TAMBAHAN CANONICAL SPESIFIK ---
+    alternates: {
+      canonical: `/blog/${slug}`, // Memaksa URL bersih tanpa query string
+    },
+    // -----------------------------------
+
     openGraph: {
       images: article.image ? [article.image] : [],
     },
