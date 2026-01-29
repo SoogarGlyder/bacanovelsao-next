@@ -5,9 +5,11 @@ import { stripHtml } from '@/utils/stringUtils';
 import NovelClient from './NovelClient';
 import { notFound } from 'next/navigation';
 
+// --- BAGIAN SEO METADATA ---
 export async function generateMetadata({ params }) {
   const { novelSlug } = await params;
   await dbConnect();
+  
   const novel = await Novel.findOne({ novel_slug: novelSlug })
     .select('title synopsis cover_image')
     .lean();
@@ -19,15 +21,25 @@ export async function generateMetadata({ params }) {
     };
   }
 
-  const cleanDescription = stripHtml(novel.synopsis || 'linkstart.id').substring(0, 160);
+  // Fallback deskripsi yang lebih baik untuk SEO
+  const rawDesc = novel.synopsis || `Baca novel ${novel.title} Bahasa Indonesia di LinkStart ID.`;
+  const cleanDescription = stripHtml(rawDesc).substring(0, 160);
   const ogImage = novel.cover_image || '/social-cover.jpg';
 
   return {
     title: novel.title,
     description: cleanDescription,
+    
+    // 🔥 WAJIB: Canonical URL untuk mencegah Duplikat Content
+    alternates: {
+      canonical: `/${novelSlug}`, 
+    },
+    // -----------------------------------------------------
+
     openGraph: {
       title: novel.title,
       description: cleanDescription,
+      url: `/${novelSlug}`, // Tambahkan URL eksplisit
       images: [
         {
           url: ogImage,
@@ -46,10 +58,12 @@ export async function generateMetadata({ params }) {
   };
 }
 
+// --- BAGIAN HALAMAN UTAMA ---
 export default async function Page({ params }) {
   const { novelSlug } = await params;
   await dbConnect();
 
+  // Update views dan ambil data sekaligus
   const novel = await Novel.findOneAndUpdate(
     { novel_slug: novelSlug },
     { $inc: { views: 1 } },
@@ -65,8 +79,20 @@ export default async function Page({ params }) {
     .sort({ chapter_number: 1 }) 
     .lean();
 
-  const serializedNovel = JSON.parse(JSON.stringify(novel));
-  const serializedChapters = JSON.parse(JSON.stringify(chapters));
+  // ⚡️ OPTIMASI: Cara "Membersihkan" data MongoDB tanpa JSON.parse/stringify (Lebih Cepat)
+  const serializedNovel = {
+    ...novel,
+    _id: novel._id.toString(),
+    createdAt: novel.createdAt?.toISOString(),
+    updatedAt: novel.updatedAt?.toISOString(),
+    // Pastikan field tanggal lain juga di-convert jika ada
+  };
+
+  const serializedChapters = chapters.map(chapter => ({
+    ...chapter,
+    _id: chapter._id.toString(),
+    // Jika di chapter ada tanggal, convert juga di sini
+  }));
 
   return <NovelClient initialNovel={serializedNovel} initialChapters={serializedChapters} />;
 }

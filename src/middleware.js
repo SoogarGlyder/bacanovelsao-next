@@ -7,36 +7,43 @@ export function middleware(request) {
   const method = request.method;
 
   // ============================================================
-  // BAGIAN 1: DOMAIN REDIRECT (Wajib Paling Atas)
+  // BAGIAN 1: DOMAIN REDIRECT (FORCE WWW)
   // ============================================================
-  const targetDomain = 'linkstart.id';
+  // ⚠️ UBAH INI: Tambahkan www
+  const targetDomain = 'www.linkstart.id'; 
 
-  // Jika user akses via vercel.app di production, lempar ke linkstart.id
-  if (process.env.NODE_ENV === 'production' && 
-      hostname.includes('vercel.app')) {
+  // Jalankan hanya di Production
+  if (process.env.NODE_ENV === 'production') {
       
-    url.hostname = targetDomain;
-    url.protocol = 'https';
-    url.port = ''; 
-    return NextResponse.redirect(url, 301);
+      // Cek 1: Apakah akses via linkstart.id (tanpa www)?
+      const isNonWww = hostname === 'linkstart.id';
+      
+      // Cek 2: Apakah akses via domain bawaan Vercel?
+      const isVercelDomain = hostname.includes('vercel.app');
+
+      // Jika salah satu benar, lempar ke www.linkstart.id
+      if (isNonWww || isVercelDomain) {
+          url.hostname = targetDomain;
+          url.protocol = 'https';
+          url.port = ''; 
+          return NextResponse.redirect(url, 301);
+      }
   }
 
   // ============================================================
-  // BAGIAN 2: ADMIN & API PROTECTION
+  // BAGIAN 2: ADMIN & API PROTECTION (TETAP SAMA)
   // ============================================================
   const isAdminEnabled = process.env.ADMIN_ENABLED === 'true';
 
   // 1. Proteksi Halaman /admin
   if (pathname.startsWith('/admin')) {
     if (!isAdminEnabled) {
-      // Redirect ke Home jika admin dimatikan
       return NextResponse.redirect(new URL('/', request.url));
     }
   }
 
   // 2. Proteksi Route /api
   if (pathname.startsWith('/api')) {
-    
     const publicPostRoutes = [
       '/api/comments' 
     ];
@@ -54,6 +61,7 @@ export function middleware(request) {
        }
     }
   }
+
   return NextResponse.next();
 }
 

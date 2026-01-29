@@ -3,7 +3,8 @@ import Novel from '@/models/Novel';
 import Chapter from '@/models/Chapter';
 import Article from '@/models/Article';
 
-const BASE_URL = 'https://linkstart.id';
+// ⚠️ UBAH INI: Tambahkan www
+const BASE_URL = 'https://www.linkstart.id';
 
 export default async function sitemap() {
   await dbConnect();

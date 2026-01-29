@@ -1,6 +1,7 @@
 import './globals.css';
 import Script from 'next/script'; 
 import { GoogleAnalytics } from '@next/third-parties/google'; 
+import { SpeedInsights } from "@vercel/speed-insights/next"; 
 import { Providers } from './providers'; 
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -13,7 +14,7 @@ export const viewport = {
 };
 
 export const metadata = {
-  metadataBase: new URL('https://linkstart.id'), 
+  metadataBase: new URL('https://www.linkstart.id'), 
   
   alternates: {
     canonical: './',
@@ -108,6 +109,9 @@ export default function RootLayout({ children }) {
           <Footer />
           <FloatingSettings />
         </Providers>
+        
+        <SpeedInsights />
+        
         <GoogleAnalytics gaId="G-3Y3LMERW26" />
       </body>
     </html>
