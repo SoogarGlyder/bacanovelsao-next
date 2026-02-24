@@ -1,35 +1,28 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import Script from 'next/script'; // Import Script untuk JSON-LD
+import Script from 'next/script';
 import styles from './Blog.module.css';
 import dbConnect from '@/lib/dbConnect';
 import Article from '@/models/Article';
 
-// Tetap gunakan force-dynamic agar artikel baru langsung muncul
 export const dynamic = 'force-dynamic'; 
-
-// --- 1. METADATA SEO LENGKAP ---
 export const metadata = {
-  title: 'Blog & Artikel',
+  title: 'Blog & Artikel | linkstart.id',
   description: 'Update terbaru, panduan, dan pembahasan mendalam dunia Sword Art Online.',
-  
-  // 🔥 WAJIB: Canonical URL agar tidak duplicate content
   alternates: {
     canonical: '/blog', 
   },
-  // -----------------------------------------------------
-
   openGraph: {
-    title: 'Blog & Artikel | Link Start ID',
+    title: 'Blog & Artikel', 
     description: 'Update terbaru, panduan, dan pembahasan mendalam dunia Sword Art Online.',
     url: '/blog',
-    siteName: 'Link Start ID',
+    siteName: 'linkstart.id',
     locale: 'id_ID',
-    type: 'website', // Tipe 'website' cocok untuk halaman index/list
+    type: 'website',
     images: [
       {
-        url: '/social-cover.jpg', // Pastikan gambar ini ada di public
+        url: '/social-cover.jpg',
         width: 1200,
         height: 630,
         alt: 'Blog Link Start ID',
@@ -38,7 +31,7 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Blog & Artikel | Link Start ID',
+    title: 'Blog & Artikel | linkstart.id',
     description: 'Update terbaru, panduan, dan pembahasan mendalam dunia Sword Art Online.',
     images: ['/social-cover.jpg'],
   },
@@ -51,7 +44,6 @@ async function getArticles() {
     .sort({ createdAt: -1 })
     .lean();
   
-  // Serialisasi data agar aman dikirim ke Client Component (jika perlu)
   return articles.map(doc => ({
     ...doc,
     _id: doc._id.toString(),
@@ -62,8 +54,6 @@ async function getArticles() {
 
 export default async function ArticleListPage() {
   const articles = await getArticles();
-
-  // --- 2. JSON-LD SCHEMA (CollectionPage) ---
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
@@ -83,7 +73,6 @@ export default async function ArticleListPage() {
 
   return (
     <div className={styles.container}>
-      {/* Inject JSON-LD */}
       <Script
         id="json-ld-blog"
         type="application/ld+json"
@@ -97,7 +86,6 @@ export default async function ArticleListPage() {
         </p>
       </div>
 
-      {/* Cek jika belum ada artikel */}
       {articles.length === 0 ? (
         <div style={{ textAlign: 'center', padding: '50px 0', color: '#888' }}>
           <p>Belum ada artikel yang diterbitkan.</p>
@@ -105,7 +93,6 @@ export default async function ArticleListPage() {
       ) : (
         <div className={styles.grid}>
           {articles.map((article) => {
-            // Logic fallback image yang lebih aman
             const displayImage = article.image || '/social-cover.jpg'; 
             
             return (

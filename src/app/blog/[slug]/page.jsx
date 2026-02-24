@@ -5,7 +5,6 @@ import Article from '@/models/Article';
 import BlogClient from './BlogClient';    
 import Script from 'next/script';
 
-// Fungsi helper (digunakan di Metadata)
 async function getArticleData(slug) {
   await dbConnect();
   const article = await Article.findOne({ slug }).lean();
@@ -20,33 +19,28 @@ async function getArticleData(slug) {
   };
 }
 
-// --- SEO Metadata Dinamis (Diperlengkap) ---
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const article = await getArticleData(slug);
 
-  if (!article) return { title: 'Artikel Tidak Ditemukan' };
+  if (!article) return { title: 'Artikel Tidak Ditemukan | linkstart.id' };
 
-  // Fallback image jika artikel tidak punya gambar
   const ogImage = article.image || '/social-cover.jpg';
   
   return {
-    title: article.title,
+    title: `${article.title} | linkstart.id`, 
     description: article.excerpt,
-    
-    // Canonical URL (Sudah Benar)
     alternates: {
       canonical: `/blog/${slug}`,
     },
 
-    // Open Graph (Untuk Facebook, WhatsApp, LinkedIn)
     openGraph: {
       title: article.title,
       description: article.excerpt,
       url: `/blog/${slug}`,
-      siteName: 'Link Start ID',
+      siteName: 'linkstart.id', 
       locale: 'id_ID',
-      type: 'article', // Memberitahu ini adalah artikel
+      type: 'article',
       publishedTime: article.createdAt,
       authors: ['Link Start ID'],
       images: [
@@ -59,34 +53,26 @@ export async function generateMetadata({ params }) {
       ],
     },
 
-    // Twitter Card (Wajib agar gambar besar di Twitter/X)
     twitter: {
       card: 'summary_large_image',
-      title: article.title,
+      title: `${article.title} | linkstart.id`,
       description: article.excerpt,
       images: [ogImage],
     },
   };
 }
 
-// --- Komponen Utama ---
 export default async function ArticleDetailPage({ params }) {
   const { slug } = await params;
-  
-  // 1. Logic Hitung Views & Ambil Data (Seperti di Novel Page)
   await dbConnect();
   
-  // Menggunakan findOneAndUpdate agar Views bertambah setiap kali dibuka
-  // Jika tidak ingin menghitung views, ganti jadi findOne() biasa
   const articleRaw = await Article.findOneAndUpdate(
     { slug },
-    { $inc: { views: 1 } }, // Increment views +1
+    { $inc: { views: 1 } },
     { new: true } 
   ).lean();
 
   if (!articleRaw) return notFound();
-
-  // 2. Serialisasi Data Manual (Ringan)
   const article = {
     ...articleRaw,
     _id: articleRaw._id.toString(),
@@ -94,8 +80,6 @@ export default async function ArticleDetailPage({ params }) {
     updatedAt: articleRaw.updatedAt?.toISOString(),
   };
 
-  // 3. Siapkan JSON-LD (Schema Markup untuk Google)
-  // Ini membuat artikel Anda dimengerti Google sebagai "NewsArticle" atau "BlogPosting"
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
@@ -121,13 +105,10 @@ export default async function ArticleDetailPage({ params }) {
 
   return (
     <>
-      {/* Masukkan JSON-LD ke dalam head */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      
-      {/* Render Halaman */}
       <BlogClient article={article} />
     </>
   );

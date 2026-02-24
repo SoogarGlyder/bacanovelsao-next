@@ -14,16 +14,11 @@ export const viewport = {
 };
 
 export const metadata = {
-  metadataBase: new URL('https://www.linkstart.id'), 
-  
+  metadataBase: new URL('https://www.linkstart.id'),
   alternates: {
-    canonical: './',
+    canonical: '/',
   },
-
-  title: {
-    template: '%s | linkstart.id',
-    default: 'Beranda | linkstart.id',
-  },
+  title: 'linkstart.id | Baca Novel Sword Art Online Bahasa Indonesia', 
   description: 'Baca Novel Sword Art Online Bahasa Indonesia lengkap. Aincrad, Progressive, Gun Gale Online, dan lainnya.',
   applicationName: 'linkstart.id',
   keywords: ["novel sao", "sword art online", "aincrad", "progressive", "light novel", "baca online", "ggo", "novel fantasi"],

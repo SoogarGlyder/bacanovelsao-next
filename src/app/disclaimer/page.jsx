@@ -3,7 +3,7 @@ import Link from 'next/link';
 import styles from '../styles/LandPages.module.css';
 
 export const metadata = {
-  title: 'Disclaimer & Catatan Penerjemah',
+  title: 'Disclaimer & Catatan Penerjemah | linkstart.id',
   description: 'Informasi hak cipta dan catatan mengenai terjemahan di linkstart.id',
 };
 

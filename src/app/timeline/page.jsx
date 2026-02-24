@@ -99,7 +99,7 @@ const TIMELINE_DATA = [
 ];
 
 export const metadata = {
-  title: 'Timeline Kronologis',
+  title: 'Timeline Kronologis | linkstart.id',
   description: 'Urutan baca novel Sword Art Online berdasarkan waktu kejadian cerita.',
 };
 

@@ -16,7 +16,7 @@ export async function generateMetadata({ params }) {
       .lean();
     
     if (!novel) {
-      return { title: 'Novel Tidak Ditemukan' };
+      return { title: 'Novel Tidak Ditemukan | linkstart.id' };
     }
 
     const chapter = await Chapter.findOne({ 
@@ -25,7 +25,7 @@ export async function generateMetadata({ params }) {
     }).select('title content').lean();
 
     if (!chapter) {
-      return { title: `Chapter Tidak Ditemukan | ${novel.title}` };
+      return { title: `Chapter Tidak Ditemukan | ${novel.title} | linkstart.id` };
     }
 
     const rawContent = chapter.content || `Baca ${novel.title} ${chapter.title}`;
@@ -34,7 +34,7 @@ export async function generateMetadata({ params }) {
     const currentUrl = `/${novelSlug}/${chapterSlug}`;
 
     return {
-      title: `${chapter.title} | ${novel.title}`,
+      title: `${chapter.title} | ${novel.title} | linkstart.id`,
       description: descPreview,
       
       alternates: {
@@ -46,6 +46,7 @@ export async function generateMetadata({ params }) {
         description: descPreview,
         url: currentUrl,
         type: 'article',
+        siteName: 'linkstart.id',
         images: [
           {
             url: ogImage,
@@ -57,7 +58,7 @@ export async function generateMetadata({ params }) {
       },
       twitter: {
         card: 'summary_large_image',
-        title: `${chapter.title} | ${novel.title}`,
+        title: `${chapter.title} | ${novel.title} | linkstart.id`,
         description: descPreview,
         images: [ogImage],
       },

@@ -31,7 +31,7 @@ export async function generateMetadata({ params }) {
   const data = WIKI_DATA[slug];
 
   if (!data) {
-    return { title: 'Halaman Tidak Ditemukan' };
+    return { title: 'Halaman Tidak Ditemukan | linkstart.id' };
   }
 
   const cleanDescription = data.description 
@@ -39,7 +39,7 @@ export async function generateMetadata({ params }) {
     : 'Detail Karakter';
 
   return {
-    title: `${data.name} | Wiki`,
+    title: `${data.name} | Wiki | linkstart.id`,
     description: cleanDescription.substring(0, 160) + '...', 
   };
 }

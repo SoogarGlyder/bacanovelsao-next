@@ -15,7 +15,7 @@ export async function generateMetadata({ params }) {
 
   if (!novel) {
     return {
-      title: 'Novel Tidak Ditemukan',
+      title: 'Novel Tidak Ditemukan | linkstart.id',
       description: 'Halaman yang Anda cari tidak tersedia.',
     };
   }
@@ -25,7 +25,7 @@ export async function generateMetadata({ params }) {
   const ogImage = novel.cover_image || '/social-cover.jpg';
 
   return {
-    title: novel.title,
+    title: `${novel.title} | linkstart.id`,
     description: cleanDescription,
     
     alternates: {
@@ -36,6 +36,7 @@ export async function generateMetadata({ params }) {
       title: novel.title,
       description: cleanDescription,
       url: `/${novelSlug}`,
+      siteName: 'linkstart.id',
       images: [
         {
           url: ogImage,
@@ -47,7 +48,7 @@ export async function generateMetadata({ params }) {
     },
     twitter: {
       card: 'summary_large_image',
-      title: novel.title,
+      title: `${novel.title} | linkstart.id`,
       description: cleanDescription,
       images: [ogImage],
     },

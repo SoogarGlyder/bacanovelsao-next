@@ -2,7 +2,7 @@ import React from 'react';
 import styles from '../styles/LandPages.module.css';
 
 export const metadata = {
-  title: 'Hubungi Kami',
+  title: 'Hubungi Kami | linkstart.id',
   description: 'Hubungi tim linkstart.id untuk saran, laporan bug, atau kerjasama.',
 };
 

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import styles from '../styles/LandPages.module.css';
 
 export const metadata = {
-  title: 'Kebijakan Privasi',
+  title: 'Kebijakan Privasi | linkstart.id',
   description: 'Kebijakan privasi penggunaan website linkstart.id.',
 };
 
