@@ -16,7 +16,10 @@ const initialFormState = {
   serie: 'main', 
   synopsis: '',
   cover_image: '',
-  novel_slug: ''
+  novel_slug: '',
+  affiliate_title: '',
+  affiliate_link: '',
+  affiliate_image: ''
 };
 
 function NovelForm({ novelToEdit, onSaveSuccess, styles }) {
@@ -35,6 +38,9 @@ function NovelForm({ novelToEdit, onSaveSuccess, styles }) {
         synopsis: novelToEdit.synopsis || '',
         cover_image: novelToEdit.cover_image || '',
         novel_slug: novelToEdit.novel_slug || '',
+        affiliate_title: novelToEdit.affiliate_title || '',
+        affiliate_link: novelToEdit.affiliate_link || '',
+        affiliate_image: novelToEdit.affiliate_image || '',
         _id: novelToEdit._id
       });
     } else {
@@ -155,7 +161,40 @@ function NovelForm({ novelToEdit, onSaveSuccess, styles }) {
         placeholder="Tulis sinopsis singkat..."
       />
 
-      <button type="submit" disabled={loading} style={{ marginTop: '10px' }}>
+      <div style={{ marginTop: '20px', padding: '15px', border: '1px solid var(--input-border)', borderRadius: '8px', backgroundColor: 'rgba(0,0,0,0.02)' }}>
+        <h4 style={{ margin: '0 0 15px 0', color: 'var(--primary)' }}>Data Afiliasi (Opsional)</h4>
+        
+        <label htmlFor="affiliate_title" style={{ fontSize: '0.9rem' }}>Judul Produk Afiliasi</label>
+        <input
+          id="affiliate_title"
+          name="affiliate_title"
+          type="text"
+          value={formData.affiliate_title}
+          onChange={handleChange}
+          placeholder="Contoh: Light Novel SAO Vol 1 Fisik"
+        />
+
+        <label htmlFor="affiliate_link" style={{ fontSize: '0.9rem' }}>Link Afiliasi (Shopee/Tokopedia)</label>
+        <input
+          id="affiliate_link"
+          name="affiliate_link"
+          type="text"
+          value={formData.affiliate_link}
+          onChange={handleChange}
+          placeholder="https://s.shopee.co.id/..."
+        />
+
+        <label htmlFor="affiliate_image" style={{ fontSize: '0.9rem' }}>URL Gambar Produk</label>
+        <input
+          id="affiliate_image"
+          name="affiliate_image"
+          type="text"
+          value={formData.affiliate_image}
+          onChange={handleChange}
+          placeholder="URL gambar produk..."
+        />
+      </div>
+      <button type="submit" disabled={loading} style={{ marginTop: '20px' }}>
         {loading ? 'Memproses...' : (isEditing ? 'Update Novel' : 'Simpan Novel')}
       </button>
     </form>

@@ -1,5 +1,4 @@
 export default function robots() {
-  // ⚠️ UBAH INI: Tambahkan www
   const baseUrl = 'https://www.linkstart.id';
 
   return {
@@ -12,7 +11,6 @@ export default function robots() {
         '/_next/',
       ],
     },
-    // Sitemap juga akan otomatis menunjuk ke versi www
     sitemap: `${baseUrl}/sitemap.xml`,
   };
 }

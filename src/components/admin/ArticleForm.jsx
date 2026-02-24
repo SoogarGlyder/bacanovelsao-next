@@ -12,7 +12,10 @@ export default function ArticleForm({ articleToEdit, onSaveSuccess, styles }) {
     image: '',
     tags: '',
     excerpt: '',
-    content: ''
+    content: '',
+    affiliate_title: '',
+    affiliate_link: '',
+    affiliate_image: ''
   });
   
   const [loading, setLoading] = useState(false);
@@ -30,7 +33,10 @@ export default function ArticleForm({ articleToEdit, onSaveSuccess, styles }) {
         image: articleToEdit.image || '',
         tags: Array.isArray(articleToEdit.tags) ? articleToEdit.tags.join(', ') : (articleToEdit.tags || ''),
         excerpt: articleToEdit.excerpt || '',
-        content: articleToEdit.content || ''
+        content: articleToEdit.content || '',
+        affiliate_title: articleToEdit.affiliate_title || '',
+        affiliate_link: articleToEdit.affiliate_link || '',
+        affiliate_image: articleToEdit.affiliate_image || ''
       });
       setMessage(null);
     } else {
@@ -43,15 +49,16 @@ export default function ArticleForm({ articleToEdit, onSaveSuccess, styles }) {
         image: '',
         tags: '',
         excerpt: '',
-        content: ''
+        content: '',
+        affiliate_title: '',
+        affiliate_link: '',
+        affiliate_image: ''
       });
     }
   }, [articleToEdit]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    
-    // Auto-slug generator (hanya saat buat baru)
     if (name === 'title' && !articleToEdit) {
       const slug = value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
       setFormData(prev => ({ ...prev, title: value, slug }));
@@ -94,7 +101,8 @@ export default function ArticleForm({ articleToEdit, onSaveSuccess, styles }) {
             setFormData({
                 title: '', slug: '', subtitle: '', author: 'Admin',
                 date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
-                image: '', tags: '', excerpt: '', content: ''
+                image: '', tags: '', excerpt: '', content: '',
+                affiliate_title: '', affiliate_link: '', affiliate_image: ''
             });
         }
         
@@ -190,6 +198,36 @@ export default function ArticleForm({ articleToEdit, onSaveSuccess, styles }) {
             value={formData.content} onChange={handleChange} 
             style={{ fontFamily: 'monospace', lineHeight: '1.4' }}
         />
+        <div style={{ marginTop: '20px', padding: '15px', border: '1px solid var(--input-border)', borderRadius: '8px', backgroundColor: 'rgba(0,0,0,0.02)' }}>
+          <h4 style={{ margin: '0 0 15px 0', color: 'var(--primary)' }}>Data Afiliasi (Opsional)</h4>
+          
+          <label style={{ fontSize: '0.9rem' }}>Judul Produk Afiliasi</label>
+          <input
+            name="affiliate_title"
+            type="text"
+            value={formData.affiliate_title}
+            onChange={handleChange}
+            placeholder="Contoh: Beli Figure Kirito Original"
+          />
+
+          <label style={{ fontSize: '0.9rem' }}>Link Afiliasi (Shopee/Tokopedia)</label>
+          <input
+            name="affiliate_link"
+            type="text"
+            value={formData.affiliate_link}
+            onChange={handleChange}
+            placeholder="https://s.shopee.co.id/..."
+          />
+
+          <label style={{ fontSize: '0.9rem' }}>URL Gambar Produk</label>
+          <input
+            name="affiliate_image"
+            type="text"
+            value={formData.affiliate_image}
+            onChange={handleChange}
+            placeholder="URL gambar produk..."
+          />
+        </div>
 
         <div style={{ marginTop: '20px' }}>
             <button type="submit" disabled={loading}>

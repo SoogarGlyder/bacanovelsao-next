@@ -4,10 +4,9 @@ import Article from '@/models/Article';
 
 export async function POST(request) {
   try {
-    await dbConnect(); // Panggil fungsi koneksi yang Anda kirim
+    await dbConnect();
     const body = await request.json();
 
-    // Validasi input
     if (!body.title || !body.slug || !body.content) {
       return NextResponse.json({ error: 'Judul, Slug, dan Konten wajib diisi' }, { status: 400 });
     }

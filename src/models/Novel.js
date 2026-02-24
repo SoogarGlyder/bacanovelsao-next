@@ -38,7 +38,20 @@ const novelSchema = new mongoose.Schema({
     last_updated: {
         type: Date,
         default: Date.now
-    }
+    },
+    affiliate_title: {
+        type: String, 
+        default: ''
+    },
+    affiliate_link: {
+        type: String,
+        default: ''
+    },
+    affiliate_image: {
+        type: String,
+        default: ''
+    },
+    
 }, {
     timestamps: true
 });

@@ -5,12 +5,15 @@ const ArticleSchema = new mongoose.Schema({
   subtitle: { type: String },
   slug: { type: String, required: true, unique: true },
   author: { type: String, default: 'Admin' },
-  date: { type: String, required: true }, // Simpan string seperti "20 Jan 2024"
-  image: { type: String }, // URL Gambar
+  date: { type: String, required: true },
+  image: { type: String },
   tags: { type: [String], default: [] }, 
   excerpt: { type: String, required: true },
-  content: { type: String, required: true }, // HTML Content dari Text Editor
+  content: { type: String, required: true },
   views: { type: Number, default: 0 },
+  affiliate_title: { type: String, default: '' },
+  affiliate_link: { type: String, default: '' },
+  affiliate_image: { type: String, default: '' }
 }, { timestamps: true });
 
 export default mongoose.models.Article || mongoose.model('Article', ArticleSchema);

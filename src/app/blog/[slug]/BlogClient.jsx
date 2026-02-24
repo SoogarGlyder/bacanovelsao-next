@@ -5,27 +5,20 @@ import Link from 'next/link';
 import Image from 'next/image';
 import parse, { domToReact } from 'html-react-parser';
 import sanitizeHtml from 'sanitize-html';
-import { FaMinus, FaPlus, FaRedoAlt } from 'react-icons/fa';
 import { useFontSize } from '@/contexts/FontSizeContext'; 
 import styles from './BlogPage.module.css';
 import Breadcrumbs from '@/components/Breadcrumbs';
-
-// --- IMPORT KATEX ---
+import RightSidebar from '@/components/RightSidebar';
 import 'katex/dist/katex.min.css'; 
 import { BlockMath, InlineMath } from 'react-katex';
-
-// --- IMPORT COMMENT SECTION ---
 import CommentSection from '@/components/CommentSection';
 
 export default function BlogClient({ article }) {
-  const { fontSize, changeFontSize, resetFontSize } = useFontSize();
+  const { fontSize } = useFontSize();
   const [isListVisible, setIsListVisible] = useState(false);
   const [headings, setHeadings] = useState([]);
-  
-  // State untuk Artikel Terkait
   const [relatedArticles, setRelatedArticles] = useState([]);
 
-  // 1. Generate TOC
   useEffect(() => {
     if (article?.content) {
       const regex = /<h([2-3])(.*?)>(.*?)<\/h\1>/g;
@@ -40,16 +33,13 @@ export default function BlogClient({ article }) {
     }
   }, [article]);
 
-  // 2. Fetch Related Articles (Simple Logic: Fetch Latest 3 excluding current)
   useEffect(() => {
     const fetchRelated = async () => {
         try {
-            // Kita panggil API artikel (asumsi endpoint GET /api/articles mengembalikan array artikel)
             const res = await fetch('/api/articles');
             const data = await res.json();
             
             if (res.ok && Array.isArray(data)) {
-                // Filter agar artikel yang sedang dibaca tidak muncul
                 const filtered = data
                     .filter(item => item.slug !== article.slug)
                     .slice(0, 3); // Ambil 3 saja
@@ -65,7 +55,6 @@ export default function BlogClient({ article }) {
     }
   }, [article]);
 
-  // 3. Logic Sidebar Mobile
   useEffect(() => {
     if (typeof window !== 'undefined') {
       if (window.innerWidth > 767) {
@@ -81,10 +70,8 @@ export default function BlogClient({ article }) {
 
   if (!article) return null;
 
-  // 4. Options Parser
   const options = {
     replace: (domNode) => {
-      // Math Block
       if (domNode.attribs && domNode.attribs.class === 'math-block') {
         const mathExpression = domNode.attribs['data-math'];
         return (
@@ -93,7 +80,6 @@ export default function BlogClient({ article }) {
           </div>
         );
       }
-      // Math Inline
       if (domNode.attribs && domNode.attribs.class === 'math-inline') {
         const mathExpression = domNode.attribs['data-math'];
         return (
@@ -102,7 +88,6 @@ export default function BlogClient({ article }) {
            </span>
         );
       }
-      // Gambar
       if (domNode.type === 'tag' && domNode.name === 'img') {
         const { src, alt } = domNode.attribs;
         return (
@@ -120,7 +105,6 @@ export default function BlogClient({ article }) {
           </div>
         );
       }
-      // Heading ID
       if (domNode.type === 'tag' && ['h2', 'h3'].includes(domNode.name)) {
          const text = domToReact(domNode.children).toString();
          const id = text.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
@@ -158,7 +142,6 @@ export default function BlogClient({ article }) {
 
   return (
     <div className={styles.holyGrailLayout}>
-       {/* SIDEBAR KIRI */}
        <aside className={styles.leftSidebar}>
           <button
             className={styles.mobileToggle}
@@ -184,7 +167,6 @@ export default function BlogClient({ article }) {
           )}
       </aside>
 
-      {/* KONTEN TENGAH */}
       <main className={styles.mainContent}>
             <Breadcrumbs 
               items={[{ label: 'Blog', link: '/blog' }, { label: article.title, link: null }]} 
@@ -203,7 +185,6 @@ export default function BlogClient({ article }) {
                {parse(cleanContent, options)}
             </div>
 
-            {/* --- ARTIKEL TERKAIT (DITAMBAHKAN DI SINI) --- */}
             {relatedArticles.length > 0 && (
                 <div className={styles.relatedSection}>
                     <h3 className={styles.relatedTitle}>Artikel Lainnya</h3>
@@ -211,7 +192,6 @@ export default function BlogClient({ article }) {
                         {relatedArticles.map((rel) => (
                             <Link href={`/blog/${rel.slug}`} key={rel._id} className={styles.relatedCard}>
                                 <div className={styles.relatedImageWrapper}>
-                                    {/* Gunakan image dummy jika tidak ada gambar */}
                                     <Image 
                                         src={rel.image || '/images/no-image.jpg'} 
                                         alt={rel.title}
@@ -230,7 +210,6 @@ export default function BlogClient({ article }) {
                 </div>
             )}
 
-            {/* --- BAGIAN KOMENTAR --- */}
             <div style={{ marginTop: '40px', borderTop: '1px solid var(--input-border)'}}>
                 <CommentSection 
                     novelSlug="blog" 
@@ -238,24 +217,14 @@ export default function BlogClient({ article }) {
                 />
             </div>
       </main>
+      <RightSidebar 
+        affiliateData={{
+          title: article.affiliate_title,
+          link: article.affiliate_link,
+          image: article.affiliate_image
+        }} 
+      />
 
-      {/* SIDEBAR KANAN */}
-      <aside className={styles.rightSidebar}>
-        <div className={styles.rightContainer}>
-            <h3 className={styles.sidebarTitle}>Ukuran Font</h3>
-            <div className={styles.fontControlButtons}>
-                <button onClick={() => changeFontSize(-1)} className={styles.fontBtn} title="Kecilkan"><FaMinus /></button>
-                <button onClick={resetFontSize} className={styles.fontBtn} title="Reset"><FaRedoAlt /></button>
-                <button onClick={() => changeFontSize(1)} className={styles.fontBtn} title="Besarkan"><FaPlus /></button>
-            </div>
-        </div>
-        <div className={styles.rightContainer}>
-          <h3 className={styles.sidebarTitle}>Dukung Kami Yuk!</h3>
-          <a href="https://saweria.co/SoogarGlyder" target="_blank" rel="noreferrer">
-            <img className={styles.saweria} src="/saweria.png" alt="QR Code Saweria"/>
-          </a>
-        </div>
-      </aside>
     </div>
   );
 }

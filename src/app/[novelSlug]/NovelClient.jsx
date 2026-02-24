@@ -6,17 +6,17 @@ import Link from 'next/link';
 import Image from 'next/image';
 import parse, { domToReact } from 'html-react-parser';
 import sanitizeHtml from 'sanitize-html';
-import { FaMinus, FaPlus, FaRedoAlt } from 'react-icons/fa';
 import { useFontSize } from '@/contexts/FontSizeContext'; 
 import styles from './NovelDetailPage.module.css';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import { useGlobalContext } from '../providers';
 import { getReadingHistory } from '../../utils/readingHistory';
+import RightSidebar from '@/components/RightSidebar';
 
 export default function NovelClient({ initialNovel, initialChapters }) {
   const router = useRouter();
   const { setPageSerie, setDropdownSerie, setIsListOpen } = useGlobalContext();
-  const { fontSize, changeFontSize, resetFontSize } = useFontSize();
+  const { fontSize } = useFontSize();
   const [isListVisible, setIsListVisible] = useState(false);
   const [lastRead, setLastRead] = useState(null);
 
@@ -195,47 +195,13 @@ export default function NovelClient({ initialNovel, initialChapters }) {
           </p>
         </div>
       </main>
-      <aside className={styles.rightSidebar}>
-        <div className={styles.rightContainer}>
-            <h3 className={styles.sidebarTitle}>Ukuran Font</h3>
-            <div className={styles.fontControlButtons}>
-                <button 
-                  onClick={() => changeFontSize(-1)} 
-                  className={styles.fontBtn}
-                  title="Kecilkan Huruf"
-                  aria-label="Kecilkan Huruf"
-                >
-                  <FaMinus />
-                </button>
-                
-                <button 
-                  onClick={resetFontSize} 
-                  className={styles.fontBtn}
-                  title="Reset Ukuran Huruf"
-                  aria-label="Reset Ukuran Huruf"
-                  style={{ fontSize: '0.85rem' }}
-                >
-                  <FaRedoAlt />
-                </button>
-
-                <button 
-                  onClick={() => changeFontSize(1)} 
-                  className={styles.fontBtn}
-                  title="Besarkan Huruf"
-                  aria-label="Besarkan Huruf"
-                >
-                  <FaPlus />
-                </button>
-            </div>
-        </div>
-        
-        <div className={styles.rightContainer}>
-          <h3 className={styles.sidebarTitle}>Dukung Kami Yuk!</h3>
-          <a href="https://saweria.co/SoogarGlyder" target="_blank" rel="noreferrer">
-            <img className={styles.saweria} src="/saweria.png" alt="QR Code Saweria"/>
-          </a>
-        </div>
-      </aside>
+      <RightSidebar 
+        affiliateData={{
+          title: novel.affiliate_title,
+          link: novel.affiliate_link,
+          image: novel.affiliate_image
+        }} 
+      />
     </div>
   );
 }

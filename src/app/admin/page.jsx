@@ -8,7 +8,6 @@ import ChapterListAdmin from '@/components/admin/ChapterListAdmin';
 import ChapterForm from '@/components/admin/ChapterForm';
 import CommentListAdmin from '@/components/admin/CommentListAdmin';
 
-// Import Komponen Artikel
 import ArticleForm from '@/components/admin/ArticleForm';
 import ArticleListAdmin from '@/components/admin/ArticleListAdmin';
 
@@ -20,16 +19,13 @@ export default function AdminDashboard() {
   const [refreshList, setRefreshList] = useState(false); 
   const [isMobile, setIsMobile] = useState(false);
   
-  // --- STATE BARU UNTUK TOMBOL SCROLL ---
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   useEffect(() => {
-    // Cek Mobile
     const checkResize = () => setIsMobile(window.innerWidth < 768);
     checkResize();
     window.addEventListener('resize', checkResize);
 
-    // Cek Posisi Scroll untuk tombol Top
     const checkScroll = () => {
       if (window.scrollY > 400) {
         setShowScrollTop(true);
@@ -45,7 +41,6 @@ export default function AdminDashboard() {
     };
   }, []);
 
-  // --- Fungsi Go To Top ---
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -58,7 +53,6 @@ export default function AdminDashboard() {
     setChapterToEdit(null);
     setArticleToEdit(null);
     setRefreshList(prev => !prev); 
-    // Opsional: Scroll ke atas sedikit setelah save
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -119,8 +113,6 @@ export default function AdminDashboard() {
         </ul>
       </div>
       
-      {/* --- FORM SECTIONS --- */}
-      
       <section id="edit-novel-form" style={{ marginTop: '40px' }}>
           <h3 style={{ borderLeft: '5px solid var(--primary)', paddingLeft: '10px' }}>
              {novelToEdit ? `Edit Novel: ${novelToEdit.title}` : 'Buat Novel Baru'}
@@ -153,8 +145,6 @@ export default function AdminDashboard() {
             styles={styles}
           />
       </section>
-
-      {/* --- LIST SECTIONS --- */}
 
       <section id="kelola-novel" style={{ marginTop: '60px', borderTop: '4px solid #333', paddingTop: '30px' }}>
           <h2>Daftar Novel</h2>
@@ -193,7 +183,6 @@ export default function AdminDashboard() {
           />
       </section>
       
-      {/* --- TOMBOL BACK TO TOP --- */}
       <button 
         className={`${styles.scrollTopBtn} ${showScrollTop ? styles.showScroll : ''}`} 
         onClick={scrollToTop}
