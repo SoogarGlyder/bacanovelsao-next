@@ -1,6 +1,7 @@
 import './globals.css';
 import Script from 'next/script'; 
 import { GoogleAnalytics } from '@next/third-parties/google'; 
+import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next"; 
 import { Providers } from './providers'; 
 import Header from '@/components/Header';
@@ -106,6 +107,7 @@ export default function RootLayout({ children }) {
         </Providers>
         
         <SpeedInsights />
+        <Analytics />
         
         <GoogleAnalytics gaId="G-3Y3LMERW26" />
       </body>
