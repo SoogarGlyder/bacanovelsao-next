@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
 import Chapter from '@/models/Chapter';
 import Novel from '@/models/Novel';
+import { pingIndexNow } from '@/lib/indexnow'; // 🔥 Import fungsi IndexNow
 
 export async function POST(request) {
   try {
@@ -15,11 +16,20 @@ export async function POST(request) {
       );
     }
 
+    // 1. Simpan chapter baru
     const newChapter = await Chapter.create(body);
 
-    await Novel.findByIdAndUpdate(body.novel, { 
-      last_updated: new Date() 
-    });
+    // 2. Update waktu novel, sekaligus ambil datanya untuk mendapatkan novel_slug
+    const parentNovel = await Novel.findByIdAndUpdate(
+      body.novel, 
+      { last_updated: new Date() },
+      { new: true }
+    );
+
+    // 3. 🚀 PING INDEXNOW: Mengirim URL chapter yang baru rilis ke Bing
+    if (parentNovel && newChapter.chapter_slug) {
+      pingIndexNow(`/${parentNovel.novel_slug}/${newChapter.chapter_slug}`);
+    }
 
     return NextResponse.json({ success: true, data: newChapter }, { status: 201 });
 

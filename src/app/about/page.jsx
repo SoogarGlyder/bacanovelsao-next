@@ -4,7 +4,7 @@ import styles from '../styles/LandPages.module.css';
 
 export const metadata = {
   title: 'Tentang Kami | linkstart.id',
-  description: 'Platform baca novel Sword Art Online terbaik dengan pengalaman antarmuka modern.',
+  description: 'Ketahui lebih lanjut tentang linkstart.id, platform baca novel Sword Art Online terjemahan Bahasa Indonesia dengan antarmuka modern, cepat, dan responsif.',
 };
 
 export default function AboutPage() {

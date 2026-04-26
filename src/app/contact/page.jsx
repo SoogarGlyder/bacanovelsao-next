@@ -3,7 +3,7 @@ import styles from '../styles/LandPages.module.css';
 
 export const metadata = {
   title: 'Hubungi Kami | linkstart.id',
-  description: 'Hubungi tim linkstart.id untuk saran, laporan bug, atau kerjasama.',
+  description: 'Hubungi tim linkstart.id untuk memberikan saran, melaporkan error pada chapter novel, request terjemahan, atau mendiskusikan peluang kerjasama bisnis.',
 };
 
 export default function ContactPage() {

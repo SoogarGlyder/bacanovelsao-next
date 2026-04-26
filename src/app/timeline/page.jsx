@@ -100,7 +100,7 @@ const TIMELINE_DATA = [
 
 export const metadata = {
   title: 'Timeline Kronologis | linkstart.id',
-  description: 'Urutan baca novel Sword Art Online berdasarkan waktu kejadian cerita.',
+  description: 'Panduan lengkap timeline kronologis urutan membaca novel Sword Art Online (Main Series dan Progressive) berdasarkan waktu kejadian di dunia Aincrad.',
 };
 
 export default function TimelinePage() {

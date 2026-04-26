@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
 import Novel from '@/models/Novel';
+import { pingIndexNow } from '@/lib/indexnow'; // 🔥 Tambahkan import ini
 
 export const dynamic = 'force-dynamic';
 
@@ -64,6 +65,10 @@ export async function POST(request) {
     };
 
     const newNovel = await Novel.create(newNovelData);
+
+    // 🚀 PING INDEXNOW: Memberitahu mesin pencari bahwa ada novel baru
+    // Kita jalankan tanpa 'await' agar tidak menghambat response ke Admin
+    pingIndexNow(`/${novel_slug}`);
 
     return NextResponse.json({ success: true, data: newNovel }, { status: 201 });
 

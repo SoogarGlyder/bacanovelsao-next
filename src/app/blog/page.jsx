@@ -9,13 +9,13 @@ import Article from '@/models/Article';
 export const dynamic = 'force-dynamic'; 
 export const metadata = {
   title: 'Blog & Artikel | linkstart.id',
-  description: 'Update terbaru, panduan, dan pembahasan mendalam dunia Sword Art Online.',
+  description: 'Update berita terbaru, panduan, pembahasan mendalam, dan teori menarik seputar dunia novel Sword Art Online dan Underworld hanya di linkstart.id.',
   alternates: {
     canonical: '/blog', 
   },
   openGraph: {
     title: 'Blog & Artikel', 
-    description: 'Update terbaru, panduan, dan pembahasan mendalam dunia Sword Art Online.',
+    description: 'Update berita terbaru, panduan, pembahasan mendalam, dan teori menarik seputar dunia novel Sword Art Online dan Underworld hanya di linkstart.id.',
     url: '/blog',
     siteName: 'linkstart.id',
     locale: 'id_ID',
@@ -32,7 +32,7 @@ export const metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Blog & Artikel | linkstart.id',
-    description: 'Update terbaru, panduan, dan pembahasan mendalam dunia Sword Art Online.',
+    description: 'Update berita terbaru, panduan, pembahasan mendalam, dan teori menarik seputar dunia novel Sword Art Online dan Underworld hanya di linkstart.id.',
     images: ['/social-cover.jpg'],
   },
 };
