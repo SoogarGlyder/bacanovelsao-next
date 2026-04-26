@@ -64,7 +64,7 @@
 
 /* Reset Paragraf agar ada jarak */
 .content p {
-  margin-bottom: 0.75em;
+  margin-bottom: 0;
   margin-top: 0;
 }
 
