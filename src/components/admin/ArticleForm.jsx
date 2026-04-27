@@ -21,7 +21,6 @@ export default function ArticleForm({ articleToEdit, onSaveSuccess, styles }) {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
 
-  // Isi form jika mode Edit
   useEffect(() => {
     if (articleToEdit) {
       setFormData({
@@ -64,6 +63,13 @@ export default function ArticleForm({ articleToEdit, onSaveSuccess, styles }) {
       setFormData(prev => ({ ...prev, title: value, slug }));
     } else {
       setFormData(prev => ({ ...prev, [name]: value }));
+    }
+  };
+
+  // 🔥 Mencegah form ke-submit otomatis kalau kepencet 'Enter' di input judul/slug
+  const preventEnterSubmit = (e) => {
+    if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
+      e.preventDefault();
     }
   };
 
@@ -126,7 +132,8 @@ export default function ArticleForm({ articleToEdit, onSaveSuccess, styles }) {
         </div>
       )}
 
-      <form onSubmit={handleSubmit}>
+      {/* 🔥 Tambahkan onKeyDown di sini */}
+      <form onSubmit={handleSubmit} onKeyDown={preventEnterSubmit}>
         <label>Judul Artikel</label>
         <input 
             type="text" name="title" required 
@@ -187,17 +194,25 @@ export default function ArticleForm({ articleToEdit, onSaveSuccess, styles }) {
         <textarea 
             name="excerpt" rows="3" required
             value={formData.excerpt} onChange={handleChange} 
+            spellCheck="false"
         />
 
         <label>Konten Artikel (HTML allowed)</label>
         <p style={{fontSize: '0.8rem', color: '#888', marginBottom: '5px'}}>
            Tips: Gunakan class <code>math-inline</code> untuk rumus.
         </p>
+        
+        {/* 🔥 Tambahkan atribut anti-ekstensi di textarea ini */}
         <textarea 
             name="content" rows="15" required
             value={formData.content} onChange={handleChange} 
             style={{ fontFamily: 'monospace', lineHeight: '1.4' }}
+            spellCheck="false"
+            data-gramm="false" 
+            data-gramm_editor="false" 
+            data-enable-grammarly="false"
         />
+
         <div style={{ marginTop: '20px', padding: '15px', border: '1px solid var(--input-border)', borderRadius: '8px', backgroundColor: 'rgba(0,0,0,0.02)' }}>
           <h4 style={{ margin: '0 0 15px 0', color: 'var(--primary)' }}>Data Afiliasi (Opsional)</h4>
           
