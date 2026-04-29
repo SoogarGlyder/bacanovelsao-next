@@ -2,6 +2,7 @@ import './globals.css';
 import Script from 'next/script'; 
 import { GoogleAnalytics } from '@next/third-parties/google'; 
 import { SpeedInsights } from "@vercel/speed-insights/next"; 
+import { Analytics } from "@vercel/analytics/next"; // 🔥 Import Vercel Analytics
 import { Providers } from './providers'; 
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -105,8 +106,9 @@ export default function RootLayout({ children }) {
           <FloatingSettings />
         </Providers>
         
+        {/* Analytics dan Insights diletakkan di luar struktur visual */}
         <SpeedInsights />
-        
+        <Analytics /> {/* 🔥 Pemasangan Komponen Vercel Analytics */}
         <GoogleAnalytics gaId="G-3Y3LMERW26" />
       </body>
     </html>
