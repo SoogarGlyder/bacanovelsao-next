@@ -7,21 +7,25 @@ import { Providers } from './providers';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import FloatingSettings from '@/components/FloatingSettings';
-import fs from 'fs';
-import path from 'path';
 
-function getAdSettings() {
+// 🔥 Impor Database & Model
+import dbConnect from '@/lib/dbConnect';
+import Setting from '@/models/Setting';
+
+// Fungsi untuk mengambil status iklan langsung dari database
+async function getAdSettings() {
+  const defaultConfig = { sociobar: true, popunder: true, nativeBanner: true, smartlink: true };
+  
   try {
-    const filePath = path.join(process.cwd(), 'data', 'ads-config.json');
-    if (fs.existsSync(filePath)) {
-      const fileData = fs.readFileSync(filePath, 'utf8');
-      return JSON.parse(fileData);
+    await dbConnect();
+    const setting = await Setting.findOne({ key: 'adsConfig' }).lean();
+    if (setting && setting.value) {
+      return { ...defaultConfig, ...setting.value };
     }
   } catch (e) {
-    // Abaikan error, gunakan nilai default
+    console.error("Gagal memuat ads config dari MongoDB di Layout:", e);
   }
-  // 🔥 Update default fallback agar mencakup ke-4 jenis iklan
-  return { sociobar: true, popunder: true, nativeBanner: true, smartlink: true };
+  return defaultConfig;
 }
 
 export const viewport = {
@@ -78,8 +82,9 @@ export const metadata = {
   },
 }; 
 
-export default function RootLayout({ children }) {
-  const ads = getAdSettings(); 
+// 🔥 Ubah menjadi async function
+export default async function RootLayout({ children }) {
+  const ads = await getAdSettings(); 
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -108,7 +113,7 @@ export default function RootLayout({ children }) {
           strategy="afterInteractive"
         />
         
-        {/* Iklan Global */}
+        {/* 🔥 Iklan Global dengan saklar */}
         {ads.sociobar && (
           <Script
             src="https://pl31370948.profitableratecpmnetwork.com/7f/70/c5/7f70c5c98dd19c922e7a96222343bab6.js"

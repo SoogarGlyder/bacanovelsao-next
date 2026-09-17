@@ -1,8 +1,6 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
-
-const filePath = path.join(process.cwd(), 'data', 'ads-config.json');
+import dbConnect from '@/lib/dbConnect';
+import Setting from '@/models/Setting';
 
 const defaultConfig = { 
   sociobar: true, 
@@ -11,33 +9,37 @@ const defaultConfig = {
   smartlink: true 
 };
 
-const ensureFileExists = () => {
-  const dir = path.dirname(filePath);
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
-  if (!fs.existsSync(filePath)) {
-    fs.writeFileSync(filePath, JSON.stringify(defaultConfig, null, 2));
-  }
-};
-
 export async function GET() {
   try {
-    ensureFileExists();
-    const data = fs.readFileSync(filePath, 'utf8');
-    return NextResponse.json(JSON.parse(data));
+    await dbConnect();
+    const setting = await Setting.findOne({ key: 'adsConfig' }).lean();
+    
+    if (setting && setting.value) {
+      // Gabungkan dengan default untuk mencegah error jika ada key yang hilang
+      return NextResponse.json({ ...defaultConfig, ...setting.value });
+    }
+    return NextResponse.json(defaultConfig);
   } catch (error) {
+    console.error('Gagal mengambil ads config:', error);
     return NextResponse.json(defaultConfig);
   }
 }
 
 export async function POST(request) {
   try {
-    ensureFileExists();
+    await dbConnect();
     const body = await request.json();
-    fs.writeFileSync(filePath, JSON.stringify(body, null, 2));
+    
+    // Menyimpan atau memperbarui dokumen dengan key 'adsConfig'
+    await Setting.findOneAndUpdate(
+      { key: 'adsConfig' },
+      { value: body },
+      { upsert: true, new: true } // upsert: buat baru jika belum ada
+    );
+    
     return NextResponse.json({ success: true, settings: body });
   } catch (error) {
+    console.error('Gagal menyimpan ads config:', error);
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
