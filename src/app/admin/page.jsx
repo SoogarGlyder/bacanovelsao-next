@@ -7,7 +7,6 @@ import NovelForm from '@/components/admin/NovelForm';
 import ChapterListAdmin from '@/components/admin/ChapterListAdmin';
 import ChapterForm from '@/components/admin/ChapterForm';
 import CommentListAdmin from '@/components/admin/CommentListAdmin';
-
 import ArticleForm from '@/components/admin/ArticleForm';
 import ArticleListAdmin from '@/components/admin/ArticleListAdmin';
 
@@ -18,8 +17,16 @@ export default function AdminDashboard() {
 
   const [refreshList, setRefreshList] = useState(false); 
   const [isMobile, setIsMobile] = useState(false);
-  
   const [showScrollTop, setShowScrollTop] = useState(false);
+
+  // 🔥 State untuk keempat pengaturan Iklan
+  const [adSettings, setAdSettings] = useState({
+    sociobar: true,
+    popunder: true,
+    nativeBanner: true,
+    smartlink: true,
+  });
+  const [adLoading, setAdLoading] = useState(false);
 
   useEffect(() => {
     const checkResize = () => setIsMobile(window.innerWidth < 768);
@@ -34,6 +41,14 @@ export default function AdminDashboard() {
       }
     };
     window.addEventListener('scroll', checkScroll);
+
+    // Ambil status pengaturan iklan dari API
+    fetch('/api/admin/ads-config')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data) setAdSettings(data);
+      })
+      .catch((err) => console.error('Gagal memuat konfigurasi iklan', err));
 
     return () => {
         window.removeEventListener('resize', checkResize);
@@ -83,6 +98,25 @@ export default function AdminDashboard() {
      if(element) element.scrollIntoView({ behavior: 'smooth' });
   };
 
+  // Fungsi toggle On/Off Iklan
+  const handleToggleAd = async (key) => {
+    const updated = { ...adSettings, [key]: !adSettings[key] };
+    setAdSettings(updated);
+    setAdLoading(true);
+
+    try {
+      await fetch('/api/admin/ads-config', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updated),
+      });
+    } catch (err) {
+      console.error('Gagal menyimpan pengaturan iklan', err);
+    } finally {
+      setAdLoading(false);
+    }
+  };
+
   const listKey = refreshList ? 'refresh' : 'initial'; 
 
   if (isMobile) {
@@ -112,6 +146,62 @@ export default function AdminDashboard() {
           <li><a href="#edit-article-form" onClick={(e) => { e.preventDefault(); scrollToSection('edit-article-form'); }}>+ Artikel Baru</a></li>
         </ul>
       </div>
+
+      {/* --- PANEL KONTROL IKLAN --- */}
+      <section style={{ marginTop: '30px', padding: '20px', background: 'var(--card-bg, #f9f9f9)', borderRadius: '8px', border: '1px solid #ddd' }}>
+        <h2 style={{ fontSize: '1.2rem', marginBottom: '10px' }}>⚡ Kontrol On/Off Iklan Global</h2>
+        <p style={{ fontSize: '0.9rem', color: '#666', marginBottom: '15px' }}>
+          Matikan saklar di bawah untuk menonaktifkan elemen iklan secara instan di seluruh halaman pembaca. {adLoading && <span style={{color: 'blue'}}>(Menyimpan...)</span>}
+        </p>
+        
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+          {/* Baris 1: Script Global */}
+          <div style={{ display: 'flex', gap: '30px' }}>
+            <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', fontWeight: 'bold' }}>
+              <input 
+                type="checkbox" 
+                checked={adSettings.sociobar} 
+                onChange={() => handleToggleAd('sociobar')} 
+                style={{ width: '18px', height: '18px' }}
+              />
+              Sociobar (7f70c5c9...)
+            </label>
+
+            <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', fontWeight: 'bold' }}>
+              <input 
+                type="checkbox" 
+                checked={adSettings.popunder} 
+                onChange={() => handleToggleAd('popunder')} 
+                style={{ width: '18px', height: '18px' }}
+              />
+              Popunder (cad9dc45...)
+            </label>
+          </div>
+
+          {/* Baris 2: Elemen Khusus */}
+          <div style={{ display: 'flex', gap: '30px' }}>
+            <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', fontWeight: 'bold' }}>
+              <input 
+                type="checkbox" 
+                checked={adSettings.nativeBanner} 
+                onChange={() => handleToggleAd('nativeBanner')} 
+                style={{ width: '18px', height: '18px' }}
+              />
+              Native Banner (Dalam Chapter)
+            </label>
+
+            <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', fontWeight: 'bold' }}>
+              <input 
+                type="checkbox" 
+                checked={adSettings.smartlink} 
+                onChange={() => handleToggleAd('smartlink')} 
+                style={{ width: '18px', height: '18px' }}
+              />
+              Smartlink (Sidebar Button)
+            </label>
+          </div>
+        </div>
+      </section>
       
       <section id="edit-novel-form" style={{ marginTop: '40px' }}>
           <h3 style={{ borderLeft: '5px solid var(--primary)', paddingLeft: '10px' }}>

@@ -2,11 +2,27 @@ import './globals.css';
 import Script from 'next/script'; 
 import { GoogleAnalytics } from '@next/third-parties/google'; 
 import { SpeedInsights } from "@vercel/speed-insights/next"; 
-import { Analytics } from "@vercel/analytics/next"; // 🔥 Import Vercel Analytics
+import { Analytics } from "@vercel/analytics/next"; 
 import { Providers } from './providers'; 
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import FloatingSettings from '@/components/FloatingSettings';
+import fs from 'fs';
+import path from 'path';
+
+function getAdSettings() {
+  try {
+    const filePath = path.join(process.cwd(), 'data', 'ads-config.json');
+    if (fs.existsSync(filePath)) {
+      const fileData = fs.readFileSync(filePath, 'utf8');
+      return JSON.parse(fileData);
+    }
+  } catch (e) {
+    // Abaikan error, gunakan nilai default
+  }
+  // 🔥 Update default fallback agar mencakup ke-4 jenis iklan
+  return { sociobar: true, popunder: true, nativeBanner: true, smartlink: true };
+}
 
 export const viewport = {
   themeColor: '#38b6ff',
@@ -63,6 +79,8 @@ export const metadata = {
 }; 
 
 export default function RootLayout({ children }) {
+  const ads = getAdSettings(); 
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
@@ -89,6 +107,21 @@ export default function RootLayout({ children }) {
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
+        
+        {/* Iklan Global */}
+        {ads.sociobar && (
+          <Script
+            src="https://pl31370948.profitableratecpmnetwork.com/7f/70/c5/7f70c5c98dd19c922e7a96222343bab6.js"
+            strategy="lazyOnload"
+          />
+        )}
+
+        {ads.popunder && (
+          <Script
+            src="https://pl31370947.profitableratecpmnetwork.com/ca/d9/dc/cad9dc4502022243eb3b66190bc09cae.js"
+            strategy="lazyOnload"
+          />
+        )}
       </head>
       <body suppressHydrationWarning>
         <Providers>
@@ -106,9 +139,8 @@ export default function RootLayout({ children }) {
           <FloatingSettings />
         </Providers>
         
-        {/* Analytics dan Insights diletakkan di luar struktur visual */}
         <SpeedInsights />
-        <Analytics /> {/* 🔥 Pemasangan Komponen Vercel Analytics */}
+        <Analytics /> 
         <GoogleAnalytics gaId="G-3Y3LMERW26" />
       </body>
     </html>

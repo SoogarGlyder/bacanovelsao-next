@@ -42,3 +42,8 @@ next-env.d.ts
 
 #backup
 src/middleware.backup
+
+#support
+moon-cradle.html
+support.html
+unital-ring.html

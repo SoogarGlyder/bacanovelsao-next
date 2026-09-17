@@ -15,6 +15,9 @@ import { saveReadingHistory } from '@/utils/readingHistory';
 import CommentSection from '@/components/CommentSection';
 import RightSidebar from '@/components/RightSidebar';
 
+// 🔥 Impor komponen NativeAd
+import NativeAd from '@/components/NativeAd'; 
+
 export default function ChapterClient({
   novel, 
   chapter, 
@@ -26,6 +29,10 @@ export default function ChapterClient({
   const { setPageSerie } = useGlobalContext();
   const { fontSize } = useFontSize(); 
   const [isListVisible, setIsListVisible] = useState(false);
+  
+  // 🔥 State untuk mengontrol Native Banner
+  const [nativeAdEnabled, setNativeAdEnabled] = useState(false);
+
   const novelSlug = novel.novel_slug;
   const chapterSlug = chapter.chapter_slug;
   const { novels: serieNovels } = useNovelList(novel.serie);
@@ -49,6 +56,18 @@ export default function ChapterClient({
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // 🔥 Efek untuk mengambil konfigurasi iklan dari Admin
+  useEffect(() => {
+    fetch('/api/admin/ads-config')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && data.nativeBanner) {
+          setNativeAdEnabled(true);
+        }
+      })
+      .catch((err) => console.error('Gagal memuat status iklan:', err));
   }, []);
 
   useEffect(() => {
@@ -202,6 +221,12 @@ export default function ChapterClient({
                 {nextChapter ? 'Chapter Selanjutnya »' : 'Novel Selanjutnya »'}
               </button>
             </div>
+
+            {/* 🔥 IKLAN NATIVE BANNER DI SINI (Di bawah Navigasi, Di atas Komentar) */}
+            <div style={{ margin: '20px 0' }}>
+              <NativeAd isEnabled={nativeAdEnabled} />
+            </div>
+
             <CommentSection 
               novelSlug={novelSlug} 
               chapterSlug={chapterSlug} 

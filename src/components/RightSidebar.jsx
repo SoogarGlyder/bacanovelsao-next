@@ -1,7 +1,7 @@
 'use client';
 
-import React from 'react';
-import { FaMinus, FaPlus, FaRedoAlt, FaShoppingBag } from 'react-icons/fa';
+import React, { useState, useEffect } from 'react';
+import { FaMinus, FaPlus, FaRedoAlt, FaShoppingBag, FaHeart } from 'react-icons/fa';
 
 import { useFontSize } from '@/contexts/FontSizeContext';
 import styles from './RightSidebar.module.css'; 
@@ -9,6 +9,21 @@ import styles from './RightSidebar.module.css';
 export default function RightSidebar({ affiliateData }) {
   const { changeFontSize, resetFontSize } = useFontSize();
   const hasAffiliate = affiliateData && affiliateData.link && affiliateData.image && affiliateData.title;
+
+  // 🔥 State untuk mengontrol kemunculan Smartlink
+  const [smartlinkEnabled, setSmartlinkEnabled] = useState(false);
+
+  useEffect(() => {
+    // Membaca status iklan dari API saat komponen dimuat
+    fetch('/api/admin/ads-config')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && data.smartlink) {
+          setSmartlinkEnabled(true);
+        }
+      })
+      .catch((err) => console.error('Gagal memuat status iklan:', err));
+  }, []);
 
   return (
     <aside className={styles.rightSidebar}>
@@ -73,6 +88,18 @@ export default function RightSidebar({ affiliateData }) {
           <a href="https://saweria.co/SoogarGlyder" target="_blank" rel="noreferrer">
             <img className={styles.saweria} src="/saweria.png" alt="QR Code Saweria"/>
           </a>
+          
+          {/* 🔥 Tombol Smartlink Adsterra */}
+          {smartlinkEnabled && (
+            <a 
+              href="https://www.profitableratecpmnetwork.com/rwjjha29?key=ac45b9b5b220f7d7e6bb5c063798a2c6" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className={styles.smartlinkBtn}
+            >
+              Support Kami Yuk! <FaHeart style={{ marginLeft: '5px' }}/>
+            </a>
+          )}
         </div>
 
       </div>

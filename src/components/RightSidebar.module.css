@@ -135,6 +135,36 @@
   box-shadow: none;
 }
 
+/* 🔥 Style Baru untuk Tombol Smartlink */
+.smartlinkBtn {
+  background-color: var(--primary, #38b6ff);
+  color: white;
+  border: none;
+  padding: 10px 0;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100%;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  margin-top: 15px; /* Memberi jarak dengan QR Saweria */
+}
+
+.smartlinkBtn:hover {
+  filter: brightness(0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.smartlinkBtn:active {
+  transform: translateY(0) scale(0.96);
+  box-shadow: none;
+}
+
 @media (max-width: 767px) {
   .rightSidebar {
     order: 3;
